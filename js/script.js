@@ -9,10 +9,15 @@ document.addEventListener("DOMContentLoaded", function(){
         jQuery('#cell-4-3 .tile').addClass('black');
         jQuery('#cell-4-4 .tile').addClass('white');
 
+        jQuery('#cell-4-5 .tile').addClass('playable');
+        jQuery('#cell-5-5 .tile').addClass('playable');
+
         $black_turn = true;
         $white_turn = false;
 
         updateScore();
+
+        //swal("Nouvelle partie")
     }
 
     function updateScore () {
@@ -32,18 +37,18 @@ document.addEventListener("DOMContentLoaded", function(){
         startGame();
     });
 
-    jQuery('#othello td').click(function() {
+    jQuery('#othello .playable').click(function() {
 
         if ($black_turn && !$white_turn) {
 
-            jQuery(this).find('.tile').addClass('black');
+            jQuery(this).addClass('black');
             $black_turn = false;
             $white_turn = true;
             updateScore();
 
         } else if (!$black_turn && $white_turn) {
 
-            jQuery(this).find('.tile').addClass('white');
+            jQuery(this).addClass('white');
             $black_turn = true;
             $white_turn = false;
             updateScore();

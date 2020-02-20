@@ -21,7 +21,15 @@ body {
 #othello td {
     width: 60px;
     height: 60px;
+}
+
+#othello .playable {
     cursor: pointer;
+    border: 1px solid #BBB;
+    height: 90%;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 50%;
 }
 
 #othello td:hover {
