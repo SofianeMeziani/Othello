@@ -9,8 +9,11 @@ document.addEventListener("DOMContentLoaded", function(){
         jQuery('#cell-4-3 .tile').addClass('black');
         jQuery('#cell-4-4 .tile').addClass('white');
 
+        // Définir les cases jouables
+        jQuery('#cell-2-3 .tile').addClass('playable');
+        jQuery('#cell-3-2 .tile').addClass('playable');
         jQuery('#cell-4-5 .tile').addClass('playable');
-        jQuery('#cell-5-5 .tile').addClass('playable');
+        jQuery('#cell-5-4 .tile').addClass('playable');
 
         $black_turn = true;
         $white_turn = false;
@@ -41,14 +44,22 @@ document.addEventListener("DOMContentLoaded", function(){
 
         if ($black_turn && !$white_turn) {
 
+            jQuery(this).unbind("click");
+            jQuery(this).removeClass('playable');
             jQuery(this).addClass('black');
+            jQuery('.tiles-stock-black .tile-stock').first().remove();
+
             $black_turn = false;
             $white_turn = true;
             updateScore();
 
         } else if (!$black_turn && $white_turn) {
 
+            jQuery(this).unbind("click");
+            jQuery(this).removeClass('playable');
             jQuery(this).addClass('white');
+            jQuery('.tiles-stock-white .tile-stock').first().remove();
+            
             $black_turn = true;
             $white_turn = false;
             updateScore();
