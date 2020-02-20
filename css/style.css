@@ -1,0 +1,51 @@
+
+* {
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+body {
+    background: linear-gradient(90deg, #FDFDFD 21px, transparent 1%) center, linear-gradient(#FDFDFD 21px, transparent 1%) center, #0ce3ac;
+    background-size: 22px 22px;
+}
+
+.title {
+    margin: 50px;
+}
+
+#othello {
+    margin: 0 auto;
+    background-color: #0ce3ac;
+}
+
+#othello td {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+
+#othello td:hover {
+    background-color: #82e4cb;
+}
+
+.tile {
+    height: 90%;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 50%;
+    transition-duration: 100ms;
+    transition-property: transform;
+}
+
+.tile:hover {
+    transform: scale(1.05);
+}
+
+.tile.black {
+    background-color: #444;
+    border: 1px solid #BBB;
+}
+
+.tile.white {
+    background-color: #EFEFEF;
+    border: 1px solid #BBB;
+}
