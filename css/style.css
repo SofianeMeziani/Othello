@@ -4,17 +4,18 @@
 }
 
 body {
-    background: linear-gradient(90deg, #FDFDFD 21px, transparent 1%) center, linear-gradient(#FDFDFD 21px, transparent 1%) center, #0ce3ac;
+    background: linear-gradient(90deg, #FDFDFD 21px, transparent 1%) center, linear-gradient(#FDFDFD 21px, transparent 1%) center, #16a779;
     background-size: 22px 22px;
 }
 
 .title {
-    margin: 50px;
+    margin: 40px;
 }
 
 #othello {
     margin: 0 auto;
-    background-color: #0ce3ac;
+    background-color: #16a779;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
 #othello td {
@@ -24,7 +25,7 @@ body {
 }
 
 #othello td:hover {
-    background-color: #82e4cb;
+    background-color: #54c7a3;
 }
 
 .tile {
@@ -48,4 +49,33 @@ body {
 .tile.white {
     background-color: #EFEFEF;
     border: 1px solid #BBB;
+}
+
+.score {
+    margin: 0 auto;
+    width: 480px;
+    display: flex;
+    margin-top: 20px;
+    border: 1px solid #16a779;
+    border-radius: 7px;
+
+}
+
+.score > div {
+    height: 40px;
+    display: inline-block;
+    padding: 6px;
+    text-align: center;
+}
+
+.score .black {
+    background-color: #444;   
+    color: #EFEFEF;
+    border-radius: 5px 0px 0px 5px;
+}
+
+.score .white {
+    background-color: #EFEFEF;
+    color: #444;
+    border-radius: 0px 5px 5px 0px;
 }
