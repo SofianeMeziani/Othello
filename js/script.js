@@ -1,5 +1,20 @@
 document.addEventListener("DOMContentLoaded", function(){
 
+    function startGame() {
+        jQuery('.tile').removeClass('black');
+        jQuery('.tile').removeClass('white');
+
+        jQuery('#cell-3-3 .tile').addClass('white');
+        jQuery('#cell-3-4 .tile').addClass('black');
+        jQuery('#cell-4-3 .tile').addClass('black');
+        jQuery('#cell-4-4 .tile').addClass('white');
+
+        $black_turn = true;
+        $white_turn = false;
+
+        updateScore();
+    }
+
     function updateScore () {
 
         // nombre de cases blanches
@@ -11,10 +26,11 @@ document.addEventListener("DOMContentLoaded", function(){
         jQuery('.score .black').css('width', $nb_black/($nb_white + $nb_black) * 100 + '%');
     }
 
-    $black_turn = true;
-    $white_turn = false;
+    startGame();
 
-    updateScore();
+    jQuery('#restart').click(function() {
+        startGame();
+    });
 
     jQuery('#othello td').click(function() {
 
