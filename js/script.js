@@ -40,6 +40,26 @@ document.addEventListener("DOMContentLoaded", function(){
         startGame();
     });
 
+    function change_color() {
+        if (jQuery('#cell-3-3 > div').hasClass('white')) {
+            jQuery('#cell-3-3 > div').removeClass('white');
+            jQuery('#cell-3-3 > div').addClass('black');
+        } else if (jQuery('#cell-3-3 > div').hasClass('black')) {
+            jQuery('#cell-3-3 > div').removeClass('black');
+            jQuery('#cell-3-3 > div').addClass('white');
+        }
+    }
+
+    jQuery('#flip').click(function() {
+
+        jQuery('#cell-3-3 > div').css('transform', 'rotate(-90deg) scaleX(-1)');
+        setTimeout(function() {
+            jQuery('#cell-3-3 > div').css('transform', 'rotate(0deg) scaleX(1)');
+        }, 100);
+
+        change_color();
+    });
+
     jQuery('#othello .playable').click(function() {
 
         if ($black_turn && !$white_turn) {

@@ -3,3 +3,8 @@ https://codepen.io/naranoeur/pen/mMZOxB
 https://codepen.io/nakyos/pen/EmXBYv
 
 https://codepen.io/hilotacker/pen/ONZWoX
+
+https://nnattawat.github.io/flip/
+
+jQuery('#cell-3-3 > div').css('transform', 'rotate(-90deg) scaleX(-1)');
+jQuery('#cell-3-3 > div').css('transform', 'rotate(90deg) scaleX(1)');
