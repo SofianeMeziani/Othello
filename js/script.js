@@ -1,5 +1,49 @@
 document.addEventListener("DOMContentLoaded", function(){
 
+    // fonctions à faire 
+    /*
+        play(i, j);
+        flip(i, j);
+
+    */
+
+    function tile_type (i, j) {
+        // 0 => empty
+        // 1 => white
+        // 2 => black
+        if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('white')) {
+            return 1;
+        } else  if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('black')) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+
+    function update_playable_tiles () {
+        // 
+    }
+
+    jQuery('#flip').click(function() {
+        jQuery('#cell-3-3 > div').css('transform', 'rotate(-90deg) scaleX(-1)');
+        setTimeout(function() {
+            jQuery('#cell-3-3 > div').css('transform', 'rotate(0deg) scaleX(1)');
+        }, 100);
+
+        // changer la couleur
+
+        if (jQuery('#cell-3-3 > div').hasClass('white')) {
+            jQuery('#cell-3-3 > div').removeClass('white');
+            jQuery('#cell-3-3 > div').addClass('black');
+        } else if (jQuery('#cell-3-3 > div').hasClass('black')) {
+            jQuery('#cell-3-3 > div').removeClass('black');
+            jQuery('#cell-3-3 > div').addClass('white');
+        }
+
+        updateScore();
+
+    });
+
     function startGame() {
         jQuery('.tile').removeClass('black');
         jQuery('.tile').removeClass('white');
@@ -38,26 +82,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
     jQuery('#restart').click(function() {
         startGame();
-    });
-
-    function change_color() {
-        if (jQuery('#cell-3-3 > div').hasClass('white')) {
-            jQuery('#cell-3-3 > div').removeClass('white');
-            jQuery('#cell-3-3 > div').addClass('black');
-        } else if (jQuery('#cell-3-3 > div').hasClass('black')) {
-            jQuery('#cell-3-3 > div').removeClass('black');
-            jQuery('#cell-3-3 > div').addClass('white');
-        }
-    }
-
-    jQuery('#flip').click(function() {
-
-        jQuery('#cell-3-3 > div').css('transform', 'rotate(-90deg) scaleX(-1)');
-        setTimeout(function() {
-            jQuery('#cell-3-3 > div').css('transform', 'rotate(0deg) scaleX(1)');
-        }, 100);
-
-        change_color();
     });
 
     jQuery('#othello .playable').click(function() {
