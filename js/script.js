@@ -11,10 +11,13 @@ document.addEventListener("DOMContentLoaded", function(){
         // 0 => empty
         // 1 => white
         // 2 => black
+        // 3 => playable
         if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('white')) {
             return 1;
         } else  if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('black')) {
             return 2;
+        } else if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('playable')) {
+            return 3;
         } else {
             return 0;
         }
