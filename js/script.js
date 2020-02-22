@@ -1,17 +1,12 @@
 document.addEventListener("DOMContentLoaded", function(){
 
-    // fonctions à faire 
-    /*
-        play(i, j);
-        flip(i, j);
+    // global variables
 
-    */
+    var $black_turn = true;
+    var $white_turn = false;
 
+    // 0 => empty // 1 => white // 2 => black // 3 => playable
     function tile_type (i, j) {
-        // 0 => empty
-        // 1 => white
-        // 2 => black
-        // 3 => playable
         if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('white')) {
             return 1;
         } else  if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('black')) {
@@ -23,8 +18,84 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
+    function set_playable (row, col) {
+        jQuery('#cell-' + row + '-' + col + ' > div').addClass('playable')
+    }
+
+    function init_parsing_variables() {
+        seq_begin_white = -1;
+        seq_end_white = -1;
+        seq_begin_black = -1;
+        seq_end_black = -1;
+    }
+
+    function parse_top_bottom () {
+        row = 0;
+        col = 0;
+
+        init_parsing_variables();
+
+        while ( col < 8 ) {
+            while ( row < 8) {
+
+                // white
+                if (tile_type(row, col) == 1) {
+                    if (seq_begin_white == -1) {
+                        seq_begin_white = row;
+                        seq_end_white = row;
+                    } else {
+                        seq_end_white = row;
+                    }
+                    row++;
+                }
+
+                // black
+                if (tile_type(row, col) == 2) {
+                    if (seq_begin_black == -1) {
+                        seq_begin_black = row;
+                        seq_end_black = row;
+                    } else {
+                        seq_end_black = row;
+                    }
+                    row++;
+                }
+
+                // playable
+                if (tile_type(row, col) == 3) {
+                    init_parsing_variables();
+                    row++;
+                }
+
+                // empty
+                if (tile_type(row, col) == 0) {
+                    if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
+                        
+                        if ( ($white_turn && (seq_end_white <  seq_end_black)) || ($black_turn && (seq_end_black <  seq_end_white)) ) {
+                            set_playable (row, col);
+                        }
+                    }
+                    init_parsing_variables();
+                    row++;
+                }
+        
+            } 
+            col++;
+            row = 0;  
+        }
+    }
+
     function update_playable_tiles () {
-        // 
+        // parser dans toutes les directions
+
+        parse_top_bottom();
+        // parse haut bas 
+        // parse bas haut
+        // parse gauche droite
+        // parse droite gauche
+        // parse diag haut bas gauche droite
+        // parse diag haut bas droite gauche
+        // parse diag bas haut gauche droite
+        // parse diag bas haut droite gauche
     }
 
     jQuery('#flip').click(function() {
@@ -57,16 +128,16 @@ document.addEventListener("DOMContentLoaded", function(){
         jQuery('#cell-4-4 .tile').addClass('white');
 
         // Définir les cases jouables
-        jQuery('#cell-2-3 .tile').addClass('playable');
-        jQuery('#cell-3-2 .tile').addClass('playable');
-        jQuery('#cell-4-5 .tile').addClass('playable');
-        jQuery('#cell-5-4 .tile').addClass('playable');
+        //jQuery('#cell-2-3 .tile').addClass('playable');
+        //jQuery('#cell-3-2 .tile').addClass('playable');
+        //jQuery('#cell-4-5 .tile').addClass('playable');
+        //jQuery('#cell-5-4 .tile').addClass('playable');
 
         $black_turn = true;
         $white_turn = false;
 
         updateScore();
-
+        update_playable_tiles();
         //swal("Nouvelle partie")
     }
 
@@ -110,6 +181,7 @@ document.addEventListener("DOMContentLoaded", function(){
             $black_turn = true;
             $white_turn = false;
             updateScore();
+            update_playable_tiles
 
         } else {
             alert('Error');
