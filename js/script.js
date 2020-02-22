@@ -84,12 +84,69 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
+    function parse_bottom_top () {
+        row = 7;
+        col = 7;
+
+        init_parsing_variables();
+
+        while ( col >= 0 ) {
+            while ( row >= 0) {
+
+                // white
+                if (tile_type(row, col) == 1) {
+                    if (seq_begin_white == -1) {
+                        seq_begin_white = row;
+                        seq_end_white = row;
+                    } else {
+                        seq_end_white = row;
+                    }
+                    row--;
+                }
+
+                // black
+                if (tile_type(row, col) == 2) {
+                    if (seq_begin_black == -1) {
+                        seq_begin_black = row;
+                        seq_end_black = row;
+                    } else {
+                        seq_end_black = row;
+                    }
+                    row--;
+                }
+
+                // playable
+                if (tile_type(row, col) == 3) {
+                    init_parsing_variables();
+                    row--;
+                }
+
+                // empty
+                if (tile_type(row, col) == 0) {
+                    if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
+                        
+                        if ( ($white_turn && (seq_end_white >  seq_end_black)) || ($black_turn && (seq_end_black >  seq_end_white)) ) {
+                            set_playable (row, col);
+                        }
+                    }
+                    init_parsing_variables();
+                    row--;
+                }
+        
+            } 
+            col--;
+            row = 7;  
+        }
+    }
+
     function update_playable_tiles () {
         // parser dans toutes les directions
-
+       
+        // parse de haut en bas 
         parse_top_bottom();
-        // parse haut bas 
+        
         // parse bas haut
+        parse_bottom_top();
         // parse gauche droite
         // parse droite gauche
         // parse diag haut bas gauche droite
@@ -158,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function(){
         startGame();
     });
 
-    jQuery('#othello .playable').click(function() {
+    jQuery(document).on("click", "#othello .playable" , function() {
 
         if ($black_turn && !$white_turn) {
 
@@ -170,6 +227,7 @@ document.addEventListener("DOMContentLoaded", function(){
             $black_turn = false;
             $white_turn = true;
             updateScore();
+            update_playable_tiles();
 
         } else if (!$black_turn && $white_turn) {
 
@@ -181,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function(){
             $black_turn = true;
             $white_turn = false;
             updateScore();
-            update_playable_tiles
+            update_playable_tiles();
 
         } else {
             alert('Error');
