@@ -458,9 +458,6 @@ document.addEventListener("DOMContentLoaded", function(){
         $black_turn = true;
         $white_turn = false;
 
-        // TEST
-        jQuery('#cell-5-4 .tile').addClass('white');
-
         updateScore();
         update_playable_tiles();
         //swal("Nouvelle partie")
