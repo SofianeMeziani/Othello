@@ -669,6 +669,136 @@ document.addEventListener("DOMContentLoaded", function(){
 
     }
 
+    function parse_diag_bottom_top_left_right () {
+
+        col = 0;
+
+        init_parsing_variables();
+
+        while (col < 8) {
+
+            row = 7;
+            parse_col = col;
+
+            while (parse_col >= 0) {
+                
+                // white
+                if (tile_type(row, (7 - parse_col)) == 1) {
+                    
+                    if (seq_begin_white == -1) {
+                        seq_begin_white = row;
+                        seq_end_white = row;
+                    } else {
+                        seq_end_white = row;
+                    }
+                    row--;
+                    parse_col--;
+                }
+
+                // black
+                if (tile_type(row, (7 - parse_col)) == 2) {
+                    
+                    if (seq_begin_black == -1) {
+                        seq_begin_black = row;
+                        seq_end_black = row;
+                    } else {
+                        seq_end_black = row;
+                    }
+                    row--;
+                    parse_col--;
+                }
+
+                // playable
+                if (tile_type(row, (7 - parse_col)) == 3) {
+                    row--;
+                    parse_col--;
+                    init_parsing_variables();
+                }
+
+                // empty
+                if (tile_type(row, (7 - parse_col)) == 0) {
+                    
+                    if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
+                        
+                        if ( ($white_turn && (seq_end_white >  seq_end_black)) || ($black_turn && (seq_end_black >  seq_end_white)) ) {
+                            
+                            set_playable (row, (7 - parse_col));
+                        }
+                    }
+                    row--;
+                    parse_col--;
+                    init_parsing_variables();
+                }
+
+            } 
+            col++;
+        }
+
+        row = 7;
+
+        while (row >= 0) {
+
+            col = 7;
+            parse_row = row; 
+
+            while (parse_row >= 0) {
+
+                // white
+                if (tile_type(row, col) == 1) {
+                    
+                    if (seq_begin_white == -1) {
+                        seq_begin_white = row;
+                        seq_end_white = row;
+                    } else {
+                        seq_end_white = row;
+                    }
+                    parse_row--;
+                    col--;
+                }
+
+                // black
+                if (tile_type(row, col) == 2) {
+                    
+                    if (seq_begin_black == -1) {
+                        seq_begin_black = row;
+                        seq_end_black = row;
+                    } else {
+                        seq_end_black = row;
+                    }
+                    parse_row--;
+                    col--;
+                }
+
+                // playable
+                if (tile_type(row, col) == 3) {
+                    parse_row--;
+                    col--;
+                    init_parsing_variables();
+                }
+
+                // empty
+                if (tile_type(row, col) == 0) {
+                    
+                    if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
+                        
+                        if ( ($white_turn && (seq_end_white > seq_end_black)) || ($black_turn && (seq_end_black > seq_end_white)) ) {
+                            
+                            set_playable (row, col);
+                        }
+                    }
+                    parse_row--;
+                    col--;
+                    init_parsing_variables();
+                }
+
+            } 
+            //console.log('---'); 
+            row--;
+        }
+
+    }
+    
+
     function update_playable_tiles () {
         clear_playable_tiles();
         // parser dans toutes les directions
@@ -679,11 +809,8 @@ document.addEventListener("DOMContentLoaded", function(){
         parse_right_left();
         parse_diag_top_bottom_left_right();
         parse_diag_bottom_top_right_left();
-
-        // parse diag haut bas droite gauche
         parse_diag_top_bottom_right_left();
-        
-        // parse diag bas haut gauche droite
+        parse_diag_bottom_top_left_right();
        
         
     }
