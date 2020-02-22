@@ -719,7 +719,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(row, (7 - parse_col)) == 0) {
                     
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        console.log('AAA');
+                        
                         if ( ($white_turn && (seq_end_white >  seq_end_black)) || ($black_turn && (seq_end_black >  seq_end_white)) ) {
                             
                             set_playable (row, (7 - parse_col));
@@ -1070,6 +1070,63 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
+    function flip_diag_top_bottom_left_right() {
+        search_col = colPlayed + 1;
+        search_row = rowPlayed + 1;
+
+        if ($white_turn) {
+            
+            // la piece jouée était noir         
+            while (search_col < 8 && search_row < 8) {
+                // vide ou joubale
+                if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
+                    return;
+                }
+                // blanche
+                if (tile_type(search_row, search_col) == 1) {
+                    search_col++;
+                    search_row++;
+                }
+                // noir
+                if (tile_type(search_row, search_col) == 2) {
+
+                    for (j  = colPlayed + 1; j < search_col; j++) {
+                        flip(rowPlayed + 1, j);
+                        rowPlayed++;
+                    }
+                    return;
+                }
+                search_col++;
+                search_row++;
+            }
+
+        } else {
+            // la piece jouée était noir         
+            while (search_col < 8 && search_row < 8) {
+                // vide ou joubale
+                if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
+                    return;
+                }
+                // noir
+                if (tile_type(search_row, search_col) == 2) {
+                    search_col++;
+                    search_row++;
+                }
+                // blanche
+                if (tile_type(search_row, search_col) == 1) {
+
+                    for (j  = colPlayed + 1; j < search_col; j++) {
+                        flip(rowPlayed + 1, j);
+                        rowPlayed++;
+                    }
+                    return;
+                }
+                search_col++;
+                search_row++;
+            }
+        }
+    }
+
     function flip_tiles() {
         flip_tiles_top_bottom();
         flip_tiles_bottom_top();
@@ -1077,6 +1134,7 @@ document.addEventListener("DOMContentLoaded", function(){
         flip_tiles_right_left();
 
         // flip diag
+        flip_diag_top_bottom_left_right();
     }
 
     jQuery(document).on("click", "#othello .playable" , function() {
