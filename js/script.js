@@ -480,46 +480,46 @@ document.addEventListener("DOMContentLoaded", function(){
             while (parse_row >= 0) {
 
                 // white
-                if (tile_type(row, col) == 1) {
+                if (tile_type(parse_row, col) == 1) {
                     
                     if (seq_begin_white == -1) {
-                        seq_begin_white = row;
-                        seq_end_white = row;
+                        seq_begin_white = parse_row;
+                        seq_end_white = parse_row;
                     } else {
-                        seq_end_white = row;
+                        seq_end_white = parse_row;
                     }
                     parse_row--;
                     col--;
                 }
 
                 // black
-                if (tile_type(row, col) == 2) {
+                if (tile_type(parse_row, col) == 2) {
                     
                     if (seq_begin_black == -1) {
-                        seq_begin_black = row;
-                        seq_end_black = row;
+                        seq_begin_black = parse_row;
+                        seq_end_black = parse_row;
                     } else {
-                        seq_end_black = row;
+                        seq_end_black = parse_row;
                     }
                     parse_row--;
                     col--;
                 }
 
                 // playable
-                if (tile_type(row, col) == 3) {
+                if (tile_type(parse_row, col) == 3) {
                     parse_row--;
                     col--;
                     init_parsing_variables();
                 }
 
                 // empty
-                if (tile_type(row, col) == 0) {
+                if (tile_type(parse_row, col) == 0) {
                     
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
                         
                         if ( ($white_turn && (seq_end_white > seq_end_black)) || ($black_turn && (seq_end_black > seq_end_white)) ) {
                             
-                            set_playable (row, col);
+                            set_playable (parse_row, col);
                         }
                     }
                     parse_row--;
@@ -719,7 +719,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(row, (7 - parse_col)) == 0) {
                     
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
+                        console.log('AAA');
                         if ( ($white_turn && (seq_end_white >  seq_end_black)) || ($black_turn && (seq_end_black >  seq_end_white)) ) {
                             
                             set_playable (row, (7 - parse_col));
@@ -742,48 +742,49 @@ document.addEventListener("DOMContentLoaded", function(){
             parse_row = row; 
 
             while (parse_row >= 0) {
-
+                
                 // white
-                if (tile_type(row, col) == 1) {
+                if (tile_type(parse_row, ( 7 - col )) == 1) {
                     
                     if (seq_begin_white == -1) {
-                        seq_begin_white = row;
-                        seq_end_white = row;
+                        seq_begin_white = parse_row;
+                        seq_end_white = parse_row;
                     } else {
-                        seq_end_white = row;
+                        seq_end_white = parse_row;
                     }
                     parse_row--;
                     col--;
                 }
 
                 // black
-                if (tile_type(row, col) == 2) {
+                if (tile_type(parse_row, ( 7 - col )) == 2) {
                     
                     if (seq_begin_black == -1) {
-                        seq_begin_black = row;
-                        seq_end_black = row;
+                        seq_begin_black = parse_row;
+                        seq_end_black = parse_row;
                     } else {
-                        seq_end_black = row;
+                        seq_end_black = parse_row;
                     }
                     parse_row--;
                     col--;
                 }
 
                 // playable
-                if (tile_type(row, col) == 3) {
+                if (tile_type(parse_row, ( 7 - col )) == 3) {
                     parse_row--;
                     col--;
                     init_parsing_variables();
                 }
 
                 // empty
-                if (tile_type(row, col) == 0) {
+                if (tile_type(parse_row, ( 7 - col )) == 0) {
                     
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
                         
+            
                         if ( ($white_turn && (seq_end_white > seq_end_black)) || ($black_turn && (seq_end_black > seq_end_white)) ) {
                             
-                            set_playable (row, col);
+                            set_playable (parse_row, ( 7 - col ));
                         }
                     }
                     parse_row--;
@@ -792,7 +793,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
 
             } 
-            //console.log('---'); 
             row--;
         }
 
@@ -802,7 +802,6 @@ document.addEventListener("DOMContentLoaded", function(){
     function update_playable_tiles () {
         clear_playable_tiles();
         // parser dans toutes les directions
-       
         parse_top_bottom();
         parse_bottom_top();
         parse_left_right();
