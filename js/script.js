@@ -255,6 +255,134 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
+    function parse_diag_top_bottom_left_right () {
+
+        row = 7;
+        col = 0;
+
+        init_parsing_variables();
+
+        /* (7, 0)
+        (6, 0) (7, 1)
+        (5, 0) (6, 1) (7, 2)
+        ... */
+
+        while (row >= 0) {
+            col = 0;
+            parse_row = row;
+            while (parse_row < 8) {
+
+                // white
+                if (tile_type(parse_row, col) == 1) {
+                    
+                    if (seq_begin_white == -1) {
+                        seq_begin_white = parse_row;
+                        seq_end_white = parse_row;
+                    } else {
+                        seq_end_white = parse_row;
+                    }
+                }
+
+                // black
+                if (tile_type(parse_row, col) == 2) {
+                    
+                    if (seq_begin_black == -1) {
+                        seq_begin_black = parse_row;
+                        seq_end_black = parse_row;
+                    } else {
+                        seq_end_black = parse_row;
+                    }
+                }
+
+                // playable
+                if (tile_type(parse_row, col) == 3) {
+                    
+                    init_parsing_variables();
+                }
+
+                // empty
+                if (tile_type(parse_row, col) == 0) {
+                    
+                    if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
+                        
+                        if ( ($white_turn && (seq_end_white <  seq_end_black)) || ($black_turn && (seq_end_black <  seq_end_white)) ) {
+                            set_playable (parse_row, col);
+                        }
+                    }
+                    init_parsing_variables();
+                }
+                
+
+                parse_row++;
+                col++;
+            }  
+            row--;
+        }
+
+        row = 7;
+        col = 0;
+
+        /*
+        (0, 5) (1, 6) (2, 7)
+        (0, 6) (1, 7)
+        (0, 7) */
+
+        while (col < 8) {
+            row = 0;
+            parse_col = col;
+            while (parse_col < 8) {
+
+
+                // white
+                if (tile_type(row, parse_col) == 1) {
+                    
+                    if (seq_begin_white == -1) {
+                        seq_begin_white = row;
+                        seq_end_white = row;
+                    } else {
+                        seq_end_white = row;
+                    }
+                }
+
+                // black
+                if (tile_type(row, parse_col) == 2) {
+                    
+                    if (seq_begin_black == -1) {
+                        seq_begin_black = row;
+                        seq_end_black = row;
+                    } else {
+                        seq_end_black = row;
+                    }
+                }
+
+                // playable
+                if (tile_type(row, parse_col) == 3) {
+                    
+                    init_parsing_variables();
+                }
+
+                // empty
+                if (tile_type(row, parse_col) == 0) {
+                    
+                    if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
+                        
+                        if ( ($white_turn && (seq_end_white <  seq_end_black)) || ($black_turn && (seq_end_black <  seq_end_white)) ) {
+                            set_playable (row, parse_col);
+                        }
+                    }
+                    init_parsing_variables();
+                }
+                
+                 
+                parse_col++;
+                row++;
+            }  
+            
+            col++;
+        } 
+
+    }
+
     function update_playable_tiles () {
         clear_playable_tiles();
         // parser dans toutes les directions
@@ -269,6 +397,7 @@ document.addEventListener("DOMContentLoaded", function(){
         parse_right_left();
 
         // parse diag haut bas gauche droite
+        parse_diag_top_bottom_left_right();
         // parse diag haut bas droite gauche
         // parse diag bas haut gauche droite
         // parse diag bas haut droite gauche
@@ -328,6 +457,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
         $black_turn = true;
         $white_turn = false;
+
+        // TEST
+        jQuery('#cell-5-4 .tile').addClass('white');
 
         updateScore();
         update_playable_tiles();
@@ -556,6 +688,8 @@ document.addEventListener("DOMContentLoaded", function(){
         flip_tiles_bottom_top();
         flip_tiles_left_right();
         flip_tiles_right_left();
+
+        // flip diag
     }
 
     jQuery(document).on("click", "#othello .playable" , function() {
