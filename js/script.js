@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
     var $black_turn = true;
     var $white_turn = false;
+    var rowPlayed;
+    var colPlayed;
 
     // 0 => empty // 1 => white // 2 => black // 3 => playable
     function tile_type (i, j) {
@@ -27,6 +29,10 @@ document.addEventListener("DOMContentLoaded", function(){
         seq_end_white = -1;
         seq_begin_black = -1;
         seq_end_black = -1;
+    }
+
+    function clear_playable_tiles() {
+        jQuery('.playable').removeClass('playable');
     }
 
     function parse_top_bottom () {
@@ -250,18 +256,18 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function update_playable_tiles () {
+        clear_playable_tiles();
         // parser dans toutes les directions
        
         // parse de haut en bas 
         parse_top_bottom();
-        
         // parse bas haut
         parse_bottom_top();
         // parse gauche droite
         parse_left_right();
-
         // parse droite gauche
         parse_right_left();
+
         // parse diag haut bas gauche droite
         // parse diag haut bas droite gauche
         // parse diag bas haut gauche droite
@@ -288,6 +294,28 @@ document.addEventListener("DOMContentLoaded", function(){
         updateScore();
         update_playable_tiles();
     });
+
+    function flip (f_row, f_col) {
+
+        jQuery('#cell-' + f_row + '-' + f_col + ' > div').css('transform', 'rotate(-90deg) scaleX(-1)');
+        setTimeout(function() {
+            jQuery('#cell-' + f_row + '-' + f_col + ' > div').css('transform', 'rotate(0deg) scaleX(1)');
+        }, 100);
+
+        // changer la couleur
+
+        if (jQuery('#cell-' + f_row + '-' + f_col + ' > div').hasClass('white')) {
+            jQuery('#cell-' + f_row + '-' + f_col + ' > div').removeClass('white');
+            jQuery('#cell-' + f_row + '-' + f_col + ' > div').addClass('black');
+        } else if (jQuery('#cell-' + f_row + '-' + f_col + ' > div').hasClass('black')) {
+            jQuery('#cell-' + f_row + '-' + f_col + ' > div').removeClass('black');
+            jQuery('#cell-' + f_row + '-' + f_col + ' > div').addClass('white');
+        }
+
+        updateScore();
+        update_playable_tiles();
+
+    }
 
     function startGame() {
         jQuery('.tile').removeClass('black');
@@ -323,7 +351,217 @@ document.addEventListener("DOMContentLoaded", function(){
         startGame();
     });
 
+    function flip_tiles_top_bottom () {
+
+        search_row = rowPlayed + 1;
+
+        if ($white_turn) {
+            // la piece jouée était noir         
+            while (search_row < 8) {
+                // vide ou joubale
+                if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
+                    return;
+                }
+                // blanche
+                if (tile_type(search_row, colPlayed) == 1) {
+                    search_row++;
+                }
+                // noir
+                if (tile_type(search_row, colPlayed) == 2) {
+                   
+                    for (i  = rowPlayed + 1; i < search_row; i++) {
+                        flip(i, colPlayed);
+                    }
+                    return;
+                }
+                search_row++;
+            }
+
+        } else {
+            // la piece jouée était blanche
+            while (search_row < 8) {
+                // vide ou joubale
+                if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
+                    return;
+                }
+                // noir
+                if (tile_type(search_row, colPlayed) == 2) {
+                    search_row++;
+                }
+                // blanche
+                if (tile_type(search_row, colPlayed) == 1) {
+                   
+                    for (i  = rowPlayed + 1; i < search_row; i++) {
+                        flip(i, colPlayed);
+                    }
+                    return;
+                }
+                search_row++;
+            }
+        }
+    }
+
+    function flip_tiles_bottom_top () {
+
+        search_row = rowPlayed - 1;
+
+        if ($white_turn) {
+            // la piece jouée était noir         
+            while (search_row >= 0) {
+                // vide ou joubale
+                if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
+                    return;
+                }
+                // blanche
+                if (tile_type(search_row, colPlayed) == 1) {
+                    search_row--;
+                }
+                // noir
+                if (tile_type(search_row, colPlayed) == 2) {
+                   
+                    for (i  = rowPlayed - 1; i > search_row; i--) {
+                        flip(i, colPlayed);
+                    }
+                    return;
+                }
+                search_row--;
+            }
+
+        } else {
+            // la piece jouée était blanche
+            while (search_row >= 0) {
+                // vide ou joubale
+                if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
+                    return;
+                }
+                // noir
+                if (tile_type(search_row, colPlayed) == 2) {
+                    search_row--;
+                }
+                // blanche
+                if (tile_type(search_row, colPlayed) == 1) {
+                   
+                    for (i  = rowPlayed - 1; i > search_row; i--) {
+                        flip(i, colPlayed);
+                    }
+                    return;
+                }
+                search_row--;
+            }
+        }
+    }
+
+    function flip_tiles_left_right () {
+
+        search_col = colPlayed + 1;
+
+        if ($white_turn) {
+            // la piece jouée était noir         
+            while (search_col < 8) {
+                // vide ou joubale
+                if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
+                    return;
+                }
+                // blanche
+                if (tile_type(rowPlayed, search_col) == 1) {
+                    search_col++;
+                }
+                // noir
+                if (tile_type(rowPlayed, search_col) == 2) {
+                   
+                    for (j  = colPlayed + 1; j < search_col; j++) {
+                        flip(rowPlayed, j);
+                    }
+                    return;
+                }
+                search_col++;
+            }
+
+        } else {
+            // la piece jouée était blanche
+            while (search_col < 8) {
+                // vide ou joubale
+                if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
+                    return;
+                }
+                // noir
+                if (tile_type(rowPlayed, search_col) == 2) {
+                    search_col++;
+                }
+                // blanche
+                if (tile_type(rowPlayed, search_col) == 1) {
+                   
+                    for (j  = colPlayed + 1; j < search_col; j++) {
+                        flip(rowPlayed, j);
+                    }
+                    return;
+                }
+                search_col++;
+            }
+        }
+    }
+
+    function flip_tiles_right_left () {
+
+        search_col = colPlayed - 1;
+
+        if ($white_turn) {
+            // la piece jouée était noir         
+            while (search_col >= 0) {
+                // vide ou joubale
+                if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
+                    return;
+                }
+                // blanche
+                if (tile_type(rowPlayed, search_col) == 1) {
+                    search_col--;
+                }
+                // noir
+                if (tile_type(rowPlayed, search_col) == 2) {
+                   
+                    for (j  = colPlayed - 1; j > search_col; j--) {
+                        flip(rowPlayed, j);
+                    }
+                    return;
+                }
+                search_col--;
+            }
+
+        } else {
+            // la piece jouée était blanche
+            while (search_col >= 0) {
+                // vide ou joubale
+                if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
+                    return;
+                }
+                // noir
+                if (tile_type(rowPlayed, search_col) == 2) {
+                    search_col--;
+                }
+                // blanche
+                if (tile_type(rowPlayed, search_col) == 1) {
+                   
+                    for (j  = colPlayed - 1; j > search_col; j--) {
+                        flip(rowPlayed, j);
+                    }
+                    return;
+                }
+                search_col--;
+            }
+        }
+    }
+
+    function flip_tiles() {
+        flip_tiles_top_bottom();
+        flip_tiles_bottom_top();
+        flip_tiles_left_right();
+        flip_tiles_right_left();
+    }
+
     jQuery(document).on("click", "#othello .playable" , function() {
+
+        rowPlayed = parseInt(jQuery(this).parent().attr('id').split('-')[1]);
+        colPlayed = parseInt(jQuery(this).parent().attr('id').split('-')[2]);
 
         if ($black_turn && !$white_turn) {
 
@@ -334,6 +572,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
             $black_turn = false;
             $white_turn = true;
+            flip_tiles();
             updateScore();
             update_playable_tiles();
 
@@ -346,8 +585,10 @@ document.addEventListener("DOMContentLoaded", function(){
             
             $black_turn = true;
             $white_turn = false;
+            flip_tiles();
             updateScore();
             update_playable_tiles();
+            
 
         } else {
             alert('Error');

@@ -83,6 +83,7 @@ body {
     margin-top: 20px;
     border: 1px solid #16a779;
     border-radius: 7px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.6);
 }
 
 .score > div {
