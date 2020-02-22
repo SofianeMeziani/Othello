@@ -4,6 +4,11 @@
     color: #333;
 }
 
+h1 {
+    font-family: 'Lobster';
+    font-size: 50px;
+}
+
 body {
     background: linear-gradient(90deg, #FDFDFD 21px, transparent 1%) center, linear-gradient(#FDFDFD 21px, transparent 1%) center, #16a779;
     background-size: 22px 22px;
