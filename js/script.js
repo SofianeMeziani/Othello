@@ -1159,26 +1159,26 @@ document.addEventListener("DOMContentLoaded", function(){
 
         } else {
             // la piece jouée était blanche         
-            while (search_col < 8 && search_row >= 0) {
+            while (search_col >= 0 && search_row >= 0) {
                 // vide ou joubale
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
                 // noir
                 if (tile_type(search_row, search_col) == 2) {
-                    search_col++;
+                    search_col--;
                     search_row--;
                 }
                 // blanche
                 if (tile_type(search_row, search_col) == 1) {
 
-                    for (j  = colPlayed + 1; j < search_col; j++) {
+                    for (j  = colPlayed - 1; j > search_col; j--) {
                         flip(rowPlayed - 1, j);
                         rowPlayed--;
                     }
                     return;
                 }
-                search_col++;
+                search_col--;
                 search_row--;
             }
         }
