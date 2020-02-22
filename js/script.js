@@ -139,6 +139,116 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
+    function parse_left_right() {
+        row = 0;
+        col = 0;
+
+        init_parsing_variables();
+
+        while ( row < 8 ) {
+            while ( col < 8) {
+
+                // white
+                if (tile_type(row, col) == 1) {
+                    if (seq_begin_white == -1) {
+                        seq_begin_white = col;
+                        seq_end_white = col;
+                    } else {
+                        seq_end_white = col;
+                    }
+                    col++;
+                }
+
+                // black
+                if (tile_type(row, col) == 2) {
+                    if (seq_begin_black == -1) {
+                        seq_begin_black = col;
+                        seq_end_black = col;
+                    } else {
+                        seq_end_black = col;
+                    }
+                    col++;
+                }
+
+                // playable
+                if (tile_type(row, col) == 3) {
+                    init_parsing_variables();
+                    col++;
+                }
+
+                // empty
+                if (tile_type(row, col) == 0) {
+                    if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
+                        
+                        if ( ($white_turn && (seq_end_white <  seq_end_black)) || ($black_turn && (seq_end_black <  seq_end_white)) ) {
+                            set_playable (row, col);
+                        }
+                    }
+                    init_parsing_variables();
+                    col++;
+                }
+        
+            } 
+            row++;
+            col = 0;  
+        }
+    }
+
+    function parse_right_left () {
+        row = 7;
+        col = 7;
+
+        init_parsing_variables();
+
+        while ( row >= 0 ) {
+            while ( col >= 0) {
+
+                // white
+                if (tile_type(row, col) == 1) {
+                    if (seq_begin_white == -1) {
+                        seq_begin_white = col;
+                        seq_end_white = col;
+                    } else {
+                        seq_end_white = col;
+                    }
+                    col--;
+                }
+
+                // black
+                if (tile_type(row, col) == 2) {
+                    if (seq_begin_black == -1) {
+                        seq_begin_black = col;
+                        seq_end_black = col;
+                    } else {
+                        seq_end_black = col;
+                    }
+                    col--;
+                }
+
+                // playable
+                if (tile_type(row, col) == 3) {
+                    init_parsing_variables();
+                    col--;
+                }
+
+                // empty
+                if (tile_type(row, col) == 0) {
+                    if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
+                        
+                        if ( ($white_turn && (seq_end_white >  seq_end_black)) || ($black_turn && (seq_end_black >  seq_end_white)) ) {
+                            set_playable (row, col);
+                        }
+                    }
+                    init_parsing_variables();
+                    col--;
+                }
+        
+            } 
+            row--;
+            col = 7;  
+        }
+    }
+
     function update_playable_tiles () {
         // parser dans toutes les directions
        
@@ -148,13 +258,17 @@ document.addEventListener("DOMContentLoaded", function(){
         // parse bas haut
         parse_bottom_top();
         // parse gauche droite
+        parse_left_right();
+
         // parse droite gauche
+        parse_right_left();
         // parse diag haut bas gauche droite
         // parse diag haut bas droite gauche
         // parse diag bas haut gauche droite
         // parse diag bas haut droite gauche
     }
 
+    // flip
     jQuery('#flip').click(function() {
         jQuery('#cell-3-3 > div').css('transform', 'rotate(-90deg) scaleX(-1)');
         setTimeout(function() {
@@ -172,7 +286,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
         updateScore();
-
+        update_playable_tiles();
     });
 
     function startGame() {
@@ -183,12 +297,6 @@ document.addEventListener("DOMContentLoaded", function(){
         jQuery('#cell-3-4 .tile').addClass('black');
         jQuery('#cell-4-3 .tile').addClass('black');
         jQuery('#cell-4-4 .tile').addClass('white');
-
-        // Définir les cases jouables
-        //jQuery('#cell-2-3 .tile').addClass('playable');
-        //jQuery('#cell-3-2 .tile').addClass('playable');
-        //jQuery('#cell-4-5 .tile').addClass('playable');
-        //jQuery('#cell-5-4 .tile').addClass('playable');
 
         $black_turn = true;
         $white_turn = false;
