@@ -1150,11 +1150,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                // blanche
-                if (tile_type(search_row, search_col) == 1) {
-                    search_col++;
-                    search_row++;
-                }
+        
                 // noir
                 if (tile_type(search_row, search_col) == 2) {
                     local_rowPlayed = rowPlayed;
@@ -1165,8 +1161,14 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     return;
                 }
-                search_col++;
-                search_row++;
+
+                // blanche
+                if (tile_type(search_row, search_col) == 1) {
+                    search_col++;
+                    search_row++;
+                }
+
+          
             }
 
         } else {
@@ -1176,24 +1178,26 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                // noir
-                if (tile_type(search_row, search_col) == 2) {
-                    search_col++;
-                    search_row++;
-                }
+            
                 // blanche
                 if (tile_type(search_row, search_col) == 1) {
-
+                    local_rowPlayed = rowPlayed;
                     for (j  = colPlayed + 1; j < search_col; j++) {
-                        local_rowPlayed = rowPlayed;
+                        
                         console.log('flip_diag_top_bottom_left_right');
                         flip(local_rowPlayed + 1, j);
                         local_rowPlayed++;
                     }
                     return;
                 }
-                search_col++;
-                search_row++;
+
+                // noir
+                if (tile_type(search_row, search_col) == 2) {
+                    search_col++;
+                    search_row++;
+                }
+
+            
             }
         }
     }
@@ -1206,55 +1210,60 @@ document.addEventListener("DOMContentLoaded", function(){
             
             // la piece jouée était noir         
             while (search_col >= 0 && search_row >= 0) {
+                console.log('(' + search_row + ' , ' + search_col + ') = ' + tile_type(search_row, search_col));
                 // vide ou joubale
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                // blanche
-                if (tile_type(search_row, search_col) == 1) {
-                    search_col--;
-                    search_row--;
-                }
+                
                 // noir
                 if (tile_type(search_row, search_col) == 2) {
-
+                    local_rowPlayed = rowPlayed;
                     for (j  = colPlayed - 1; j > search_col; j--) {
-                        local_rowPlayed = rowPlayed;
-                        console.log('flip_diag_bottom_top_right_left');
+                        
                         flip(local_rowPlayed - 1, j);
                         local_rowPlayed--;
                     }
                     return;
                 }
-                search_col--;
-                search_row--;
+
+                // blanche
+                if (tile_type(search_row, search_col) == 1) {
+                    search_col--;
+                    search_row--;
+                }
+
+            
             }
 
         } else {
             // la piece jouée était blanche         
             while (search_col >= 0 && search_row >= 0) {
+                console.log('(' + search_row + ' , ' + search_col + ') = ' + tile_type(search_row, search_col));
                 // vide ou joubale
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                // noir
-                if (tile_type(search_row, search_col) == 2) {
-                    search_col--;
-                    search_row--;
-                }
+                
                 // blanche
                 if (tile_type(search_row, search_col) == 1) {
-
+                    local_rowPlayed = rowPlayed;
                     for (j  = colPlayed - 1; j > search_col; j--) {
-                        local_rowPlayed = rowPlayed;
+                        
                         console.log('flip_diag_bottom_top_right_left');
                         flip(local_rowPlayed - 1, j);
                         local_rowPlayed--;
                     }
                     return;
                 }
-                search_col--;
-                search_row--;
+
+                // noir
+                if (tile_type(search_row, search_col) == 2) {
+                    search_col--;
+                    search_row--;
+                }
+
+            
             }
         }
     }
@@ -1271,24 +1280,27 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                // blanche
-                if (tile_type(search_row, search_col) == 1) {
-                    search_col--;
-                    search_row++;
-                }
+                
                 // noir
                 if (tile_type(search_row, search_col) == 2) {
-
+                    local_rowPlayed = rowPlayed;
                     for (j  = colPlayed - 1; j > search_col; j--) {
-                        local_rowPlayed = rowPlayed;
+                        
                         console.log('flip_diag_top_bottom_right_left');
                         flip(local_rowPlayed + 1, j);
                         local_rowPlayed++;
                     }
                     return;
                 }
-                search_col--;
-                search_row++;
+
+                // blanche
+                if (tile_type(search_row, search_col) == 1) {
+                    search_col--;
+                    search_row++;
+                }
+
+
+            
             }
 
         } else {
@@ -1298,24 +1310,26 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                // noir
-                if (tile_type(search_row, search_col) == 2) {
-                    search_col--;
-                    search_row++;
-                }
+                
                 // blanche
                 if (tile_type(search_row, search_col) == 1) {
-
+                    local_rowPlayed = rowPlayed;
                     for (j  = colPlayed - 1; j > search_col; j--) {
-                        local_rowPlayed = rowPlayed;
+                        
                         console.log('flip_diag_top_bottom_right_left');
                         flip(local_rowPlayed + 1, j);
                         local_rowPlayed++;
                     }
                     return;
                 }
-                search_col--;
-                search_row++;
+
+                // noir
+                if (tile_type(search_row, search_col) == 2) {
+                    search_col--;
+                    search_row++;
+                }
+
+             
             }
         }
     }
@@ -1332,24 +1346,26 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                // blanche
-                if (tile_type(search_row, search_col) == 1) {
-                    search_col++;
-                    search_row--;
-                }
+                
                 // noir
                 if (tile_type(search_row, search_col) == 2) {
-
+                    local_rowPlayed = rowPlayed;
                     for (j  = colPlayed + 1; j < search_col; j++) {
-                        local_rowPlayed = rowPlayed;
+                        
                         console.log('flip_diag_bottom_top_left_right');
                         flip(local_rowPlayed - 1, j);
                         local_rowPlayed--;
                     }
                     return;
                 }
-                search_col++;
-                search_row--;
+
+                // blanche
+                if (tile_type(search_row, search_col) == 1) {
+                    search_col++;
+                    search_row--;
+                }
+
+              
             }
 
         } else {
@@ -1359,24 +1375,26 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                // noir
-                if (tile_type(search_row, search_col) == 2) {
-                    search_col++;
-                    search_row--;
-                }
+                
                 // blanche
                 if (tile_type(search_row, search_col) == 1) {
-
+                    local_rowPlayed = rowPlayed;
                     for (j  = colPlayed + 1; j < search_col; j++) {
-                        local_rowPlayed = rowPlayed;
+                        
                         console.log('flip_diag_bottom_top_left_right');
                         flip(local_rowPlayed - 1, j);
                         local_rowPlayed--;
                     }
                     return;
                 }
-                search_col++;
-                search_row--;
+
+                // noir
+                if (tile_type(search_row, search_col) == 2) {
+                    search_col++;
+                    search_row--;
+                }
+                
+                
             }
         }
     }
