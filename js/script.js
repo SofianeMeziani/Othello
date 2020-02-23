@@ -858,7 +858,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         swal(
             "Partie terminée !",
-            "Résultat : " + jQuery('.score .black').text() + " - " + jQuery('.score .white').text(),
+            "Résultat : " + jQuery('.score .black').text() + " : " + jQuery('.tile.black').length + " - " + jQuery('.score .white').text() + ' : ' + jQuery('.tile.white').length,
             "success"
           );
     }
@@ -929,9 +929,6 @@ document.addEventListener("DOMContentLoaded", function(){
         $nb_white = jQuery('.tile.white').length;
         // nombre de cases noirs
         $nb_black = jQuery('.tile.black').length;
-
-        jQuery('.score .black').text($nb_black);
-        jQuery('.score .white').text($nb_white);
 
         jQuery('.score-black').text($nb_black);
         jQuery('.score-white').text($nb_white);
