@@ -104,6 +104,7 @@ body {
     text-align: center;
     transition-duration: 200ms;
     transition-property: width;
+    font-weight: bold;
 }
 
 .score .black {

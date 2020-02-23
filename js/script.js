@@ -24,20 +24,22 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function start_timer() {
-        var el = document.getElementById('bar');
-        el.style.animation = 'none';
-        el.offsetHeight; /* trigger reflow */
-        el.style.animation = null; 
+        if (!game_over) {
+            var el = document.getElementById('bar');
+            el.style.animation = 'none';
+            el.offsetHeight; /* trigger reflow */
+            el.style.animation = null; 
 
-        let timeLimit = "20s";
-        document.querySelector('#bar').style.animationDuration = timeLimit;
+            let timeLimit = "20s";
+            document.querySelector('#bar').style.animationDuration = timeLimit;
 
 
-        timer_timeout = setTimeout(function()
-        {
-            swap_turns();
-            start_timer();
-        }, 20000);
+            timer_timeout = setTimeout(function()
+            {
+                swap_turns();
+                start_timer();
+            }, 20000);
+        }
 
     }
 
@@ -47,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var $white_turn = false;
     var rowPlayed;
     var colPlayed;
+    var game_over = false;
 
     // 0 => empty // 1 => white // 2 => black // 3 => playable
     function tile_type (i, j) {
@@ -840,8 +843,21 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function end_game() {
+        game_over = true;
         play_sound('game_over');
-        swal('Partie terminée');
+
+        jQuery('.tiles-stock-white').removeClass('pulse');
+        jQuery('.tiles-stock-black').removeClass('pulse');
+
+        var el = document.getElementById('bar');
+        el.style.animation = 'none';
+        el.offsetHeight; /* trigger reflow */
+        el.style.animation = null; 
+
+        clearTimeout(timer_timeout);
+
+        swal('Partie terminée')
+
         // afficher le score etc
     }
 
@@ -900,8 +916,8 @@ document.addEventListener("DOMContentLoaded", function(){
         jQuery('.tiles-stock-black').addClass('pulse');
 
         updateScore();
-        update_playable_tiles();
         start_timer();
+        update_playable_tiles();
         //swal("Nouvelle partie")
     }
 
@@ -912,6 +928,8 @@ document.addEventListener("DOMContentLoaded", function(){
         // nombre de cases noirs
         $nb_black = jQuery('.tile.black').length;
 
+        jQuery('.score .black').text($nb_black);
+        jQuery('.score .white').text($nb_white);
         jQuery('.score .white').css('width', $nb_white/($nb_white + $nb_black) * 100 + '%');
         jQuery('.score .black').css('width', $nb_black/($nb_white + $nb_black) * 100 + '%');
     }
