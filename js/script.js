@@ -1,5 +1,13 @@
 document.addEventListener("DOMContentLoaded", function(){
 
+    // Desactiver le clique droit
+
+    /* jQuery(function() {
+        jQuery(this).bind("contextmenu", function(e) {
+            e.preventDefault();
+        });
+    }); */
+
     // global variables
 
     var $black_turn = true;
@@ -797,7 +805,6 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
     }
-    
 
     function update_playable_tiles () {
         clear_playable_tiles();
@@ -1311,12 +1318,20 @@ document.addEventListener("DOMContentLoaded", function(){
         flip_diag_bottom_top_left_right();
     }
 
+    function play_sound(index) {
+        var obj = document.createElement("audio");
+        obj.src = "sounds/sound"+index+".wav"; 
+        obj.play(); 
+    }
+    
     jQuery(document).on("click", "#othello .playable" , function() {
 
         rowPlayed = parseInt(jQuery(this).parent().attr('id').split('-')[1]);
         colPlayed = parseInt(jQuery(this).parent().attr('id').split('-')[2]);
 
         if ($black_turn && !$white_turn) {
+
+            play_sound(1);
 
             jQuery(this).unbind("click");
             jQuery(this).removeClass('playable');
@@ -1330,6 +1345,8 @@ document.addEventListener("DOMContentLoaded", function(){
             update_playable_tiles();
 
         } else if (!$black_turn && $white_turn) {
+
+            play_sound(2);
 
             jQuery(this).unbind("click");
             jQuery(this).removeClass('playable');
