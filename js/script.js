@@ -1012,7 +1012,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     return;
                 }
-                search_row--;
             }
 
         } else {
@@ -1035,7 +1034,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     return;
                 }
-                search_row--;
             }
         }
     }
@@ -1064,7 +1062,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     return;
                 }
-                search_col++;
             }
 
         } else {
@@ -1087,7 +1084,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     return;
                 }
-                search_col++;
             }
         }
     }
@@ -1116,7 +1112,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     return;
                 }
-                search_col--;
             }
 
         } else {
@@ -1139,7 +1134,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     return;
                 }
-                search_col--;
             }
         }
     }
