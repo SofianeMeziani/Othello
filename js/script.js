@@ -938,7 +938,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     function flip_tiles_top_bottom () {
 
-        search_row = rowPlayed + 1;
+        var search_row = rowPlayed + 1;
 
         if ($white_turn) {
             // la piece jouée était noir         
@@ -955,6 +955,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 2) {
                    
                     for (i  = rowPlayed + 1; i < search_row; i++) {
+                        console.log('flip_tiles_top_bottom');
                         flip(i, colPlayed);
                     }
                     return;
@@ -977,6 +978,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 1) {
                    
                     for (i  = rowPlayed + 1; i < search_row; i++) {
+                        console.log('flip_tiles_top_bottom');
                         flip(i, colPlayed);
                     }
                     return;
@@ -988,7 +990,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     function flip_tiles_bottom_top () {
 
-        search_row = rowPlayed - 1;
+        var search_row = rowPlayed - 1;
 
         if ($white_turn) {
             // la piece jouée était noir         
@@ -1005,6 +1007,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 2) {
                    
                     for (i  = rowPlayed - 1; i > search_row; i--) {
+                        console.log('flip_tiles_bottom_top');
                         flip(i, colPlayed);
                     }
                     return;
@@ -1027,6 +1030,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 1) {
                    
                     for (i  = rowPlayed - 1; i > search_row; i--) {
+                        console.log('flip_tiles_bottom_top');
                         flip(i, colPlayed);
                     }
                     return;
@@ -1038,7 +1042,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     function flip_tiles_left_right () {
 
-        search_col = colPlayed + 1;
+        var search_col = colPlayed + 1;
 
         if ($white_turn) {
             // la piece jouée était noir         
@@ -1055,6 +1059,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 2) {
                    
                     for (j  = colPlayed + 1; j < search_col; j++) {
+                        console.log('flip_tiles_left_right');
                         flip(rowPlayed, j);
                     }
                     return;
@@ -1077,6 +1082,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 1) {
                    
                     for (j  = colPlayed + 1; j < search_col; j++) {
+                        console.log('flip_tiles_left_right');
                         flip(rowPlayed, j);
                     }
                     return;
@@ -1088,7 +1094,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     function flip_tiles_right_left () {
 
-        search_col = colPlayed - 1;
+        var search_col = colPlayed - 1;
 
         if ($white_turn) {
             // la piece jouée était noir         
@@ -1105,6 +1111,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 2) {
                    
                     for (j  = colPlayed - 1; j > search_col; j--) {
+                        console.log('flip_tiles_right_left');
                         flip(rowPlayed, j);
                     }
                     return;
@@ -1127,6 +1134,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 1) {
                    
                     for (j  = colPlayed - 1; j > search_col; j--) {
+                        console.log('flip_tiles_right_left');
                         flip(rowPlayed, j);
                     }
                     return;
@@ -1137,8 +1145,8 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function flip_diag_top_bottom_left_right() {
-        search_col = colPlayed + 1;
-        search_row = rowPlayed + 1;
+        var search_col = colPlayed + 1;
+        var search_row = rowPlayed + 1;
 
         if ($white_turn) {
             
@@ -1155,10 +1163,11 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
                 // noir
                 if (tile_type(search_row, search_col) == 2) {
-
+                    local_rowPlayed = rowPlayed;
                     for (j  = colPlayed + 1; j < search_col; j++) {
-                        flip(rowPlayed + 1, j);
-                        rowPlayed++;
+                        console.log('flip_diag_top_bottom_left_right');
+                        flip(local_rowPlayed + 1, j);
+                        local_rowPlayed++;
                     }
                     return;
                 }
@@ -1182,8 +1191,10 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 1) {
 
                     for (j  = colPlayed + 1; j < search_col; j++) {
-                        flip(rowPlayed + 1, j);
-                        rowPlayed++;
+                        local_rowPlayed = rowPlayed;
+                        console.log('flip_diag_top_bottom_left_right');
+                        flip(local_rowPlayed + 1, j);
+                        local_rowPlayed++;
                     }
                     return;
                 }
@@ -1194,8 +1205,8 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function flip_diag_bottom_top_right_left() {
-        search_col = colPlayed - 1;
-        search_row = rowPlayed - 1;
+        var search_col = colPlayed - 1;
+        var search_row = rowPlayed - 1;
 
         if ($white_turn) {
             
@@ -1214,8 +1225,10 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 2) {
 
                     for (j  = colPlayed - 1; j > search_col; j--) {
-                        flip(rowPlayed - 1, j);
-                        rowPlayed--;
+                        local_rowPlayed = rowPlayed;
+                        console.log('flip_diag_bottom_top_right_left');
+                        flip(local_rowPlayed - 1, j);
+                        local_rowPlayed--;
                     }
                     return;
                 }
@@ -1239,8 +1252,10 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 1) {
 
                     for (j  = colPlayed - 1; j > search_col; j--) {
-                        flip(rowPlayed - 1, j);
-                        rowPlayed--;
+                        local_rowPlayed = rowPlayed;
+                        console.log('flip_diag_bottom_top_right_left');
+                        flip(local_rowPlayed - 1, j);
+                        local_rowPlayed--;
                     }
                     return;
                 }
@@ -1251,8 +1266,8 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function flip_diag_top_bottom_right_left() {
-        search_col = colPlayed - 1;
-        search_row = rowPlayed + 1;
+        var search_col = colPlayed - 1;
+        var search_row = rowPlayed + 1;
 
         if ($white_turn) {
             
@@ -1271,8 +1286,10 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 2) {
 
                     for (j  = colPlayed - 1; j > search_col; j--) {
-                        flip(rowPlayed + 1, j);
-                        rowPlayed++;
+                        local_rowPlayed = rowPlayed;
+                        console.log('flip_diag_top_bottom_right_left');
+                        flip(local_rowPlayed + 1, j);
+                        local_rowPlayed++;
                     }
                     return;
                 }
@@ -1296,8 +1313,10 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 1) {
 
                     for (j  = colPlayed - 1; j > search_col; j--) {
-                        flip(rowPlayed + 1, j);
-                        rowPlayed++;
+                        local_rowPlayed = rowPlayed;
+                        console.log('flip_diag_top_bottom_right_left');
+                        flip(local_rowPlayed + 1, j);
+                        local_rowPlayed++;
                     }
                     return;
                 }
@@ -1308,8 +1327,8 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function flip_diag_bottom_top_left_right() {
-        search_col = colPlayed + 1;
-        search_row = rowPlayed - 1;
+        var search_col = colPlayed + 1;
+        var search_row = rowPlayed - 1;
 
         if ($white_turn) {
             
@@ -1328,8 +1347,10 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 2) {
 
                     for (j  = colPlayed + 1; j < search_col; j++) {
-                        flip(rowPlayed - 1, j);
-                        rowPlayed--;
+                        local_rowPlayed = rowPlayed;
+                        console.log('flip_diag_bottom_top_left_right');
+                        flip(local_rowPlayed - 1, j);
+                        local_rowPlayed--;
                     }
                     return;
                 }
@@ -1353,8 +1374,10 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 1) {
 
                     for (j  = colPlayed + 1; j < search_col; j++) {
-                        flip(rowPlayed - 1, j);
-                        rowPlayed--;
+                        local_rowPlayed = rowPlayed;
+                        console.log('flip_diag_bottom_top_left_right');
+                        flip(local_rowPlayed - 1, j);
+                        local_rowPlayed--;
                     }
                     return;
                 }
@@ -1375,6 +1398,8 @@ document.addEventListener("DOMContentLoaded", function(){
         flip_diag_bottom_top_right_left();
         flip_diag_top_bottom_right_left();
         flip_diag_bottom_top_left_right();
+
+        console.log('--');
     }
 
     function play_sound(name) {

@@ -83,9 +83,9 @@ body {
 
 .score {
     margin: 0 auto;
-    width: 480px;
+    width: 75%;
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
     border: 1px solid #16a779;
     border-radius: 7px;
     box-shadow:
@@ -154,7 +154,7 @@ body {
     border-radius: 25px;
     overflow: hidden;
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 20px;
     box-shadow:
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
