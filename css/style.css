@@ -1,4 +1,14 @@
+/* Mobile */
+@media only screen and (max-width: 700px) {
+    .col-tiles, .scores {
+        display: none !important;
+    }
 
+    #othello td {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
 * {
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #333;
