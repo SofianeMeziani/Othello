@@ -8,6 +8,39 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }); */
 
+    function swap_turns () {
+        if ($black_turn && !$white_turn) {
+            $black_turn = false;
+            $white_turn = true;
+            jQuery('.tiles-stock-white').addClass('pulse');
+            jQuery('.tiles-stock-black').removeClass('pulse');
+        } else {
+            $black_turn = true;
+            $white_turn = false;
+            jQuery('.tiles-stock-white').removeClass('pulse');
+            jQuery('.tiles-stock-black').addClass('pulse');
+        }
+        update_playable_tiles();
+    }
+
+    function start_timer() {
+        var el = document.getElementById('bar');
+        el.style.animation = 'none';
+        el.offsetHeight; /* trigger reflow */
+        el.style.animation = null; 
+
+        let timeLimit = "20s";
+        document.querySelector('#bar').style.animationDuration = timeLimit;
+
+
+        timer_timeout = setTimeout(function()
+        {
+            swap_turns();
+            start_timer();
+        }, 20000);
+
+    }
+
     // global variables
 
     var $black_turn = true;
@@ -806,6 +839,12 @@ document.addEventListener("DOMContentLoaded", function(){
 
     }
 
+    function end_game() {
+        play_sound('game_over');
+        swal('Partie terminée');
+        // afficher le score etc
+    }
+
     function update_playable_tiles () {
         clear_playable_tiles();
         // parser dans toutes les directions
@@ -818,7 +857,9 @@ document.addEventListener("DOMContentLoaded", function(){
         parse_diag_top_bottom_right_left();
         parse_diag_bottom_top_left_right();
        
-        
+        if (jQuery('.playable').length == 0) {
+            end_game();
+        }
     }
 
     function flip (f_row, f_col) {
@@ -855,8 +896,12 @@ document.addEventListener("DOMContentLoaded", function(){
         $black_turn = true;
         $white_turn = false;
 
+        jQuery('.tiles-stock-white').removeClass('pulse');
+        jQuery('.tiles-stock-black').addClass('pulse');
+
         updateScore();
         update_playable_tiles();
+        start_timer();
         //swal("Nouvelle partie")
     }
 
@@ -872,10 +917,6 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     startGame();
-
-    jQuery('#restart').click(function() {
-        startGame();
-    });
 
     function flip_tiles_top_bottom () {
 
@@ -1318,9 +1359,9 @@ document.addEventListener("DOMContentLoaded", function(){
         flip_diag_bottom_top_left_right();
     }
 
-    function play_sound(index) {
+    function play_sound(name) {
         var obj = document.createElement("audio");
-        obj.src = "sounds/sound"+index+".wav"; 
+        obj.src = "sounds/"+name+".wav"; 
         obj.play(); 
     }
     
@@ -1331,7 +1372,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         if ($black_turn && !$white_turn) {
 
-            play_sound(1);
+            play_sound('player1');
 
             jQuery(this).unbind("click");
             jQuery(this).removeClass('playable');
@@ -1340,13 +1381,18 @@ document.addEventListener("DOMContentLoaded", function(){
 
             $black_turn = false;
             $white_turn = true;
+            jQuery('.tiles-stock-white').addClass('pulse');
+            jQuery('.tiles-stock-black').removeClass('pulse');
+
             flip_tiles();
             updateScore();
             update_playable_tiles();
+            clearTimeout(timer_timeout);
+            start_timer();
 
         } else if (!$black_turn && $white_turn) {
 
-            play_sound(2);
+            play_sound('player2');
 
             jQuery(this).unbind("click");
             jQuery(this).removeClass('playable');
@@ -1355,10 +1401,14 @@ document.addEventListener("DOMContentLoaded", function(){
             
             $black_turn = true;
             $white_turn = false;
+            jQuery('.tiles-stock-white').removeClass('pulse');
+            jQuery('.tiles-stock-black').addClass('pulse');
+
             flip_tiles();
             updateScore();
             update_playable_tiles();
-            
+            clearTimeout(timer_timeout);
+            start_timer();
 
         } else {
             alert('Error');

@@ -8,10 +8,13 @@ https://nnattawat.github.io/flip/
 
 https://codepen.io/ory13/pen/vYYrmQo
 
-
-souuuunnddddd on click sHA
-
 effets sonres fin du jeu
+
+background sound
+
+button disable sounds
+
+display scoer with this : https://elements.envato.com/game-score-count-4-GMX2C6A
 
 ombre titre
 
@@ -19,9 +22,11 @@ ombre table
 
 rejouer btn
 
-
-20 seconde
-
 score
 
 see the replay
+
+game duration
+
+
+https://codepen.io/perryh/pen/JQZmxv

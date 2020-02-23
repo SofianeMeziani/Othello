@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Othello</title>
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
@@ -16,7 +17,11 @@
     <h1 class="title text-center">Othello</h1>
 
     <div class="row">
-        <div class="col-md-2"></div>
+        <div class="col-md-2">
+          <div class="text-center">
+            .
+          </div>
+        </div>
         <div class="col-md-1">
             <div class="tiles-stock-black">
                 <div class="tile-stock"></div>
@@ -52,17 +57,6 @@
             </div>
         </div>
         <div class="col-md-6">
-
-            <!--div class="letters text-center">
-                <div class="letter">A</div>
-                <div class="letter">B</div>
-                <div class="letter">C</div>
-                <div class="letter">D</div>
-                <div class="letter">E</div>
-                <div class="letter">F</div>
-                <div class="letter">G</div>
-                <div class="letter">H</div>
-            </div-->
 
             <table id="othello" border="2" bordercolor="#555">
                 <tbody>
@@ -149,16 +143,9 @@
                 </tbody>
             </table>
 
-            <!--div class="letters text-center">
-                <div class="letter">A</div>
-                <div class="letter">B</div>
-                <div class="letter">C</div>
-                <div class="letter">D</div>
-                <div class="letter">E</div>
-                <div class="letter">F</div>
-                <div class="letter">G</div>
-                <div class="letter">H</div>
-            </div-->
+            <div class="timer">
+              <div id="bar" class="bar"></div>
+            </div>
 
             <div class="score">
                 <div class="black" contenteditable="true">Joueur 1</div>
@@ -200,7 +187,9 @@
             </div>
         </div>
         <div class="col-md-2">
-            <button class="btn btn-primary" id="restart">Rejouer</button>
+          <div class="ext-center">
+            .
+          </div>
         </div>
     </div>
 
