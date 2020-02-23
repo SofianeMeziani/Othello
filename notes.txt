@@ -22,8 +22,6 @@ ombre table
 
 rejouer btn
 
-score
-
 see the replay
 
 game duration

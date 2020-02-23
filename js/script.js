@@ -932,6 +932,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
         jQuery('.score .black').text($nb_black);
         jQuery('.score .white').text($nb_white);
+
+        jQuery('.score-black').text($nb_black);
+        jQuery('.score-white').text($nb_white);
+
         jQuery('.score .white').css('width', $nb_white/($nb_white + $nb_black) * 100 + '%');
         jQuery('.score .black').css('width', $nb_black/($nb_white + $nb_black) * 100 + '%');
     }
