@@ -14,11 +14,18 @@ document.addEventListener("DOMContentLoaded", function(){
             $white_turn = true;
             jQuery('.tiles-stock-white').addClass('pulse');
             jQuery('.tiles-stock-black').removeClass('pulse');
+
+            jQuery('.score .white').addClass('pulse');
+            jQuery('.score .black').removeClass('pulse');
+
         } else {
             $black_turn = true;
             $white_turn = false;
             jQuery('.tiles-stock-white').removeClass('pulse');
             jQuery('.tiles-stock-black').addClass('pulse');
+
+            jQuery('.score .white').removeClass('pulse');
+            jQuery('.score .black').addClass('pulse');
         }
         update_playable_tiles();
     }
@@ -849,6 +856,9 @@ document.addEventListener("DOMContentLoaded", function(){
         jQuery('.tiles-stock-white').removeClass('pulse');
         jQuery('.tiles-stock-black').removeClass('pulse');
 
+        jQuery('.score .white').removeClass('pulse');
+        jQuery('.score .black').removeClass('pulse');
+
         var el = document.getElementById('bar');
         el.style.animation = 'none';
         el.offsetHeight; /* trigger reflow */
@@ -916,6 +926,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
         jQuery('.tiles-stock-white').removeClass('pulse');
         jQuery('.tiles-stock-black').addClass('pulse');
+
+        jQuery('.score .white').removeClass('pulse');
+        jQuery('.score .black').addClass('pulse');
 
         updateScore();
         start_timer();
@@ -1455,6 +1468,9 @@ document.addEventListener("DOMContentLoaded", function(){
             jQuery('.tiles-stock-white').addClass('pulse');
             jQuery('.tiles-stock-black').removeClass('pulse');
 
+            jQuery('.score .white').addClass('pulse');
+            jQuery('.score .black').removeClass('pulse');
+
             flip_tiles();
             updateScore();
             update_playable_tiles();
@@ -1474,6 +1490,9 @@ document.addEventListener("DOMContentLoaded", function(){
             $white_turn = false;
             jQuery('.tiles-stock-white').removeClass('pulse');
             jQuery('.tiles-stock-black').addClass('pulse');
+
+            jQuery('.score .white').removeClass('pulse');
+            jQuery('.score .black').addClass('pulse');
 
             flip_tiles();
             updateScore();

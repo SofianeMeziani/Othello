@@ -209,7 +209,7 @@ body {
 
   /* pulse */
 
-  .pulse .tile-stock:last-of-type{
+  .pulse .tile-stock:last-of-type, .pulse.black, .pulse.white{
     box-shadow: 0 0 0 rgba(22, 167, 121, 0.4);
     animation: pulse 1.5s infinite;
   }
