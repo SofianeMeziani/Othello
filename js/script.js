@@ -947,10 +947,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
                     return;
                 }
-                // blanche
-                if (tile_type(search_row, colPlayed) == 1) {
-                    search_row++;
-                }
+                
                 // noir
                 if (tile_type(search_row, colPlayed) == 2) {
                    
@@ -960,7 +957,11 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     return;
                 }
-                search_row++;
+                
+                // blanche
+                if (tile_type(search_row, colPlayed) == 1) {
+                    search_row++;
+                }
             }
 
         } else {
@@ -970,10 +971,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
                     return;
                 }
-                // noir
-                if (tile_type(search_row, colPlayed) == 2) {
-                    search_row++;
-                }
+                
                 // blanche
                 if (tile_type(search_row, colPlayed) == 1) {
                    
@@ -983,7 +981,11 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     return;
                 }
-                search_row++;
+                
+                // noir
+                if (tile_type(search_row, colPlayed) == 2) {
+                    search_row++;
+                }
             }
         }
     }
@@ -999,10 +1001,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
                     return;
                 }
-                // blanche
-                if (tile_type(search_row, colPlayed) == 1) {
-                    search_row--;
-                }
+                
                 // noir
                 if (tile_type(search_row, colPlayed) == 2) {
                    
@@ -1011,6 +1010,11 @@ document.addEventListener("DOMContentLoaded", function(){
                         flip(i, colPlayed);
                     }
                     return;
+                }
+
+                // blanche
+                if (tile_type(search_row, colPlayed) == 1) {
+                    search_row--;
                 }
             }
 
@@ -1021,10 +1025,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
                     return;
                 }
-                // noir
-                if (tile_type(search_row, colPlayed) == 2) {
-                    search_row--;
-                }
+                
                 // blanche
                 if (tile_type(search_row, colPlayed) == 1) {
                    
@@ -1033,6 +1034,11 @@ document.addEventListener("DOMContentLoaded", function(){
                         flip(i, colPlayed);
                     }
                     return;
+                }
+
+                // noir
+                if (tile_type(search_row, colPlayed) == 2) {
+                    search_row--;
                 }
             }
         }
@@ -1049,10 +1055,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
                     return;
                 }
-                // blanche
-                if (tile_type(rowPlayed, search_col) == 1) {
-                    search_col++;
-                }
+                
                 // noir
                 if (tile_type(rowPlayed, search_col) == 2) {
                    
@@ -1061,6 +1064,11 @@ document.addEventListener("DOMContentLoaded", function(){
                         flip(rowPlayed, j);
                     }
                     return;
+                }
+
+                // blanche
+                if (tile_type(rowPlayed, search_col) == 1) {
+                    search_col++;
                 }
             }
 
@@ -1071,10 +1079,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
                     return;
                 }
-                // noir
-                if (tile_type(rowPlayed, search_col) == 2) {
-                    search_col++;
-                }
+                
                 // blanche
                 if (tile_type(rowPlayed, search_col) == 1) {
                    
@@ -1083,6 +1088,11 @@ document.addEventListener("DOMContentLoaded", function(){
                         flip(rowPlayed, j);
                     }
                     return;
+                }
+
+                // noir
+                if (tile_type(rowPlayed, search_col) == 2) {
+                    search_col++;
                 }
             }
         }
@@ -1099,10 +1109,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
                     return;
                 }
-                // blanche
-                if (tile_type(rowPlayed, search_col) == 1) {
-                    search_col--;
-                }
+                
                 // noir
                 if (tile_type(rowPlayed, search_col) == 2) {
                    
@@ -1111,6 +1118,11 @@ document.addEventListener("DOMContentLoaded", function(){
                         flip(rowPlayed, j);
                     }
                     return;
+                }
+
+                // blanche
+                if (tile_type(rowPlayed, search_col) == 1) {
+                    search_col--;
                 }
             }
 
@@ -1121,10 +1133,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
                     return;
                 }
-                // noir
-                if (tile_type(rowPlayed, search_col) == 2) {
-                    search_col--;
-                }
+                
                 // blanche
                 if (tile_type(rowPlayed, search_col) == 1) {
                    
@@ -1133,6 +1142,11 @@ document.addEventListener("DOMContentLoaded", function(){
                         flip(rowPlayed, j);
                     }
                     return;
+                }
+
+                // noir
+                if (tile_type(rowPlayed, search_col) == 2) {
+                    search_col--;
                 }
             }
         }
