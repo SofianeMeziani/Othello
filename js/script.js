@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var rowPlayed;
     var colPlayed;
     var game_over = false;
+    var sounds = false;
 
     function swap_turns () {
         if ($black_turn && !$white_turn) {
@@ -1444,10 +1445,24 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function play_sound(name) {
-        var obj = document.createElement("audio");
-        obj.src = "sounds/"+name+".wav"; 
-        obj.play(); 
+        if (sounds) {
+            var obj = document.createElement("audio");
+            obj.src = "sounds/"+name+".wav"; 
+            obj.play(); 
+        }
     }
+
+    jQuery(document).on("click", ".sound" , function() {
+        if (sounds) { 
+            sounds = false;
+            jQuery(".fa-volume-off").css("display", "initial");
+            jQuery(".fa-volume-up").css("display", "none");
+        } else { 
+            sounds = true 
+            jQuery(".fa-volume-off").css("display", "none");
+            jQuery(".fa-volume-up").css("display", "initial");
+        }
+    });
     
     jQuery(document).on("click", "#othello .playable" , function() {
 

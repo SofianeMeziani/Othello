@@ -20,13 +20,14 @@ ombre table
 
 rejouer btn (refresh c mieux)
 
-regles du jeu
+regles du jeu : icone avec lien
 
-commenter le code
+commenter le code 
+
+couleur du tableau par niveau
 
 see the replay
 
 game duration
-
 
 https://codepen.io/perryh/pen/JQZmxv

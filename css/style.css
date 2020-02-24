@@ -27,6 +27,32 @@ h1 {
     letter-spacing: -4px;
 }
 
+.control {
+    position: absolute;
+    right: 0px;
+    padding: 10px;
+    border-radius: 10px 0px 0px 10px;
+    background-color: white;
+    border: 1px solid #BBB;
+    width: 40px;
+    top: 5%;
+    cursor: pointer;
+    transition-duration: 100ms;
+    transition-property: transform;
+}
+
+.sound {
+    margin-top: 50px;
+}
+
+.fa-volume-up {
+    display: none;
+}
+
+.control:hover {
+    transform: scale(1.1);
+}
+
 .score-black, .score-white {
     font-family: 'Lobster';
     line-height: 480px;
