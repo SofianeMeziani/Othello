@@ -8,6 +8,14 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }); */
 
+    // global variables
+
+    var $black_turn = true;
+    var $white_turn = false;
+    var rowPlayed;
+    var colPlayed;
+    var game_over = false;
+
     function swap_turns () {
         if ($black_turn && !$white_turn) {
             $black_turn = false;
@@ -49,14 +57,6 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
     }
-
-    // global variables
-
-    var $black_turn = true;
-    var $white_turn = false;
-    var rowPlayed;
-    var colPlayed;
-    var game_over = false;
 
     // 0 => empty // 1 => white // 2 => black // 3 => playable
     function tile_type (i, j) {
