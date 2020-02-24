@@ -1446,9 +1446,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
     function play_sound(name) {
         if (sounds) {
-            var obj = document.createElement("audio");
-            obj.src = "sounds/"+name+".wav"; 
-            obj.play(); 
+            //var obj = document.createElement("audio");
+            //obj.src = "sounds/"+name+".wav"; 
+            //obj.play(); 
+            var audio = new Audio("sounds/"+name+".wav");
+            audio.play();
         }
     }
 
