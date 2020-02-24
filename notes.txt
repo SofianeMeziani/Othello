@@ -16,19 +16,17 @@ button disable sounds
 
 display scoer with this : https://elements.envato.com/game-score-count-4-GMX2C6A
 
-ombre titre
-
 ombre table
 
-rejouer btn
+rejouer btn (refresh c mieux)
+
+regles du jeu
+
+commenter le code
 
 see the replay
 
 game duration
-
-Bortom top left right
-
-Top bottom right left
 
 
 https://codepen.io/perryh/pen/JQZmxv
