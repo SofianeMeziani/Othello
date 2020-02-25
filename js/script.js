@@ -17,7 +17,12 @@ document.addEventListener("DOMContentLoaded", function(){
     var game_over = false;
     var sounds = false;
 
+    if (jQuery(window).width() < 800) {
+        startGame();
+    }
+
     jQuery(document).on("click", ".card" , function() {
+        
         jQuery('.pre-game').fadeOut();
         jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
             opacity: 1

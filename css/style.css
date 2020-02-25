@@ -33,7 +33,16 @@
 html, body {margin: 0; height: 100%; overflow: hidden}
 
 /* Mobile */
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 800px) {
+    .game {
+        opacity: 1;
+    
+    }
+    
+    .pre-game {
+        display: none;
+    }
+
     .col-tiles, .scores {
         display: none !important;
     }
@@ -61,7 +70,7 @@ html, body {margin: 0; height: 100%; overflow: hidden}
 
 }
 * {
-    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Lato" ,'Ubuntu',"Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #333;
 }
 
