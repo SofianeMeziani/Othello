@@ -7,7 +7,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
     <link rel="manifest" href="manifest.json">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
     <script src="js/script.js"></script>
@@ -19,7 +22,7 @@
 <body>
 
     <h1 class="title text-center">Othello</h1>
-
+  
     <a class="control info" href="http://www.ffothello.org/othello/regles-du-jeu/" target="_blank"><div class="text-center">
       <i class="fas fa-info"></i>
     </div></a>
@@ -29,7 +32,40 @@
       <i class="fas fa-volume-up"></i>
     </div>
 
-    <div class="row">
+    <div class="row pre-game">
+      <div class="col-md-2"></div>
+      <div class="col-md-8 row container">
+        <div class="col-md-4 card-parent">
+          <div class="card">
+            <img src="img/PlayerVSPlayer.png" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">Player vs Player</h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 card-parent">
+          <div class="card">
+            <img src="img/PlayerVSBot.png" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">Player vs Robot</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 card-parent">
+          <div class="card">
+            <img src="img/BotVSBot.png" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">Robot vs Robot</h5>
+                  </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+
+    <div class="row game">
         <div class="col-md-2 scores">
           <div class="score-black text-right">
             

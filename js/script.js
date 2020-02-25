@@ -17,6 +17,15 @@ document.addEventListener("DOMContentLoaded", function(){
     var game_over = false;
     var sounds = false;
 
+    jQuery(document).on("click", ".card" , function() {
+        jQuery('.pre-game').fadeOut();
+        jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
+            opacity: 1
+        }, 2200);
+
+        startGame();
+    });
+
     function swap_turns () {
         if ($black_turn && !$white_turn) {
             $black_turn = false;
@@ -950,8 +959,6 @@ document.addEventListener("DOMContentLoaded", function(){
         jQuery('.score .white').css('width', $nb_white/($nb_white + $nb_black) * 100 + '%');
         jQuery('.score .black').css('width', $nb_black/($nb_white + $nb_black) * 100 + '%');
     }
-
-    startGame();
 
     function flip_tiles_top_bottom () {
 
