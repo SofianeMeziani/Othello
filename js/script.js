@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function(){
         jQuery('.pre-game').fadeOut();
         jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
             opacity: 1
-        }, 2200);
+        }, 2500);
 
         startGame();
     });
@@ -1516,6 +1516,11 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     });
     
+    jQuery(document).on("click", ".refresh" , function() {
+        location.reload();
+    });
+    
+
     jQuery(document).on("click", "#othello .playable" , function() {
 
         rowPlayed = parseInt(jQuery(this).parent().attr('id').split('-')[1]);

@@ -56,6 +56,10 @@ html, body {margin: 0; height: 100%; overflow: hidden}
         margin-top: 35px !important;
     }
 
+    .refresh {
+        display: none;
+    }
+
     .info {
         margin-top: -10px !important;
     }
@@ -99,6 +103,20 @@ h1 {
     transition-property: transform;
 }
 
+.control-left {
+    position: absolute;
+    left: 0px;
+    padding: 10px;
+    border-radius: 0px 10px 10px 0px;
+    background-color: white;
+    border: 1px solid #BBB;
+    width: 40px;
+    top: 5%;
+    cursor: pointer;
+    transition-duration: 100ms;
+    transition-property: transform;
+}
+
 .sound {
     margin-top: 50px;
 }
@@ -107,7 +125,7 @@ h1 {
     display: none;
 }
 
-.control:hover {
+.control:hover, .control-left:hover {
     transform: scale(1.1);
 }
 
