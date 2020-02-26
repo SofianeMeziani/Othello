@@ -1,5 +1,12 @@
 document.addEventListener("DOMContentLoaded", function(){
 
+    class Move {
+        constructor(row, col) {
+            this.row = row;
+            this.col = col;
+        }
+    }
+
     // Desactiver le clique droit
 
     /* jQuery(function() {
@@ -1481,18 +1488,14 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function play(move) {
-        i = move[0];
-        j = move[1];
-        jQuery('#cell-' + i + '-' + j + ' > div').click();
+        jQuery('#cell-' + move.row + '-' + move.col + ' > div').click();
     }
 
     function unplay(move) {
-        i = move[0];
-        j = move[1];
         // si elle était blanche
-        jQuery('#cell-' + i + '-' + j + ' > div').removeClass('white');
+        jQuery('#cell-' + move.row  + '-' + move.col  + ' > div').removeClass('white');
         // si elle était noir
-        jQuery('#cell-' + i + '-' + j + ' > div').removeClass('black');
+        jQuery('#cell-' + move.row  + '-' + move.col  + ' > div').removeClass('black');
         updateScore();
         update_playable_tiles();
     }
@@ -1520,7 +1523,6 @@ document.addEventListener("DOMContentLoaded", function(){
         location.reload();
     });
     
-
     jQuery(document).on("click", "#othello .playable" , function() {
 
         rowPlayed = parseInt(jQuery(this).parent().attr('id').split('-')[1]);

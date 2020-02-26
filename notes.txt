@@ -8,25 +8,15 @@ https://nnattawat.github.io/flip/
 
 https://codepen.io/ory13/pen/vYYrmQo
 
-effets sonres fin du jeu
-
 background sound
-
-button disable sounds
 
 display scoer with this : https://elements.envato.com/game-score-count-4-GMX2C6A
 
 ombre table
 
-rejouer btn (refresh c mieux)
-
-regles du jeu : icone avec lien
-
 commenter le code 
 
 couleur du tableau par niveau
-
-see the replay
 
 game duration
 
