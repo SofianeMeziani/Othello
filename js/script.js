@@ -1500,7 +1500,6 @@ document.addEventListener("DOMContentLoaded", function(){
     function bot() {
         setTimeout(function(){ 
             jQuery('.playable').random().click();
-            console.log('bot played');
         }, 1000);
     }
 
