@@ -112,6 +112,11 @@ h1 {
     transition-property: transform;
 }
 
+.time {
+    margin-top: 50px;
+    width: 60px;
+}
+
 .sound {
     margin-top: 50px;
 }

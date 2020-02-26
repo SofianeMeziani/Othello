@@ -29,7 +29,39 @@ document.addEventListener("DOMContentLoaded", function(){
     // Séléctionner un élément aléatoire à partir d'un sélécteur
     jQuery.fn.random = function() {
         return this.eq(Math.floor(Math.random() * this.length));
-    }          
+    }  
+    
+    // Chronometer
+
+    function addZero(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+    
+    var m = 0;
+    var s = 0;
+    
+    function seconde() {
+        if (s <= 59) {
+            s++;
+        }
+        if (s > 59) {
+            s = 0, m++;
+        }
+        if (m > 59) {
+            m = 0, h++;
+        }
+    
+        jQuery(".time").html(addZero(m) + ":" + addZero(s));
+    }
+
+    function start_chronometer() {
+        setInterval(seconde, 1000);
+    }
+
+
 
     if (jQuery(window).width() < 800) {
         startGame();
@@ -965,6 +997,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         updateScore();
         start_timer();
+        start_chronometer();
         update_playable_tiles();
         //swal("Nouvelle partie")
 
