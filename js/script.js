@@ -70,89 +70,124 @@ document.addEventListener("DOMContentLoaded", function(){
         startGame();
     }
 
-    jQuery(document).on("click", ".card" , function() {
+    jQuery(document).on("click", ".card" , async function() {
         
         if (jQuery(this).hasClass('pvp')) { 
             bot1 = false; 
             bot2 = false; 
-            
-            swal({
-                title: "Joueur 1",
-                text: "Entrez le nom",
-                type: "input",
-                closeOnConfirm: false,
+
+            const { value: player1 } = await Swal.fire({
+                title: 'Joueur 1',
+                input: 'text',
                 confirmButtonText: "Suivant",
-                inputPlaceholder: "Nom du joueur"
-            }, function (inputValue) {
-                if (inputValue === false) return false;
-                if (inputValue === "") {
-                  swal.showInputError("Vous devez renseigner le nom");
-                  return false
+                inputValidator: (value) => {
+                  if (!value) {
+                    return 'Veuillez renseigner le nom du joueur 1'
+                  }
                 }
-                jQuery('.score .black').text(inputValue);
-                inputValue = false;
+              })
+              
+              if (player1) {
+                jQuery('.score .black').text(player1);
 
-                swal({
-                    title: "Joueur 2",
-                    text: "Entrez le nom",
-                    type: "input",
-                    closeOnConfirm: false,
+                const { value: player2 } = await Swal.fire({
+                    title: 'Joueur 2',
+                    input: 'text',
                     confirmButtonText: "Jouer",
-                    inputPlaceholder: "Nom du joueur"
-                }, function (inputValue) {
-                    if (inputValue === false) return false;
-                    if (inputValue === "") {
-                      swal.showInputError("Vous devez renseigner le nom");
-                      return false
+                    inputValidator: (value) => {
+                      if (!value) {
+                        return 'Veuillez renseigner le nom du joueur 2'
+                      }
                     }
-                    jQuery('.score .white').text(inputValue);
-                    swal.close();
-
+                  })
+                  
+                  if (player2) {
+                    jQuery('.score .white').text(player2);
+                    
                     jQuery('.pre-game').fadeOut();
                     jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
                         opacity: 1
                     }, 2500);
 
                     startGame();
-
-                });
-            });
+                  }
+                
+              }
             
         }
         if (jQuery(this).hasClass('pvb')) { 
             bot1 = false; 
             bot2 = true; 
         
-            swal({
-                title: "Joueur",
-                text: "Entrez le nom",
-                type: "input",
-                closeOnConfirm: false,
-                confirmButtonText: "Jouer",
-                inputPlaceholder: "Nom du joueur"
-            }, function (inputValue) {
-                if (inputValue === false) return false;
-                if (inputValue === "") {
-                  swal.showInputError("Vous devez renseigner le nom");
-                  return false
+            const { value: player1 } = await Swal.fire({
+                title: 'Joueur 1',
+                input: 'text',
+                confirmButtonText: "Suivant",
+                inputValidator: (value) => {
+                  if (!value) {
+                    return 'Veuillez renseigner le nom du joueur 1'
+                  }
                 }
-                jQuery('.score .black').text(inputValue);
-                jQuery('.score .white').text('Robot');
-                swal.close();
+              })
+              
+              if (player1) {
+                jQuery('.score .black').text(player1);
 
-                jQuery('.pre-game').fadeOut();
-                jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
-                    opacity: 1
-                }, 2500);
+                const { value: algo } = await Swal.fire({
+                    title: 'Séléctionnez l\'algo',
+                    input: 'select',
+                    inputOptions: {
+                        algo1: 'Algo 1',
+                        algo2: 'Algo 2',
+                        algo3: 'Algo 3',
+                    },
+                    confirmButtonText: "Jouer",
+                    inputValidator: (value) => {
+                      if (!value) {
+                        return 'Veuillez renseigner l\'algo'
+                      }
+                    }
+                  })
+                  
+                  if (algo) {
+                    jQuery('.score .white').text(algo);
+                    
+                    const { value: level } = await Swal.fire({
+                        title: 'Selectionnez le niveau',
+                        input: 'select',
+                        inputOptions: {
+                            1: '1',
+                            2: '2',
+                            3: '3',
+                        },
+                        confirmButtonText: "Jouer",
+                        inputValidator: (value) => {
+                          if (!value) {
+                            return 'Veuillez renseigner le niveau'
+                          }
+                        }
+                      })
+                      
+                      if (level) {
+                        
+                        jQuery('.score .white').text(jQuery('.score .white').text() + ' [' + level + ']');
 
-                startGame();
-
-            });
+                        jQuery('.pre-game').fadeOut();
+                        jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
+                            opacity: 1
+                        }, 2500);
+    
+                        startGame();
+                      }
+                  }
+                
+              }
 
         }
         if (jQuery(this).hasClass('bvb')) { 
             bot1 = true; 
             bot2 = true; 
+            
         
             jQuery('.pre-game').fadeOut();
             jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
