@@ -298,6 +298,8 @@ document.addEventListener("DOMContentLoaded", function(){
             jQuery('.score .white').addClass('pulse');
             jQuery('.score .black').removeClass('pulse');
 
+            if(bot2) { bot(); }
+
         } else {
             $black_turn = true;
             $white_turn = false;
@@ -306,6 +308,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
             jQuery('.score .white').removeClass('pulse');
             jQuery('.score .black').addClass('pulse');
+
+            if(bot1) { bot(); }
         }
         update_playable_tiles();
     }
