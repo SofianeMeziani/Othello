@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function(){
                         algo2: 'Algo 2',
                         algo3: 'Algo 3',
                     },
-                    confirmButtonText: "Jouer",
+                    confirmButtonText: "Suivant",
                     inputValidator: (value) => {
                       if (!value) {
                         return 'Veuillez renseigner l\'algo'
@@ -189,12 +189,97 @@ document.addEventListener("DOMContentLoaded", function(){
             bot2 = true; 
             
         
-            jQuery('.pre-game').fadeOut();
-            jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
-                opacity: 1
-            }, 2500);
+            const { value: algo1 } = await Swal.fire({
+                title: 'Séléctionnez l\'algo',
+                input: 'select',
+                inputOptions: {
+                    algo1: 'Algo 1',
+                    algo2: 'Algo 2',
+                    algo3: 'Algo 3',
+                },
+                confirmButtonText: "Suivant",
+                inputValidator: (value) => {
+                  if (!value) {
+                    return 'Veuillez renseigner l\'algo'
+                  }
+                }
+              })
+              
+              if (algo1) {
+                    
+                    jQuery('.score .black').text(algo1);
+                    
+                    const { value: level1 } = await Swal.fire({
+                        title: 'Selectionnez le niveau',
+                        input: 'select',
+                        inputOptions: {
+                            1: '1',
+                            2: '2',
+                            3: '3',
+                        },
+                        confirmButtonText: "Suivant",
+                        inputValidator: (value) => {
+                          if (!value) {
+                            return 'Veuillez renseigner le niveau'
+                          }
+                        }
+                      })
+                  
+                  if (level1) {
+                    jQuery('.score .black').text(jQuery('.score .black').text() + ' [' + level1 + ']');
+                    
+                    const { value: algo2 } = await Swal.fire({
+                        title: 'Séléctionnez l\'algo',
+                        input: 'select',
+                        inputOptions: {
+                            algo1: 'Algo 1',
+                            algo2: 'Algo 2',
+                            algo3: 'Algo 3',
+                        },
+                        confirmButtonText: "Suivant",
+                        inputValidator: (value) => {
+                          if (!value) {
+                            return 'Veuillez renseigner l\'algo'
+                          }
+                        }
+                      })
+                      
+                      if (algo2) {
+                        
+                        jQuery('.score .white').text(algo2);
+                    
+                        const { value: level2 } = await Swal.fire({
+                            title: 'Selectionnez le niveau',
+                            input: 'select',
+                            inputOptions: {
+                                1: '1',
+                                2: '2',
+                                3: '3',
+                            },
+                            confirmButtonText: "Jouer",
+                            inputValidator: (value) => {
+                            if (!value) {
+                                return 'Veuillez renseigner le niveau'
+                            }
+                            }
+                        })
 
-            startGame();
+                        if (level2) {
+
+                            jQuery('.score .white').text(jQuery('.score .white').text() + ' [' + level2 + ']');
+
+                            jQuery('.pre-game').fadeOut();
+                            jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
+                                opacity: 1
+                            }, 2500);
+        
+                            startGame();
+
+                        }
+                      }
+                  }
+                
+              }
         
         }
 
