@@ -16,6 +16,13 @@ document.addEventListener("DOMContentLoaded", function(){
     var colPlayed;
     var game_over = false;
     var sounds = false;
+    var bot1 = false;
+    var bot2 = false;
+
+    // Séléctionner un élément aléatoire à partir d'un sélécteur
+    jQuery.fn.random = function() {
+        return this.eq(Math.floor(Math.random() * this.length));
+    }          
 
     if (jQuery(window).width() < 800) {
         startGame();
@@ -23,6 +30,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
     jQuery(document).on("click", ".card" , function() {
         
+        if (jQuery(this).hasClass('pvp')) { bot1 = false; bot2 = false; }
+        if (jQuery(this).hasClass('pvb')) { bot1 = false; bot2 = true; }
+        if (jQuery(this).hasClass('bvb')) { bot1 = true; bot2 = true; }
+
         jQuery('.pre-game').fadeOut();
         jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
             opacity: 1
@@ -949,6 +960,9 @@ document.addEventListener("DOMContentLoaded", function(){
         start_timer();
         update_playable_tiles();
         //swal("Nouvelle partie")
+
+        // CECI EST UN TEST
+        if (bot1) { bot(); }
     }
 
     function updateScore () {
@@ -1466,6 +1480,31 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
+    function play(move) {
+        i = move[0];
+        j = move[1];
+        jQuery('#cell-' + i + '-' + j + ' > div').click();
+    }
+
+    function unplay(move) {
+        i = move[0];
+        j = move[1];
+        // si elle était blanche
+        jQuery('#cell-' + i + '-' + j + ' > div').removeClass('white');
+        // si elle était noir
+        jQuery('#cell-' + i + '-' + j + ' > div').removeClass('black');
+        updateScore();
+        update_playable_tiles();
+    }
+
+    function bot() {
+        setTimeout(function(){ 
+            jQuery('.playable').random().click();
+            console.log('bot played');
+        }, 1000);
+    }
+
+    // effets sonores
     jQuery(document).on("click", ".sound" , function() {
         if (sounds) { 
             sounds = false;
@@ -1506,6 +1545,9 @@ document.addEventListener("DOMContentLoaded", function(){
             clearTimeout(timer_timeout);
             start_timer();
 
+            // CECI EST UN TEST
+            if (bot2) { bot(); }
+
         } else if (!$black_turn && $white_turn) {
 
             play_sound('player2');
@@ -1528,6 +1570,9 @@ document.addEventListener("DOMContentLoaded", function(){
             update_playable_tiles();
             clearTimeout(timer_timeout);
             start_timer();
+
+            // CECI EST UN TEST
+            if (bot1) { bot(); }
 
         } else {
             alert('Error');
