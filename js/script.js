@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
     var m = 0;
     var s = 0;
+    var chronometer;
     
     function seconde() {
         if (s <= 59) {
@@ -58,10 +59,12 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function start_chronometer() {
-        setInterval(seconde, 1000);
+        chronometer = setInterval(seconde, 1000);
     }
 
-
+    function stop_chronometer () {
+        clearInterval(chronometer);
+    }
 
     if (jQuery(window).width() < 800) {
         startGame();
@@ -69,17 +72,101 @@ document.addEventListener("DOMContentLoaded", function(){
 
     jQuery(document).on("click", ".card" , function() {
         
-        if (jQuery(this).hasClass('pvp')) { bot1 = false; bot2 = false; }
-        if (jQuery(this).hasClass('pvb')) { bot1 = false; bot2 = true; }
-        if (jQuery(this).hasClass('bvb')) { bot1 = true; bot2 = true; }
+        if (jQuery(this).hasClass('pvp')) { 
+            bot1 = false; 
+            bot2 = false; 
+            
+            swal({
+                title: "Joueur 1",
+                text: "Entrez le nom",
+                type: "input",
+                closeOnConfirm: false,
+                confirmButtonText: "Suivant",
+                inputPlaceholder: "Nom du joueur"
+            }, function (inputValue) {
+                if (inputValue === false) return false;
+                if (inputValue === "") {
+                  swal.showInputError("Vous devez renseigner le nom");
+                  return false
+                }
+                jQuery('.score .black').text(inputValue);
+                inputValue = false;
 
-        jQuery('.pre-game').fadeOut();
-        jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
-            opacity: 1
-        }, 2500);
+                swal({
+                    title: "Joueur 2",
+                    text: "Entrez le nom",
+                    type: "input",
+                    closeOnConfirm: false,
+                    confirmButtonText: "Jouer",
+                    inputPlaceholder: "Nom du joueur"
+                }, function (inputValue) {
+                    if (inputValue === false) return false;
+                    if (inputValue === "") {
+                      swal.showInputError("Vous devez renseigner le nom");
+                      return false
+                    }
+                    jQuery('.score .white').text(inputValue);
+                    swal.close();
 
-        startGame();
+                    jQuery('.pre-game').fadeOut();
+                    jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
+                        opacity: 1
+                    }, 2500);
+
+                    startGame();
+
+                });
+            });
+            
+        }
+        if (jQuery(this).hasClass('pvb')) { 
+            bot1 = false; 
+            bot2 = true; 
+        
+            swal({
+                title: "Joueur",
+                text: "Entrez le nom",
+                type: "input",
+                closeOnConfirm: false,
+                confirmButtonText: "Jouer",
+                inputPlaceholder: "Nom du joueur"
+            }, function (inputValue) {
+                if (inputValue === false) return false;
+                if (inputValue === "") {
+                  swal.showInputError("Vous devez renseigner le nom");
+                  return false
+                }
+                jQuery('.score .black').text(inputValue);
+                jQuery('.score .white').text('Robot');
+                swal.close();
+
+                jQuery('.pre-game').fadeOut();
+                jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
+                    opacity: 1
+                }, 2500);
+
+                startGame();
+
+            });
+
+        }
+        if (jQuery(this).hasClass('bvb')) { 
+            bot1 = true; 
+            bot2 = true; 
+        
+            jQuery('.pre-game').fadeOut();
+            jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
+                opacity: 1
+            }, 2500);
+
+            startGame();
+        
+        }
+
+        
     });
+
+
 
     function swap_turns () {
         if ($black_turn && !$white_turn) {
@@ -930,7 +1017,7 @@ document.addEventListener("DOMContentLoaded", function(){
         el.style.animation = null; 
 
         clearTimeout(timer_timeout);
-
+        stop_chronometer();
         swal(
             "Partie terminée !",
             "Résultat : " + jQuery('.score .black').text() + " : " + jQuery('.tile.black').length + " - " + jQuery('.score .white').text() + ' : ' + jQuery('.tile.white').length,
