@@ -1142,7 +1142,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         clearTimeout(timer_timeout);
         stop_chronometer();
-        swal(
+        Swal.fire(
             "Partie terminée !",
             "Résultat : " + jQuery('.score .black').text() + " : " + jQuery('.tile.black').length + " - " + jQuery('.score .white').text() + ' : ' + jQuery('.tile.white').length,
             "success"
