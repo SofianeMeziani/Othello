@@ -137,9 +137,9 @@ document.addEventListener("DOMContentLoaded", function(){
                     title: 'Séléctionnez l\'algo',
                     input: 'select',
                     inputOptions: {
-                        algo1: 'Algo 1',
-                        algo2: 'Algo 2',
-                        algo3: 'Algo 3',
+                        Minimax: 'Minimax',
+                        Negamax: 'Negamax',
+                        AlphaBeta: 'AlphaBeta',
                     },
                     confirmButtonText: "Suivant",
                     inputValidator: (value) => {
@@ -193,9 +193,9 @@ document.addEventListener("DOMContentLoaded", function(){
                 title: 'Séléctionnez l\'algo',
                 input: 'select',
                 inputOptions: {
-                    algo1: 'Algo 1',
-                    algo2: 'Algo 2',
-                    algo3: 'Algo 3',
+                    Minimax: 'Minimax',
+                    Negamax: 'Negamax',
+                    AlphaBeta: 'AlphaBeta',
                 },
                 confirmButtonText: "Suivant",
                 inputValidator: (value) => {
@@ -232,9 +232,9 @@ document.addEventListener("DOMContentLoaded", function(){
                         title: 'Séléctionnez l\'algo',
                         input: 'select',
                         inputOptions: {
-                            algo1: 'Algo 1',
-                            algo2: 'Algo 2',
-                            algo3: 'Algo 3',
+                            Minimax: 'Minimax',
+                            Negamax: 'Negamax',
+                            AlphaBeta: 'AlphaBeta',
                         },
                         confirmButtonText: "Suivant",
                         inputValidator: (value) => {
