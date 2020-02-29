@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     return 'Veuillez renseigner le nom du joueur 1'
                   }
                 }
-              })
+              }) 
               
               if (player1) {
                 jQuery('.score .black').text(player1);
