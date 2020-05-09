@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
 
     class Move {
         constructor(row, col) {
@@ -25,12 +25,16 @@ document.addEventListener("DOMContentLoaded", function(){
     var sounds = false;
     var bot1 = false;
     var bot2 = false;
+    var bot1_type = null;
+    var bot2_type = null;
+    var bot1_level = null;
+    var bot2_level = null;
 
     // Séléctionner un élément aléatoire à partir d'un sélécteur
-    jQuery.fn.random = function() {
+    jQuery.fn.random = function () {
         return this.eq(Math.floor(Math.random() * this.length));
-    }  
-    
+    }
+
     // Chronometer
 
     function addZero(i) {
@@ -39,11 +43,11 @@ document.addEventListener("DOMContentLoaded", function(){
         }
         return i;
     }
-    
+
     var m = 0;
     var s = 0;
     var chronometer;
-    
+
     function seconde() {
         if (s <= 59) {
             s++;
@@ -54,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function(){
         if (m > 59) {
             m = 0, h++;
         }
-    
+
         jQuery(".time").html(addZero(m) + ":" + addZero(s));
     }
 
@@ -62,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function(){
         chronometer = setInterval(seconde, 1000);
     }
 
-    function stop_chronometer () {
+    function stop_chronometer() {
         clearInterval(chronometer);
     }
 
@@ -70,70 +74,81 @@ document.addEventListener("DOMContentLoaded", function(){
         startGame();
     }
 
-    jQuery(document).on("click", ".card" , async function() {
-        
-        if (jQuery(this).hasClass('pvp')) { 
-            bot1 = false; 
-            bot2 = false; 
+    jQuery(document).on("click", ".card", async function () {
 
-            const { value: player1 } = await Swal.fire({
+        if (jQuery(this).hasClass('pvp')) {
+            bot1 = false;
+            bot2 = false;
+
+            const {
+                value: player1
+            } = await Swal.fire({
                 title: 'Joueur 1',
                 input: 'text',
                 confirmButtonText: "Suivant",
                 inputValidator: (value) => {
-                  if (!value) {
-                    return 'Veuillez renseigner le nom du joueur 1'
-                  }
+                    if (!value) {
+                        return 'Veuillez renseigner le nom du joueur 1'
+                    }
                 }
-              })
-              
-              if (player1) {
+            })
+
+            if (player1) {
                 jQuery('.score .black').text(player1);
 
-                const { value: player2 } = await Swal.fire({
+                const {
+                    value: player2
+                } = await Swal.fire({
                     title: 'Joueur 2',
                     input: 'text',
                     confirmButtonText: "Jouer",
                     inputValidator: (value) => {
-                      if (!value) {
-                        return 'Veuillez renseigner le nom du joueur 2'
-                      }
+                        if (!value) {
+                            return 'Veuillez renseigner le nom du joueur 2'
+                        }
                     }
-                  })
-                  
-                  if (player2) {
+                })
+
+                if (player2) {
                     jQuery('.score .white').text(player2);
-                    
+
                     jQuery('.pre-game').fadeOut();
-                    jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
+                    jQuery('.game').css({
+                        opacity: 0,
+                        display: 'flex'
+                    }).animate({
                         opacity: 1
                     }, 2500);
 
                     startGame();
-                  }
-                
-              }
-            
+                }
+
+            }
+
         }
-        if (jQuery(this).hasClass('pvb')) { 
-            bot1 = false; 
-            bot2 = true; 
-        
-            const { value: player1 } = await Swal.fire({
+        if (jQuery(this).hasClass('pvb')) {
+            bot1 = false;
+            bot2 = true;
+
+            const {
+                value: player1
+            } = await Swal.fire({
                 title: 'Joueur 1',
                 input: 'text',
                 confirmButtonText: "Suivant",
                 inputValidator: (value) => {
-                  if (!value) {
-                    return 'Veuillez renseigner le nom du joueur 1'
-                  }
+                    if (!value) {
+                        return 'Veuillez renseigner le nom du joueur 1'
+                    }
                 }
-              }) 
-              
-              if (player1) {
+            })
+
+            if (player1) {
                 jQuery('.score .black').text(player1);
 
-                const { value: algo } = await Swal.fire({
+                const {
+                    value: algo
+                } = await Swal.fire({
                     title: 'Séléctionnez l\'algo',
                     input: 'select',
                     inputOptions: {
@@ -143,16 +158,19 @@ document.addEventListener("DOMContentLoaded", function(){
                     },
                     confirmButtonText: "Suivant",
                     inputValidator: (value) => {
-                      if (!value) {
-                        return 'Veuillez renseigner l\'algo'
-                      }
+                        if (!value) {
+                            return 'Veuillez renseigner l\'algo'
+                        }
                     }
-                  })
-                  
-                  if (algo) {
+                })
+
+                if (algo) {
                     jQuery('.score .white').text(algo);
-                    
-                    const { value: level } = await Swal.fire({
+                    bot2_type = algo;
+
+                    const {
+                        value: level
+                    } = await Swal.fire({
                         title: 'Selectionnez le niveau',
                         input: 'select',
                         inputOptions: {
@@ -162,34 +180,41 @@ document.addEventListener("DOMContentLoaded", function(){
                         },
                         confirmButtonText: "Jouer",
                         inputValidator: (value) => {
-                          if (!value) {
-                            return 'Veuillez renseigner le niveau'
-                          }
+                            if (!value) {
+                                return 'Veuillez renseigner le niveau'
+                            }
                         }
-                      })
-                      
-                      if (level) {
-                        
+                    })
+
+                    if (level) {
+
+                        bot2_level = level;
+
                         jQuery('.score .white').text(jQuery('.score .white').text() + ' [' + level + ']');
 
                         jQuery('.pre-game').fadeOut();
-                        jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
+                        jQuery('.game').css({
+                            opacity: 0,
+                            display: 'flex'
+                        }).animate({
                             opacity: 1
                         }, 2500);
-    
+
                         startGame();
-                      }
-                  }
-                
-              }
+                    }
+                }
+
+            }
 
         }
-        if (jQuery(this).hasClass('bvb')) { 
-            bot1 = true; 
-            bot2 = true; 
-            
-        
-            const { value: algo1 } = await Swal.fire({
+        if (jQuery(this).hasClass('bvb')) {
+            bot1 = true;
+            bot2 = true;
+
+
+            const {
+                value: algo1
+            } = await Swal.fire({
                 title: 'Séléctionnez l\'algo',
                 input: 'select',
                 inputOptions: {
@@ -199,36 +224,42 @@ document.addEventListener("DOMContentLoaded", function(){
                 },
                 confirmButtonText: "Suivant",
                 inputValidator: (value) => {
-                  if (!value) {
-                    return 'Veuillez renseigner l\'algo'
-                  }
+                    if (!value) {
+                        return 'Veuillez renseigner l\'algo'
+                    }
                 }
-              })
-              
-              if (algo1) {
-                    
-                    jQuery('.score .black').text(algo1);
-                    
-                    const { value: level1 } = await Swal.fire({
-                        title: 'Selectionnez le niveau',
-                        input: 'select',
-                        inputOptions: {
-                            1: '1',
-                            2: '2',
-                            3: '3',
-                        },
-                        confirmButtonText: "Suivant",
-                        inputValidator: (value) => {
-                          if (!value) {
+            })
+
+            if (algo1) {
+                bot1_type = algo1;
+
+                jQuery('.score .black').text(algo1);
+
+                const {
+                    value: level1
+                } = await Swal.fire({
+                    title: 'Selectionnez le niveau',
+                    input: 'select',
+                    inputOptions: {
+                        1: '1',
+                        2: '2',
+                        3: '3',
+                    },
+                    confirmButtonText: "Suivant",
+                    inputValidator: (value) => {
+                        if (!value) {
                             return 'Veuillez renseigner le niveau'
-                          }
                         }
-                      })
-                  
-                  if (level1) {
+                    }
+                })
+
+                if (level1) {
+                    bot1_level = level1;
                     jQuery('.score .black').text(jQuery('.score .black').text() + ' [' + level1 + ']');
-                    
-                    const { value: algo2 } = await Swal.fire({
+
+                    const {
+                        value: algo2
+                    } = await Swal.fire({
                         title: 'Séléctionnez l\'algo',
                         input: 'select',
                         inputOptions: {
@@ -238,17 +269,19 @@ document.addEventListener("DOMContentLoaded", function(){
                         },
                         confirmButtonText: "Suivant",
                         inputValidator: (value) => {
-                          if (!value) {
-                            return 'Veuillez renseigner l\'algo'
-                          }
+                            if (!value) {
+                                return 'Veuillez renseigner l\'algo'
+                            }
                         }
-                      })
-                      
-                      if (algo2) {
-                        
+                    })
+
+                    if (algo2) {
+                        bot2_type = algo2;
                         jQuery('.score .white').text(algo2);
-                    
-                        const { value: level2 } = await Swal.fire({
+
+                        const {
+                            value: level2
+                        } = await Swal.fire({
                             title: 'Selectionnez le niveau',
                             input: 'select',
                             inputOptions: {
@@ -258,37 +291,38 @@ document.addEventListener("DOMContentLoaded", function(){
                             },
                             confirmButtonText: "Jouer",
                             inputValidator: (value) => {
-                            if (!value) {
-                                return 'Veuillez renseigner le niveau'
-                            }
+                                if (!value) {
+                                    return 'Veuillez renseigner le niveau'
+                                }
                             }
                         })
 
                         if (level2) {
-
+                            bot2_level = level2;
                             jQuery('.score .white').text(jQuery('.score .white').text() + ' [' + level2 + ']');
 
                             jQuery('.pre-game').fadeOut();
-                            jQuery('.game').css({opacity: 0, display: 'flex'}).animate({
+                            jQuery('.game').css({
+                                opacity: 0,
+                                display: 'flex'
+                            }).animate({
                                 opacity: 1
                             }, 2500);
-        
+
                             startGame();
 
                         }
-                      }
-                  }
-                
-              }
-        
+                    }
+                }
+
+            }
+
         }
 
-        
+
     });
 
-
-
-    function swap_turns () {
+    function swap_turns() {
         if ($black_turn && !$white_turn) {
             $black_turn = false;
             $white_turn = true;
@@ -298,7 +332,9 @@ document.addEventListener("DOMContentLoaded", function(){
             jQuery('.score .white').addClass('pulse');
             jQuery('.score .black').removeClass('pulse');
 
-            if(bot2) { bot(); }
+            if (bot2) {
+                bot();
+            }
 
         } else {
             $black_turn = true;
@@ -309,7 +345,9 @@ document.addEventListener("DOMContentLoaded", function(){
             jQuery('.score .white').removeClass('pulse');
             jQuery('.score .black').addClass('pulse');
 
-            if(bot1) { bot(); }
+            if (bot1) {
+                bot();
+            }
         }
         update_playable_tiles();
     }
@@ -319,14 +357,13 @@ document.addEventListener("DOMContentLoaded", function(){
             var el = document.getElementById('bar');
             el.style.animation = 'none';
             el.offsetHeight; /* trigger reflow */
-            el.style.animation = null; 
+            el.style.animation = null;
 
             let timeLimit = "20s";
             document.querySelector('#bar').style.animationDuration = timeLimit;
 
 
-            timer_timeout = setTimeout(function()
-            {
+            timer_timeout = setTimeout(function () {
                 swap_turns();
                 start_timer();
             }, 20000);
@@ -335,10 +372,10 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     // 0 => empty // 1 => white // 2 => black // 3 => playable
-    function tile_type (i, j) {
+    function tile_type(i, j) {
         if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('white')) {
             return 1;
-        } else  if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('black')) {
+        } else if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('black')) {
             return 2;
         } else if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('playable')) {
             return 3;
@@ -347,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
-    function set_playable (row, col) {
+    function set_playable(row, col) {
         jQuery('#cell-' + row + '-' + col + ' > div').addClass('playable')
     }
 
@@ -362,14 +399,14 @@ document.addEventListener("DOMContentLoaded", function(){
         jQuery('.playable').removeClass('playable');
     }
 
-    function parse_top_bottom () {
+    function parse_top_bottom() {
         row = 0;
         col = 0;
 
         init_parsing_variables();
 
-        while ( col < 8 ) {
-            while ( row < 8) {
+        while (col < 8) {
+            while (row < 8) {
 
                 // white
                 if (tile_type(row, col) == 1) {
@@ -402,29 +439,29 @@ document.addEventListener("DOMContentLoaded", function(){
                 // empty
                 if (tile_type(row, col) == 0) {
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-                        if ( ($white_turn && (seq_end_white <  seq_end_black)) || ($black_turn && (seq_end_black <  seq_end_white)) ) {
-                            set_playable (row, col);
+
+                        if (($white_turn && (seq_end_white < seq_end_black)) || ($black_turn && (seq_end_black < seq_end_white))) {
+                            set_playable(row, col);
                         }
                     }
                     init_parsing_variables();
                     row++;
                 }
-        
-            } 
+
+            }
             col++;
-            row = 0;  
+            row = 0;
         }
     }
 
-    function parse_bottom_top () {
+    function parse_bottom_top() {
         row = 7;
         col = 7;
 
         init_parsing_variables();
 
-        while ( col >= 0 ) {
-            while ( row >= 0) {
+        while (col >= 0) {
+            while (row >= 0) {
 
                 // white
                 if (tile_type(row, col) == 1) {
@@ -457,18 +494,18 @@ document.addEventListener("DOMContentLoaded", function(){
                 // empty
                 if (tile_type(row, col) == 0) {
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-                        if ( ($white_turn && (seq_end_white >  seq_end_black)) || ($black_turn && (seq_end_black >  seq_end_white)) ) {
-                            set_playable (row, col);
+
+                        if (($white_turn && (seq_end_white > seq_end_black)) || ($black_turn && (seq_end_black > seq_end_white))) {
+                            set_playable(row, col);
                         }
                     }
                     init_parsing_variables();
                     row--;
                 }
-        
-            } 
+
+            }
             col--;
-            row = 7;  
+            row = 7;
         }
     }
 
@@ -478,8 +515,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
         init_parsing_variables();
 
-        while ( row < 8 ) {
-            while ( col < 8) {
+        while (row < 8) {
+            while (col < 8) {
 
                 // white
                 if (tile_type(row, col) == 1) {
@@ -512,29 +549,29 @@ document.addEventListener("DOMContentLoaded", function(){
                 // empty
                 if (tile_type(row, col) == 0) {
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-                        if ( ($white_turn && (seq_end_white <  seq_end_black)) || ($black_turn && (seq_end_black <  seq_end_white)) ) {
-                            set_playable (row, col);
+
+                        if (($white_turn && (seq_end_white < seq_end_black)) || ($black_turn && (seq_end_black < seq_end_white))) {
+                            set_playable(row, col);
                         }
                     }
                     init_parsing_variables();
                     col++;
                 }
-        
-            } 
+
+            }
             row++;
-            col = 0;  
+            col = 0;
         }
     }
 
-    function parse_right_left () {
+    function parse_right_left() {
         row = 7;
         col = 7;
 
         init_parsing_variables();
 
-        while ( row >= 0 ) {
-            while ( col >= 0) {
+        while (row >= 0) {
+            while (col >= 0) {
 
                 // white
                 if (tile_type(row, col) == 1) {
@@ -567,22 +604,22 @@ document.addEventListener("DOMContentLoaded", function(){
                 // empty
                 if (tile_type(row, col) == 0) {
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-                        if ( ($white_turn && (seq_end_white >  seq_end_black)) || ($black_turn && (seq_end_black >  seq_end_white)) ) {
-                            set_playable (row, col);
+
+                        if (($white_turn && (seq_end_white > seq_end_black)) || ($black_turn && (seq_end_black > seq_end_white))) {
+                            set_playable(row, col);
                         }
                     }
                     init_parsing_variables();
                     col--;
                 }
-        
-            } 
+
+            }
             row--;
-            col = 7;  
+            col = 7;
         }
     }
 
-    function parse_diag_top_bottom_left_right () {
+    function parse_diag_top_bottom_left_right() {
 
         row = 7;
         col = 0;
@@ -601,7 +638,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // white
                 if (tile_type(parse_row, col) == 1) {
-                    
+
                     if (seq_begin_white == -1) {
                         seq_begin_white = parse_row;
                         seq_end_white = parse_row;
@@ -614,7 +651,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // black
                 if (tile_type(parse_row, col) == 2) {
-                    
+
                     if (seq_begin_black == -1) {
                         seq_begin_black = parse_row;
                         seq_end_black = parse_row;
@@ -634,18 +671,18 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // empty
                 if (tile_type(parse_row, col) == 0) {
-                    
+
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-                        if ( ($white_turn && (seq_end_white <  seq_end_black)) || ($black_turn && (seq_end_black <  seq_end_white)) ) {
-                            set_playable (parse_row, col);
+
+                        if (($white_turn && (seq_end_white < seq_end_black)) || ($black_turn && (seq_end_black < seq_end_white))) {
+                            set_playable(parse_row, col);
                         }
                     }
                     parse_row++;
                     col++;
                     init_parsing_variables();
                 }
-            }  
+            }
             row--;
         }
 
@@ -665,7 +702,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // white
                 if (tile_type(row, parse_col) == 1) {
-                    
+
                     if (seq_begin_white == -1) {
                         seq_begin_white = row;
                         seq_end_white = row;
@@ -678,7 +715,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // black
                 if (tile_type(row, parse_col) == 2) {
-                    
+
                     if (seq_begin_black == -1) {
                         seq_begin_black = row;
                         seq_end_black = row;
@@ -698,27 +735,27 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // empty
                 if (tile_type(row, parse_col) == 0) {
-                    
+
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-                        if ( ($white_turn && (seq_end_white <  seq_end_black)) || ($black_turn && (seq_end_black <  seq_end_white)) ) {
-                            set_playable (row, parse_col);
+
+                        if (($white_turn && (seq_end_white < seq_end_black)) || ($black_turn && (seq_end_black < seq_end_white))) {
+                            set_playable(row, parse_col);
                         }
                     }
                     parse_col++;
                     row++;
                     init_parsing_variables();
                 }
-                
-                
-            }  
-            
+
+
+            }
+
             col++;
-        } 
+        }
 
     }
 
-    function parse_diag_bottom_top_right_left () {
+    function parse_diag_bottom_top_right_left() {
 
         col = 0;
 
@@ -736,11 +773,11 @@ document.addEventListener("DOMContentLoaded", function(){
             parse_col = col;
 
             while (parse_col >= 0) {
-                
+
 
                 // white
                 if (tile_type(row, parse_col) == 1) {
-                    
+
                     if (seq_begin_white == -1) {
                         seq_begin_white = row;
                         seq_end_white = row;
@@ -753,7 +790,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // black
                 if (tile_type(row, parse_col) == 2) {
-                    
+
                     if (seq_begin_black == -1) {
                         seq_begin_black = row;
                         seq_end_black = row;
@@ -773,12 +810,12 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // empty
                 if (tile_type(row, parse_col) == 0) {
-                    
+
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-                        if ( ($white_turn && (seq_end_white >  seq_end_black)) || ($black_turn && (seq_end_black >  seq_end_white)) ) {
-                            
-                            set_playable (row, parse_col);
+
+                        if (($white_turn && (seq_end_white > seq_end_black)) || ($black_turn && (seq_end_black > seq_end_white))) {
+
+                            set_playable(row, parse_col);
                         }
                     }
                     row--;
@@ -786,8 +823,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     init_parsing_variables();
                 }
 
-            } 
-             
+            }
+
             col++;
         }
 
@@ -802,13 +839,13 @@ document.addEventListener("DOMContentLoaded", function(){
         while (row >= 0) {
 
             col = 7;
-            parse_row = row; 
+            parse_row = row;
 
             while (parse_row >= 0) {
 
                 // white
                 if (tile_type(parse_row, col) == 1) {
-                    
+
                     if (seq_begin_white == -1) {
                         seq_begin_white = parse_row;
                         seq_end_white = parse_row;
@@ -821,7 +858,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // black
                 if (tile_type(parse_row, col) == 2) {
-                    
+
                     if (seq_begin_black == -1) {
                         seq_begin_black = parse_row;
                         seq_end_black = parse_row;
@@ -841,12 +878,12 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // empty
                 if (tile_type(parse_row, col) == 0) {
-                    
+
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-                        if ( ($white_turn && (seq_end_white > seq_end_black)) || ($black_turn && (seq_end_black > seq_end_white)) ) {
-                            
-                            set_playable (parse_row, col);
+
+                        if (($white_turn && (seq_end_white > seq_end_black)) || ($black_turn && (seq_end_black > seq_end_white))) {
+
+                            set_playable(parse_row, col);
                         }
                     }
                     parse_row--;
@@ -854,14 +891,14 @@ document.addEventListener("DOMContentLoaded", function(){
                     init_parsing_variables();
                 }
 
-            } 
-            
+            }
+
             row--;
         }
 
     }
 
-    function parse_diag_top_bottom_right_left () {
+    function parse_diag_top_bottom_right_left() {
 
         row = 7;
         col = 0;
@@ -877,10 +914,10 @@ document.addEventListener("DOMContentLoaded", function(){
             col = 0;
             parse_row = row;
             while (parse_row < 8) {
-                
+
                 // white
                 if (tile_type(col, (7 - parse_row)) == 1) {
-                    
+
                     if (seq_begin_white == -1) {
                         seq_begin_white = parse_row;
                         seq_end_white = parse_row;
@@ -893,7 +930,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // black
                 if (tile_type(col, (7 - parse_row)) == 2) {
-                    
+
                     if (seq_begin_black == -1) {
                         seq_begin_black = parse_row;
                         seq_end_black = parse_row;
@@ -913,19 +950,19 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // empty
                 if (tile_type(col, (7 - parse_row)) == 0) {
-                    
+
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-                        if ( ($white_turn && (seq_end_white <  seq_end_black)) || ($black_turn && (seq_end_black <  seq_end_white)) ) {
-                            set_playable (col, (7 - parse_row));
+
+                        if (($white_turn && (seq_end_white < seq_end_black)) || ($black_turn && (seq_end_black < seq_end_white))) {
+                            set_playable(col, (7 - parse_row));
                         }
                     }
                     parse_row++;
                     col++;
                     init_parsing_variables();
                 }
-            } 
-            
+            }
+
             row--;
         }
 
@@ -941,10 +978,10 @@ document.addEventListener("DOMContentLoaded", function(){
             row = 0;
             parse_col = col;
             while (parse_col < 8) {
-                
+
                 // white
                 if (tile_type(parse_col, (7 - row)) == 1) {
-                    
+
                     if (seq_begin_white == -1) {
                         seq_begin_white = row;
                         seq_end_white = row;
@@ -957,7 +994,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // black
                 if (tile_type(parse_col, (7 - row)) == 2) {
-                    
+
                     if (seq_begin_black == -1) {
                         seq_begin_black = row;
                         seq_end_black = row;
@@ -977,26 +1014,26 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // empty
                 if (tile_type(parse_col, (7 - row)) == 0) {
-                    
+
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-                        if ( ($white_turn && (seq_end_white <  seq_end_black)) || ($black_turn && (seq_end_black <  seq_end_white)) ) {
-                            set_playable (parse_col, (7 - row));
+
+                        if (($white_turn && (seq_end_white < seq_end_black)) || ($black_turn && (seq_end_black < seq_end_white))) {
+                            set_playable(parse_col, (7 - row));
                         }
                     }
                     parse_col++;
                     row++;
                     init_parsing_variables();
-                }  
-                
-            }  
-            
+                }
+
+            }
+
             col++;
-        } 
+        }
 
     }
 
-    function parse_diag_bottom_top_left_right () {
+    function parse_diag_bottom_top_left_right() {
 
         col = 0;
 
@@ -1008,10 +1045,10 @@ document.addEventListener("DOMContentLoaded", function(){
             parse_col = col;
 
             while (parse_col >= 0) {
-                
+
                 // white
                 if (tile_type(row, (7 - parse_col)) == 1) {
-                    
+
                     if (seq_begin_white == -1) {
                         seq_begin_white = row;
                         seq_end_white = row;
@@ -1024,7 +1061,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // black
                 if (tile_type(row, (7 - parse_col)) == 2) {
-                    
+
                     if (seq_begin_black == -1) {
                         seq_begin_black = row;
                         seq_end_black = row;
@@ -1044,12 +1081,12 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // empty
                 if (tile_type(row, (7 - parse_col)) == 0) {
-                    
+
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-                        if ( ($white_turn && (seq_end_white >  seq_end_black)) || ($black_turn && (seq_end_black >  seq_end_white)) ) {
-                            
-                            set_playable (row, (7 - parse_col));
+
+                        if (($white_turn && (seq_end_white > seq_end_black)) || ($black_turn && (seq_end_black > seq_end_white))) {
+
+                            set_playable(row, (7 - parse_col));
                         }
                     }
                     row--;
@@ -1057,7 +1094,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     init_parsing_variables();
                 }
 
-            } 
+            }
             col++;
         }
 
@@ -1066,13 +1103,13 @@ document.addEventListener("DOMContentLoaded", function(){
         while (row >= 0) {
 
             col = 7;
-            parse_row = row; 
+            parse_row = row;
 
             while (parse_row >= 0) {
-                
+
                 // white
-                if (tile_type(parse_row, ( 7 - col )) == 1) {
-                    
+                if (tile_type(parse_row, (7 - col)) == 1) {
+
                     if (seq_begin_white == -1) {
                         seq_begin_white = parse_row;
                         seq_end_white = parse_row;
@@ -1084,8 +1121,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
 
                 // black
-                if (tile_type(parse_row, ( 7 - col )) == 2) {
-                    
+                if (tile_type(parse_row, (7 - col)) == 2) {
+
                     if (seq_begin_black == -1) {
                         seq_begin_black = parse_row;
                         seq_end_black = parse_row;
@@ -1097,21 +1134,21 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
 
                 // playable
-                if (tile_type(parse_row, ( 7 - col )) == 3) {
+                if (tile_type(parse_row, (7 - col)) == 3) {
                     parse_row--;
                     col--;
                     init_parsing_variables();
                 }
 
                 // empty
-                if (tile_type(parse_row, ( 7 - col )) == 0) {
-                    
+                if (tile_type(parse_row, (7 - col)) == 0) {
+
                     if (seq_begin_white != -1 && seq_end_white != -1 && seq_begin_black != -1 && seq_end_black != -1) {
-                        
-            
-                        if ( ($white_turn && (seq_end_white > seq_end_black)) || ($black_turn && (seq_end_black > seq_end_white)) ) {
-                            
-                            set_playable (parse_row, ( 7 - col ));
+
+
+                        if (($white_turn && (seq_end_white > seq_end_black)) || ($black_turn && (seq_end_black > seq_end_white))) {
+
+                            set_playable(parse_row, (7 - col));
                         }
                     }
                     parse_row--;
@@ -1119,7 +1156,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     init_parsing_variables();
                 }
 
-            } 
+            }
             row--;
         }
 
@@ -1138,7 +1175,7 @@ document.addEventListener("DOMContentLoaded", function(){
         var el = document.getElementById('bar');
         el.style.animation = 'none';
         el.offsetHeight; /* trigger reflow */
-        el.style.animation = null; 
+        el.style.animation = null;
 
         clearTimeout(timer_timeout);
         stop_chronometer();
@@ -1146,10 +1183,10 @@ document.addEventListener("DOMContentLoaded", function(){
             "Partie terminée !",
             "Résultat : " + jQuery('.score .black').text() + " : " + jQuery('.tile.black').length + " - " + jQuery('.score .white').text() + ' : ' + jQuery('.tile.white').length,
             "success"
-          );
+        );
     }
 
-    function update_playable_tiles () {
+    function update_playable_tiles() {
         clear_playable_tiles();
         // parser dans toutes les directions
         parse_top_bottom();
@@ -1160,16 +1197,16 @@ document.addEventListener("DOMContentLoaded", function(){
         parse_diag_bottom_top_right_left();
         parse_diag_top_bottom_right_left();
         parse_diag_bottom_top_left_right();
-       
+
         if (jQuery('.playable').length == 0) {
             end_game();
         }
     }
 
-    function flip (f_row, f_col) {
+    function flip(f_row, f_col) {
 
         jQuery('#cell-' + f_row + '-' + f_col + ' > div').css('transform', 'rotate(-90deg) scaleX(-1)');
-        setTimeout(function() {
+        setTimeout(function () {
             jQuery('#cell-' + f_row + '-' + f_col + ' > div').css('transform', 'rotate(0deg) scaleX(1)');
         }, 100);
 
@@ -1213,10 +1250,12 @@ document.addEventListener("DOMContentLoaded", function(){
         //swal("Nouvelle partie")
 
         // CECI EST UN TEST
-        if (bot1) { bot(); }
+        if (bot1) {
+            bot();
+        }
     }
 
-    function updateScore () {
+    function updateScore() {
 
         // nombre de cases blanches
         $nb_white = jQuery('.tile.white').length;
@@ -1226,11 +1265,11 @@ document.addEventListener("DOMContentLoaded", function(){
         jQuery('.score-black').text($nb_black);
         jQuery('.score-white').text($nb_white);
 
-        jQuery('.score .white').css('width', $nb_white/($nb_white + $nb_black) * 100 + '%');
-        jQuery('.score .black').css('width', $nb_black/($nb_white + $nb_black) * 100 + '%');
+        jQuery('.score .white').css('width', $nb_white / ($nb_white + $nb_black) * 100 + '%');
+        jQuery('.score .black').css('width', $nb_black / ($nb_white + $nb_black) * 100 + '%');
     }
 
-    function flip_tiles_top_bottom () {
+    function flip_tiles_top_bottom() {
 
         var search_row = rowPlayed + 1;
 
@@ -1241,17 +1280,17 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
                     return;
                 }
-                
+
                 // noir
                 if (tile_type(search_row, colPlayed) == 2) {
-                   
-                    for (i  = rowPlayed + 1; i < search_row; i++) {
-                        
+
+                    for (i = rowPlayed + 1; i < search_row; i++) {
+
                         flip(i, colPlayed);
                     }
                     return;
                 }
-                
+
                 // blanche
                 if (tile_type(search_row, colPlayed) == 1) {
                     search_row++;
@@ -1265,17 +1304,17 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
                     return;
                 }
-                
+
                 // blanche
                 if (tile_type(search_row, colPlayed) == 1) {
-                   
-                    for (i  = rowPlayed + 1; i < search_row; i++) {
-                        
+
+                    for (i = rowPlayed + 1; i < search_row; i++) {
+
                         flip(i, colPlayed);
                     }
                     return;
                 }
-                
+
                 // noir
                 if (tile_type(search_row, colPlayed) == 2) {
                     search_row++;
@@ -1284,7 +1323,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
-    function flip_tiles_bottom_top () {
+    function flip_tiles_bottom_top() {
 
         var search_row = rowPlayed - 1;
 
@@ -1295,12 +1334,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
                     return;
                 }
-                
+
                 // noir
                 if (tile_type(search_row, colPlayed) == 2) {
-                   
-                    for (i  = rowPlayed - 1; i > search_row; i--) {
-                        
+
+                    for (i = rowPlayed - 1; i > search_row; i--) {
+
                         flip(i, colPlayed);
                     }
                     return;
@@ -1319,12 +1358,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, colPlayed) == 0 || tile_type(search_row, colPlayed) == 3) {
                     return;
                 }
-                
+
                 // blanche
                 if (tile_type(search_row, colPlayed) == 1) {
-                   
-                    for (i  = rowPlayed - 1; i > search_row; i--) {
-                        
+
+                    for (i = rowPlayed - 1; i > search_row; i--) {
+
                         flip(i, colPlayed);
                     }
                     return;
@@ -1338,7 +1377,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
-    function flip_tiles_left_right () {
+    function flip_tiles_left_right() {
 
         var search_col = colPlayed + 1;
 
@@ -1349,12 +1388,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
                     return;
                 }
-                
+
                 // noir
                 if (tile_type(rowPlayed, search_col) == 2) {
-                   
-                    for (j  = colPlayed + 1; j < search_col; j++) {
-                        
+
+                    for (j = colPlayed + 1; j < search_col; j++) {
+
                         flip(rowPlayed, j);
                     }
                     return;
@@ -1373,12 +1412,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
                     return;
                 }
-                
+
                 // blanche
                 if (tile_type(rowPlayed, search_col) == 1) {
-                   
-                    for (j  = colPlayed + 1; j < search_col; j++) {
-                        
+
+                    for (j = colPlayed + 1; j < search_col; j++) {
+
                         flip(rowPlayed, j);
                     }
                     return;
@@ -1392,7 +1431,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
-    function flip_tiles_right_left () {
+    function flip_tiles_right_left() {
 
         var search_col = colPlayed - 1;
 
@@ -1403,12 +1442,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
                     return;
                 }
-                
+
                 // noir
                 if (tile_type(rowPlayed, search_col) == 2) {
-                   
-                    for (j  = colPlayed - 1; j > search_col; j--) {
-                        
+
+                    for (j = colPlayed - 1; j > search_col; j--) {
+
                         flip(rowPlayed, j);
                     }
                     return;
@@ -1427,12 +1466,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(rowPlayed, search_col) == 0 || tile_type(rowPlayed, search_col) == 3) {
                     return;
                 }
-                
+
                 // blanche
                 if (tile_type(rowPlayed, search_col) == 1) {
-                   
-                    for (j  = colPlayed - 1; j > search_col; j--) {
-                        
+
+                    for (j = colPlayed - 1; j > search_col; j--) {
+
                         flip(rowPlayed, j);
                     }
                     return;
@@ -1451,19 +1490,19 @@ document.addEventListener("DOMContentLoaded", function(){
         var search_row = rowPlayed + 1;
 
         if ($white_turn) {
-            
+
             // la piece jouée était noir         
             while (search_col < 8 && search_row < 8) {
                 // vide ou joubale
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-        
+
                 // noir
                 if (tile_type(search_row, search_col) == 2) {
                     local_rowPlayed = rowPlayed;
-                    for (j  = colPlayed + 1; j < search_col; j++) {
-                        
+                    for (j = colPlayed + 1; j < search_col; j++) {
+
                         flip(local_rowPlayed + 1, j);
                         local_rowPlayed++;
                     }
@@ -1476,7 +1515,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     search_row++;
                 }
 
-          
+
             }
 
         } else {
@@ -1486,13 +1525,13 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-            
+
                 // blanche
                 if (tile_type(search_row, search_col) == 1) {
                     local_rowPlayed = rowPlayed;
-                    for (j  = colPlayed + 1; j < search_col; j++) {
-                        
-                        
+                    for (j = colPlayed + 1; j < search_col; j++) {
+
+
                         flip(local_rowPlayed + 1, j);
                         local_rowPlayed++;
                     }
@@ -1505,7 +1544,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     search_row++;
                 }
 
-            
+
             }
         }
     }
@@ -1515,20 +1554,20 @@ document.addEventListener("DOMContentLoaded", function(){
         var search_row = rowPlayed - 1;
 
         if ($white_turn) {
-            
+
             // la piece jouée était noir         
             while (search_col >= 0 && search_row >= 0) {
-                
+
                 // vide ou joubale
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                
+
                 // noir
                 if (tile_type(search_row, search_col) == 2) {
                     local_rowPlayed = rowPlayed;
-                    for (j  = colPlayed - 1; j > search_col; j--) {
-                        
+                    for (j = colPlayed - 1; j > search_col; j--) {
+
                         flip(local_rowPlayed - 1, j);
                         local_rowPlayed--;
                     }
@@ -1541,24 +1580,24 @@ document.addEventListener("DOMContentLoaded", function(){
                     search_row--;
                 }
 
-            
+
             }
 
         } else {
             // la piece jouée était blanche         
             while (search_col >= 0 && search_row >= 0) {
-                
+
                 // vide ou joubale
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                
+
                 // blanche
                 if (tile_type(search_row, search_col) == 1) {
                     local_rowPlayed = rowPlayed;
-                    for (j  = colPlayed - 1; j > search_col; j--) {
-                        
-                        
+                    for (j = colPlayed - 1; j > search_col; j--) {
+
+
                         flip(local_rowPlayed - 1, j);
                         local_rowPlayed--;
                     }
@@ -1571,7 +1610,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     search_row--;
                 }
 
-            
+
             }
         }
     }
@@ -1581,20 +1620,20 @@ document.addEventListener("DOMContentLoaded", function(){
         var search_row = rowPlayed + 1;
 
         if ($white_turn) {
-            
+
             // la piece jouée était noir         
             while (search_col >= 0 && search_row < 8) {
                 // vide ou joubale
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                
+
                 // noir
                 if (tile_type(search_row, search_col) == 2) {
                     local_rowPlayed = rowPlayed;
-                    for (j  = colPlayed - 1; j > search_col; j--) {
-                        
-                       
+                    for (j = colPlayed - 1; j > search_col; j--) {
+
+
                         flip(local_rowPlayed + 1, j);
                         local_rowPlayed++;
                     }
@@ -1608,7 +1647,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
 
 
-            
+
             }
 
         } else {
@@ -1618,13 +1657,13 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                
+
                 // blanche
                 if (tile_type(search_row, search_col) == 1) {
                     local_rowPlayed = rowPlayed;
-                    for (j  = colPlayed - 1; j > search_col; j--) {
-                        
-                        
+                    for (j = colPlayed - 1; j > search_col; j--) {
+
+
                         flip(local_rowPlayed + 1, j);
                         local_rowPlayed++;
                     }
@@ -1637,7 +1676,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     search_row++;
                 }
 
-             
+
             }
         }
     }
@@ -1647,20 +1686,20 @@ document.addEventListener("DOMContentLoaded", function(){
         var search_row = rowPlayed - 1;
 
         if ($white_turn) {
-            
+
             // la piece jouée était noir         
             while (search_col < 8 && search_row >= 0) {
                 // vide ou joubale
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                
+
                 // noir
                 if (tile_type(search_row, search_col) == 2) {
                     local_rowPlayed = rowPlayed;
-                    for (j  = colPlayed + 1; j < search_col; j++) {
-                        
-                        
+                    for (j = colPlayed + 1; j < search_col; j++) {
+
+
                         flip(local_rowPlayed - 1, j);
                         local_rowPlayed--;
                     }
@@ -1673,7 +1712,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     search_row--;
                 }
 
-              
+
             }
 
         } else {
@@ -1683,13 +1722,13 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (tile_type(search_row, search_col) == 0 || tile_type(search_row, search_col) == 3) {
                     return;
                 }
-                
+
                 // blanche
                 if (tile_type(search_row, search_col) == 1) {
                     local_rowPlayed = rowPlayed;
-                    for (j  = colPlayed + 1; j < search_col; j++) {
-                        
-                        
+                    for (j = colPlayed + 1; j < search_col; j++) {
+
+
                         flip(local_rowPlayed - 1, j);
                         local_rowPlayed--;
                     }
@@ -1701,8 +1740,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     search_col++;
                     search_row--;
                 }
-                
-                
+
+
             }
         }
     }
@@ -1726,7 +1765,7 @@ document.addEventListener("DOMContentLoaded", function(){
             //var obj = document.createElement("audio");
             //obj.src = "sounds/"+name+".wav"; 
             //obj.play(); 
-            var audio = new Audio("sounds/"+name+".wav");
+            var audio = new Audio("sounds/" + name + ".wav");
             audio.play();
         }
     }
@@ -1737,37 +1776,83 @@ document.addEventListener("DOMContentLoaded", function(){
 
     function unplay(move) {
         // si elle était blanche
-        jQuery('#cell-' + move.row  + '-' + move.col  + ' > div').removeClass('white');
+        jQuery('#cell-' + move.row + '-' + move.col + ' > div').removeClass('white');
         // si elle était noir
-        jQuery('#cell-' + move.row  + '-' + move.col  + ' > div').removeClass('black');
+        jQuery('#cell-' + move.row + '-' + move.col + ' > div').removeClass('black');
         updateScore();
         update_playable_tiles();
     }
 
     function bot() {
-        setTimeout(function(){ 
+
+        if (bot1) {
+            switch (bot1_type) {
+                case 'Minimax':
+                    minimax(bot1_level)
+                    break;
+                case 'AlphaBeta':
+                    alphaBeta(bot1_level)
+                    break;
+                case 'Negamax':
+                    negamax(bot1_level)
+                    break;
+                default:
+                    console.log('Algo inconnu');
+            }
+        } else {
+            switch (bot2_type) {
+                case 'Minimax':
+                    minimax(bot2_level)
+                    break;
+                case 'AlphaBeta':
+                    alphaBeta(bot2_level)
+                    break;
+                case 'Negamax':
+                    negamax(bot2_level)
+                    break;
+                default:
+                    console.log('Algo inconnu');
+            }
+        }
+
+    }
+
+    function minimax(level) {
+        setTimeout(function () {
+            jQuery('.playable').random().click();
+        }, 1000);
+    }
+
+    function negamax(level) {
+        setTimeout(function () {
+            jQuery('.playable').random().click();
+        }, 1000);
+    }
+
+    function alphaBeta(level) {
+        setTimeout(function () {
             jQuery('.playable').random().click();
         }, 1000);
     }
 
     // effets sonores
-    jQuery(document).on("click", ".sound" , function() {
-        if (sounds) { 
+    jQuery(document).on("click", ".sound", function () {
+        if (sounds) {
             sounds = false;
             jQuery(".fa-volume-off").css("display", "initial");
             jQuery(".fa-volume-up").css("display", "none");
-        } else { 
-            sounds = true 
+        } else {
+            sounds = true
             jQuery(".fa-volume-off").css("display", "none");
             jQuery(".fa-volume-up").css("display", "initial");
         }
     });
-    
-    jQuery(document).on("click", ".refresh" , function() {
+
+    jQuery(document).on("click", ".refresh", function () {
         location.reload();
     });
-    
-    jQuery(document).on("click", "#othello .playable" , function() {
+
+    jQuery(document).on("click", "#othello .playable", function () {
 
         rowPlayed = parseInt(jQuery(this).parent().attr('id').split('-')[1]);
         colPlayed = parseInt(jQuery(this).parent().attr('id').split('-')[2]);
@@ -1796,7 +1881,9 @@ document.addEventListener("DOMContentLoaded", function(){
             start_timer();
 
             // CECI EST UN TEST
-            if (bot2) { bot(); }
+            if (bot2) {
+                bot();
+            }
 
         } else if (!$black_turn && $white_turn) {
 
@@ -1806,7 +1893,7 @@ document.addEventListener("DOMContentLoaded", function(){
             jQuery(this).removeClass('playable');
             jQuery(this).addClass('white');
             jQuery('.tiles-stock-white .tile-stock').first().remove();
-            
+
             $black_turn = true;
             $white_turn = false;
             jQuery('.tiles-stock-white').removeClass('pulse');
@@ -1822,12 +1909,14 @@ document.addEventListener("DOMContentLoaded", function(){
             start_timer();
 
             // CECI EST UN TEST
-            if (bot1) { bot(); }
+            if (bot1) {
+                bot();
+            }
 
         } else {
             alert('Error');
         }
-        
+
 
     });
 
