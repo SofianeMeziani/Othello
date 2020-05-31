@@ -201,3 +201,7 @@ function bot() {
     }
 
 }
+
+if (jQuery(window).width() < 800) {
+    startGame();
+}
