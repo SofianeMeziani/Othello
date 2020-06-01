@@ -352,6 +352,7 @@ button.confirm {
   
 .wood {
     width: fit-content;
+    width: -moz-fit-content;
     margin: 0 auto;
     padding: 15px;
     background-color: #804040;
