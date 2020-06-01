@@ -1,262 +1,395 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Othello</title>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
-    <link rel="manifest" href="manifest.json">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
-    <script src="js/chronometer.js"></script>
-    <script src="js/functions.js"></script>
-    <script src="js/sound.js"></script>
-    <script src="js/flip.js"></script>
-    <script src="js/parsers.js"></script>
-    <script src="js/play.js"></script>
-    <script src="js/gamemode.js"></script>
-    <script src="js/minimax.js"></script>
-    <script src="js/alphaBeta.js"></script>
-    <script src="js/negamax.js"></script>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-  </head>
+  <title>Othello</title>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+  <link rel="manifest" href="manifest.json">
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+  <script src="js/chronometer.js"></script>
+  <script src="js/functions.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/flip.js"></script>
+  <script src="js/parsers.js"></script>
+  <script src="js/play.js"></script>
+  <script src="js/gamemode.js"></script>
+  <script src="js/minimax.js"></script>
+  <script src="js/alphaBeta.js"></script>
+  <script src="js/negamax.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
+
 <body>
 
-    <h1 class="title text-center">Othello</h1>
-  
-    <a class="control info" href="http://www.ffothello.org/othello/regles-du-jeu/" target="_blank"><div class="text-center">
+  <h1 class="title text-center">Othello</h1>
+
+  <a class="control info" href="http://www.ffothello.org/othello/regles-du-jeu/" target="_blank">
+    <div class="text-center">
       <i class="fas fa-info"></i>
-    </div></a>
-
-    <div class="control sound text-center">
-      <i class="fas fa-volume-off"></i>
-      <i class="fas fa-volume-up"></i>
     </div>
+  </a>
 
-    <div class="control-left refresh text-center">
-      <i class="fas fa-sync-alt"></i>
-    </div>
+  <div class="control sound text-center">
+    <i class="fas fa-volume-off"></i>
+    <i class="fas fa-volume-up"></i>
+  </div>
 
-    <div class="control-left time text-center">
-      <span>00:00</span>
-    </div>
+  <div class="control-left refresh text-center">
+    <i class="fas fa-sync-alt"></i>
+  </div>
 
-    <div class="row pre-game">
-      <div class="col-md-2"></div>
-      <div class="col-md-8 row container">
-        <div class="col-md-4 card-parent">
-          <div class="card pvp">
-            <img src="img/PlayerVSPlayer.png" class="card-img-top">
-            <div class="card-body">
-              <h5 class="card-title">Joueur <strong>vs</strong> Joueur</h5>
-            </div>
-          </div>
-        </div>
+  <div class="control-left time text-center">
+    <span>00:00</span>
+  </div>
 
-        <div class="col-md-4 card-parent">
-          <div class="card pvb">
-            <img src="img/PlayerVSBot.png" class="card-img-top">
-            <div class="card-body">
-              <h5 class="card-title">Joueur <strong>vs</strong> Robot</h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 card-parent">
-          <div class="card bvb">
-            <img src="img/BotVSBot.png" class="card-img-top">
-            <div class="card-body">
-              <h5 class="card-title">Robot <strong>vs</strong> Robot</h5>
-                  </div>
+  <div class="row pre-game">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 row container">
+      <div class="col-md-4 card-parent">
+        <div class="card pvp">
+          <img src="img/PlayerVSPlayer.png" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Joueur <strong>vs</strong> Joueur</h5>
           </div>
         </div>
       </div>
-      <div class="col-md-2"></div>
-    </div>
 
-    <div class="row game">
-        <div class="col-md-2 scores">
-          <div class="score-black text-right">
-            
+      <div class="col-md-4 card-parent">
+        <div class="card pvb">
+          <img src="img/PlayerVSBot.png" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Joueur <strong>vs</strong> Robot</h5>
           </div>
         </div>
-        <div class="col-md-1 col-tiles">
-            <div class="tiles-stock-black">
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-                <div class="tile-stock"></div>
-            </div>
-        </div>
-        <div class="col-md-6">
+      </div>
 
-            <table id="othello" border="2" bordercolor="#555">
-                <tbody>
-                  <tr>
-                    <td class="cell" id="cell-0-0"><div class="tile"></div></td>
-                    <td class="cell" id="cell-0-1"><div class="tile"></div></td>
-                    <td class="cell" id="cell-0-2"><div class="tile"></div></td>
-                    <td class="cell" id="cell-0-3"><div class="tile"></div></td>
-                    <td class="cell" id="cell-0-4"><div class="tile"></div></td>
-                    <td class="cell" id="cell-0-5"><div class="tile"></div></td>
-                    <td class="cell" id="cell-0-6"><div class="tile"></div></td>
-                    <td class="cell" id="cell-0-7"><div class="tile"></div></td>
-                  </tr>
-                  <tr>
-                    <td class="cell" id="cell-1-0"><div class="tile"></div></td>
-                    <td class="cell" id="cell-1-1"><div class="tile"></div></td>
-                    <td class="cell" id="cell-1-2"><div class="tile"></div></td>
-                    <td class="cell" id="cell-1-3"><div class="tile"></div></td>
-                    <td class="cell" id="cell-1-4"><div class="tile"></div></td>
-                    <td class="cell" id="cell-1-5"><div class="tile"></div></td>
-                    <td class="cell" id="cell-1-6"><div class="tile"></div></td>
-                    <td class="cell" id="cell-1-7"><div class="tile"></div></td>
-                  </tr>
-                  <tr>
-                    <td class="cell" id="cell-2-0"><div class="tile"></div></td>
-                    <td class="cell" id="cell-2-1"><div class="tile"></div></td>
-                    <td class="cell" id="cell-2-2"><div class="tile"></div></td>
-                    <td class="cell" id="cell-2-3"><div class="tile"></div></td>
-                    <td class="cell" id="cell-2-4"><div class="tile"></div></td>
-                    <td class="cell" id="cell-2-5"><div class="tile"></div></td>
-                    <td class="cell" id="cell-2-6"><div class="tile"></div></td>
-                    <td class="cell" id="cell-2-7"><div class="tile"></div></td>
-                  </tr>
-                  <tr>
-                    <td class="cell" id="cell-3-0"><div class="tile"></div></td>
-                    <td class="cell" id="cell-3-1"><div class="tile"></div></td>
-                    <td class="cell" id="cell-3-2"><div class="tile"></div></td>
-                    <td class="cell" id="cell-3-3"><div class="tile"></div></td>
-                    <td class="cell" id="cell-3-4"><div class="tile"></div></td>
-                    <td class="cell" id="cell-3-5"><div class="tile"></div></td>
-                    <td class="cell" id="cell-3-6"><div class="tile"></div></td>
-                    <td class="cell" id="cell-3-7"><div class="tile"></div></td>
-                  </tr>
-                  <tr>
-                    <td class="cell" id="cell-4-0"><div class="tile"></div></td>
-                    <td class="cell" id="cell-4-1"><div class="tile"></div></td>
-                    <td class="cell" id="cell-4-2"><div class="tile"></div></td>
-                    <td class="cell" id="cell-4-3"><div class="tile"></div></td>
-                    <td class="cell" id="cell-4-4"><div class="tile"></div></td>
-                    <td class="cell" id="cell-4-5"><div class="tile"></div></td>
-                    <td class="cell" id="cell-4-6"><div class="tile"></div></td>
-                    <td class="cell" id="cell-4-7"><div class="tile"></div></td>
-                  </tr>
-                  <tr>
-                    <td class="cell" id="cell-5-0"><div class="tile"></div></td>
-                    <td class="cell" id="cell-5-1"><div class="tile"></div></td>
-                    <td class="cell" id="cell-5-2"><div class="tile"></div></td>
-                    <td class="cell" id="cell-5-3"><div class="tile"></div></td>
-                    <td class="cell" id="cell-5-4"><div class="tile"></div></td>
-                    <td class="cell" id="cell-5-5"><div class="tile"></div></td>
-                    <td class="cell" id="cell-5-6"><div class="tile"></div></td>
-                    <td class="cell" id="cell-5-7"><div class="tile"></div></td>
-                  </tr>
-                  <tr>
-                    <td class="cell" id="cell-6-0"><div class="tile"></div></td>
-                    <td class="cell" id="cell-6-1"><div class="tile"></div></td>
-                    <td class="cell" id="cell-6-2"><div class="tile"></div></td>
-                    <td class="cell" id="cell-6-3"><div class="tile"></div></td>
-                    <td class="cell" id="cell-6-4"><div class="tile"></div></td>
-                    <td class="cell" id="cell-6-5"><div class="tile"></div></td>
-                    <td class="cell" id="cell-6-6"><div class="tile"></div></td>
-                    <td class="cell" id="cell-6-7"><div class="tile"></div></td>
-                  </tr>
-                  <tr>
-                    <td class="cell" id="cell-7-0"><div class="tile"></div></td>
-                    <td class="cell" id="cell-7-1"><div class="tile"></div></td>
-                    <td class="cell" id="cell-7-2"><div class="tile"></div></td>
-                    <td class="cell" id="cell-7-3"><div class="tile"></div></td>
-                    <td class="cell" id="cell-7-4"><div class="tile"></div></td>
-                    <td class="cell" id="cell-7-5"><div class="tile"></div></td>
-                    <td class="cell" id="cell-7-6"><div class="tile"></div></td>
-                    <td class="cell" id="cell-7-7"><div class="tile"></div></td>
-                  </tr>
-                </tbody>
-            </table>
-
-            <div class="timer">
-              <div id="bar" class="bar"></div>
-            </div>
-
-            <div class="score">
-                <div class="black" contenteditable="true">Joueur 1</div>
-                <div class="white" contenteditable="true">Joueur 2</div>
-            </div>
-        </div>
-        <div class="col-md-1 col-tiles">
-            <div class="tiles-stock-white">
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-              <div class="tile-stock"></div>
-            </div>
-        </div>
-        <div class="col-md-2 scores">
-          <div class="score-white text-left">
+      <div class="col-md-4 card-parent">
+        <div class="card bvb">
+          <img src="img/BotVSBot.png" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Robot <strong>vs</strong> Robot</h5>
           </div>
         </div>
+      </div>
     </div>
+    <div class="col-md-2"></div>
+  </div>
+
+  <div class="row game">
+    <div class="col-md-2 scores">
+      <div class="score-black text-right">
+
+      </div>
+    </div>
+    <div class="col-md-1 col-tiles">
+      <div class="tiles-stock-black">
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="wood">
+        <table id="othello" border="2" bordercolor="#555">
+          <tbody>
+            <tr>
+              <td class="cell" id="cell-0-0">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-0-1">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-0-2">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-0-3">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-0-4">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-0-5">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-0-6">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-0-7">
+                <div class="tile"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="cell" id="cell-1-0">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-1-1">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-1-2">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-1-3">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-1-4">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-1-5">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-1-6">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-1-7">
+                <div class="tile"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="cell" id="cell-2-0">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-2-1">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-2-2">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-2-3">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-2-4">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-2-5">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-2-6">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-2-7">
+                <div class="tile"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="cell" id="cell-3-0">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-3-1">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-3-2">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-3-3">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-3-4">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-3-5">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-3-6">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-3-7">
+                <div class="tile"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="cell" id="cell-4-0">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-4-1">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-4-2">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-4-3">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-4-4">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-4-5">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-4-6">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-4-7">
+                <div class="tile"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="cell" id="cell-5-0">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-5-1">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-5-2">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-5-3">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-5-4">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-5-5">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-5-6">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-5-7">
+                <div class="tile"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="cell" id="cell-6-0">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-6-1">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-6-2">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-6-3">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-6-4">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-6-5">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-6-6">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-6-7">
+                <div class="tile"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="cell" id="cell-7-0">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-7-1">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-7-2">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-7-3">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-7-4">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-7-5">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-7-6">
+                <div class="tile"></div>
+              </td>
+              <td class="cell" id="cell-7-7">
+                <div class="tile"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="timer">
+        <div id="bar" class="bar"></div>
+      </div>
+
+      <div class="score">
+        <div class="black" contenteditable="true">Joueur 1</div>
+        <div class="white" contenteditable="true">Joueur 2</div>
+      </div>
+    </div>
+    <div class="col-md-1 col-tiles">
+      <div class="tiles-stock-white">
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+        <div class="tile-stock"></div>
+      </div>
+    </div>
+    <div class="col-md-2 scores">
+      <div class="score-white text-left">
+      </div>
+    </div>
+  </div>
 
 </body>
+
 </html>
