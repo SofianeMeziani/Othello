@@ -131,8 +131,11 @@ function start_timer() {
 
 
         timer_timeout = setTimeout(function () {
-            swap_turns();
-            start_timer();
+            // si le joueur n'a pas joué pendant 20 secondes => passer le tour
+            //swap_turns();
+            //start_timer();
+            // si le joueur n'a pas joué pendant 20 secondes => jouer un coup aléatoire 
+            jQuery('.playable').random().click();
         }, 20000);
     }
 
