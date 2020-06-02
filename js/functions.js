@@ -16,6 +16,8 @@ var bot2_level = null;
 var $last_moves = [];
 var $last_move = null;
 
+$unplay_possible = false;
+
 class Move {
     constructor(row, col) {
         this.row = row;

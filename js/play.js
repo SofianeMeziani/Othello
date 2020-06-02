@@ -94,6 +94,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 bot();
             }
 
+            $unplay_possible = true;
+
         } else if (!$black_turn && $white_turn) {
 
             play_sound('player2');
@@ -122,11 +124,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 bot();
             }
 
+            $unplay_possible = true;
+
         } else {
             alert('Error');
         }
 
 
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === 'z') {
+            if ($unplay_possible) {
+                unplay();
+                $unplay_possible = false;
+            } else {
+                Swal.fire(
+                    "Impossible d'annuler le coup"
+                );
+            }
+        }
     });
 
 });
