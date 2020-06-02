@@ -1,5 +1,7 @@
 function flip(f_row, f_col) {
 
+    $last_moves.push(new Move(f_row, f_col));
+
     jQuery('#cell-' + f_row + '-' + f_col + ' > div').css('transform', 'rotate(-90deg) scaleX(-1)');
     setTimeout(function () {
         jQuery('#cell-' + f_row + '-' + f_col + ' > div').css('transform', 'rotate(0deg) scaleX(1)');
@@ -498,6 +500,9 @@ function flip_diag_bottom_top_left_right() {
 }
 
 function flip_tiles() {
+
+    $last_moves = [];
+
     flip_tiles_top_bottom();
     flip_tiles_bottom_top();
     flip_tiles_left_right();

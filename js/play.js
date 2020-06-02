@@ -1,12 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    class Move {
-        constructor(row, col) {
-            this.row = row;
-            this.col = col;
-        }
-    }
-
     // Séléctionner un élément aléatoire à partir d'un sélécteur
     jQuery.fn.random = function () {
         return this.eq(Math.floor(Math.random() * this.length));
@@ -16,13 +9,30 @@ document.addEventListener("DOMContentLoaded", function () {
         jQuery('#cell-' + move.row + '-' + move.col + ' > div').click();
     }
 
-    function unplay(move) {
+    function unplay() {
         // si elle était blanche
+        move = $last_move;
         jQuery('#cell-' + move.row + '-' + move.col + ' > div').removeClass('white');
         // si elle était noir
         jQuery('#cell-' + move.row + '-' + move.col + ' > div').removeClass('black');
+
+        // dé-jouer les derniers mouvements (lastmoves)
+
+        $last_moves.forEach(function(move) {
+            flip(move.row, move.col);
+            $last_moves.pop();
+        });
+
+        $last_moves = [];
+
         updateScore();
         update_playable_tiles();
+        swap_turns();
+        clearTimeout(timer_timeout);
+        clearTimeout(minimax_timeout);
+        clearTimeout(negamax_timeout);
+        clearTimeout(alphabeta_timeout);
+        start_timer();
     }
 
     jQuery(document).on("click", ".refresh", function () {
@@ -33,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         rowPlayed = parseInt(jQuery(this).parent().attr('id').split('-')[1]);
         colPlayed = parseInt(jQuery(this).parent().attr('id').split('-')[2]);
+
+        $last_move = new Move(rowPlayed, colPlayed);
 
         if ($black_turn && !$white_turn) {
 

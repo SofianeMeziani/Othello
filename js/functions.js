@@ -13,6 +13,16 @@ var bot2_type = null;
 var bot1_level = null;
 var bot2_level = null;
 
+var $last_moves = [];
+var $last_move = null;
+
+class Move {
+    constructor(row, col) {
+        this.row = row;
+        this.col = col;
+    }
+}
+
 // 0 => empty // 1 => white // 2 => black // 3 => playable
 function tile_type(i, j) {
     if (jQuery('#cell-' + i + '-' + j + ' > div').hasClass('white')) {
