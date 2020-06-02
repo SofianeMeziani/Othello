@@ -25,18 +25,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
         $last_moves = [];
 
+        if ($black_turn && !$white_turn) {
+            jQuery('.tiles-stock-white').html(jQuery('.tiles-stock-white').html() + '<div class="tile-stock"></div>');
+        } else {
+            jQuery('.tiles-stock-black').html(jQuery('.tiles-stock-black').html() + '<div class="tile-stock"></div>');
+        }
+        
         updateScore();
         update_playable_tiles();
         swap_turns();
         clearTimeout(timer_timeout);
-        clearTimeout(minimax_timeout);
-        clearTimeout(negamax_timeout);
-        clearTimeout(alphabeta_timeout);
+
+        if(typeof minimax_timeout !== "undefined") {
+            clearTimeout(minimax_timeout);
+        }
+
+        if(typeof negamax_timeout !== "undefined") {
+            clearTimeout(negamax_timeout);
+        }
+
+        if(typeof alphabeta_timeout !== "undefined") {
+            clearTimeout(alphabeta_timeout);
+        }
+        
         start_timer();
     }
 
     jQuery(document).on("click", ".refresh", function () {
         location.reload();
+    });
+
+    jQuery(document).on("click", ".info", function () {
+        unplay();
     });
 
     jQuery(document).on("click", "#othello .playable", function () {
