@@ -215,6 +215,9 @@ function bot() {
 
 }
 
-if (jQuery(window).width() < 800) {
-    startGame();
-}
+document.addEventListener("DOMContentLoaded", function () {
+    if (jQuery(window).width() < 800) {
+        startGame();
+    }
+});
+
