@@ -1,6 +1,7 @@
 var count = 0;
 
 function minimax(level) {
+    
     minimax_timeout = setTimeout(function () {
         jQuery('.playable').random().click();
     }, 1000);
@@ -76,7 +77,7 @@ function bestMove(depth) {
 // est ce que je passe la liste des playables ou toutes le terrain 
 // ça dépende de la fonction d'évaluation. 
 
-function minimax(plays, depth, is_max_player) {
+function minimax2(plays, depth, is_max_player) {
     // normalement je vérifie si il y a encore des mouvement ou pas 
     // si je suis dans une feuille (leaf) ou il y a plus de mouvement possible
     if (depth == 0 || plays!=[]) {

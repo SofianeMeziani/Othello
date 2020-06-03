@@ -1,3 +1,49 @@
+function play(move) {
+    jQuery('#cell-' + move.row + '-' + move.col + ' > div').click();
+}
+
+function unplay() {
+    // si elle était blanche
+    move = $last_move;
+    jQuery('#cell-' + move.row + '-' + move.col + ' > div').removeClass('white');
+    // si elle était noir
+    jQuery('#cell-' + move.row + '-' + move.col + ' > div').removeClass('black');
+
+    // dé-jouer les derniers mouvements (lastmoves)
+
+    $last_moves.forEach(function(move) {
+        flip(move.row, move.col);
+        $last_moves.pop();
+    });
+
+    $last_moves = [];
+
+    if ($black_turn && !$white_turn) {
+        jQuery('.tiles-stock-white').html(jQuery('.tiles-stock-white').html() + '<div class="tile-stock"></div>');
+    } else {
+        jQuery('.tiles-stock-black').html(jQuery('.tiles-stock-black').html() + '<div class="tile-stock"></div>');
+    }
+    
+    updateScore();
+    update_playable_tiles();
+    swap_turns();
+    clearTimeout(timer_timeout);
+
+    if(typeof minimax_timeout !== "undefined") {
+        clearTimeout(minimax_timeout);
+    }
+
+    if(typeof negamax_timeout !== "undefined") {
+        clearTimeout(negamax_timeout);
+    }
+
+    if(typeof alphabeta_timeout !== "undefined") {
+        clearTimeout(alphabeta_timeout);
+    }
+    
+    start_timer();
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
     // Séléctionner un élément aléatoire à partir d'un sélécteur
@@ -5,58 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
         return this.eq(Math.floor(Math.random() * this.length));
     }
 
-    function play(move) {
-        jQuery('#cell-' + move.row + '-' + move.col + ' > div').click();
-    }
-
-    function unplay() {
-        // si elle était blanche
-        move = $last_move;
-        jQuery('#cell-' + move.row + '-' + move.col + ' > div').removeClass('white');
-        // si elle était noir
-        jQuery('#cell-' + move.row + '-' + move.col + ' > div').removeClass('black');
-
-        // dé-jouer les derniers mouvements (lastmoves)
-
-        $last_moves.forEach(function(move) {
-            flip(move.row, move.col);
-            $last_moves.pop();
-        });
-
-        $last_moves = [];
-
-        if ($black_turn && !$white_turn) {
-            jQuery('.tiles-stock-white').html(jQuery('.tiles-stock-white').html() + '<div class="tile-stock"></div>');
-        } else {
-            jQuery('.tiles-stock-black').html(jQuery('.tiles-stock-black').html() + '<div class="tile-stock"></div>');
-        }
-        
-        updateScore();
-        update_playable_tiles();
-        swap_turns();
-        clearTimeout(timer_timeout);
-
-        if(typeof minimax_timeout !== "undefined") {
-            clearTimeout(minimax_timeout);
-        }
-
-        if(typeof negamax_timeout !== "undefined") {
-            clearTimeout(negamax_timeout);
-        }
-
-        if(typeof alphabeta_timeout !== "undefined") {
-            clearTimeout(alphabeta_timeout);
-        }
-        
-        start_timer();
-    }
-
     jQuery(document).on("click", ".refresh", function () {
         location.reload();
-    });
-
-    jQuery(document).on("click", ".info", function () {
-        unplay();
     });
 
     jQuery(document).on("click", "#othello .playable", function () {
