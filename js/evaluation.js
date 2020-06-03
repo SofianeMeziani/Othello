@@ -143,9 +143,9 @@ function dynamic_heuristic_evaluation_function(grid) {
 
 function count_tiles(player) {
     let count = 0;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 8; j++) {
-            if (tile_type(i, j) === player) {
+    for (i_count_tiles = 0; i_count_tiles < 8; i_count_tiles++) {
+        for (j_count_tiles = 0; j_count_tiles < 8; j_count_tiles++) {
+            if (tile_type(i_count_tiles, j_count_tiles) === player) {
                 count++;
             }
         }

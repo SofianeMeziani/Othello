@@ -8,7 +8,7 @@ function minimax(level) {
     // ici au lieu d'utiliser random utiliser bestMove
     minimax_timeout = setTimeout(function () {
         let mo = bestMove(level);
-        console.error("Mouvement à faire est : ", mo); 
+        console.log("Mouvement à faire est : ", mo); 
         play(mo);
     }, 1000);
 }
@@ -16,19 +16,19 @@ function minimax(level) {
 // Retourner l'état de terrain de jeu  :
 function getBoardState() {
     let terrain = [];
-    for (i = 0; i < 8; i++) {
+    for (ii = 0; ii < 8; ii++) {
         let row;
-        for (j = 0; j < 8; j++) {
+        for (jj = 0; jj < 8; jj++) {
             row = []; // vider la ligne 
-            switch (tile_type(i, j)) {
+            switch (tile_type(ii, jj)) {
                 case 0:
-                    row[j] = 0; // vide
+                    row[jj] = 0; // vide
                 case 1:
-                    row[j] = 1; // white 
+                    row[jj] = 1; // white 
                 case 2:
-                    row[j] = 2; // black
+                    row[jj] = 2; // black
                 case 3:
-                    row[j] = 3; // playable 
+                    row[jj] = 3; // playable 
             }
 
         }
@@ -40,11 +40,11 @@ function getBoardState() {
 // retourner les mouvements possibles : 
 function getPlayableCells() {
     let playable = [];
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 8; j++) {
+    for (i_getPlayableCells = 0; i_getPlayableCells < 8; i_getPlayableCells++) {
+        for (j_getPlayableCells = 0; j_getPlayableCells < 8; j_getPlayableCells++) {
             // si la cellule est playable alors l'ajouter à la liste de ce niveau 
-            if (tile_type(i, j) == 3) {
-                playable.push(new Move(i, j));
+            if (tile_type(i_getPlayableCells, j_getPlayableCells) == 3) {
+                playable.push(new Move(i_getPlayableCells, j_getPlayableCells));
             }
         }
     }
@@ -68,6 +68,7 @@ function bestMove(depth) {
     let playables = getPlayableCells();
     console.log("playables : ", playables);
     for (i = 0; i < playables.length; i++) {
+        console.log(i);
         //for(mouvement in playables) {
         // pour chaque mouvement possible on joue et on appel minimax
         mouvement=playables[i];
@@ -75,16 +76,16 @@ function bestMove(depth) {
         play(mouvement);
         // appeler minimax recursivement : en passant les cells playables
         let board = getBoardState();
-        console.warn("depth bestMove: ", depth);
+        console.log("depth bestMove: ", depth);
         let score = minimax2(board, depth - 1, $white_turn);
         console.log("Le score est :", score)
         // unplay pour revenir à l'état précédent 
         unplay();
         // bestScore = Math.max(score, bestScore); 
-        if (score >= bestScore) {
+        if (score > bestScore) {
             bestScore = score;
             move = mouvement;
-        }
+        } 
     };
     // à la fin de traitment on joue le meilleur coup possible 
     // retourner le move et on continue le traitement dans la fonction principale 
@@ -99,7 +100,7 @@ function minimax2(board, depth, is_max_player) {
     // si je suis dans une feuille (leaf) ou il y a plus de mouvement possible
     plays = getPlayableCells();
     if (depth < 1) { 
-        console.error("rje3 evaluation te3 minimax depth<1");       
+        console.log("rje3 evaluation te3 minimax depth<1");       
         return evaluate(board);
         // retourner l'évaluation normalment 
     }
@@ -109,8 +110,8 @@ function minimax2(board, depth, is_max_player) {
         let bestScore = Number.NEGATIVE_INFINITY;
         let playables = getPlayableCells();
 
-        for (i = 0; i < playables.length; i++) {
-            mouvement = playables[i];
+        for (iii = 0; iii < playables.length; iii++) {
+            mouvement = playables[iii];
             play(mouvement);
             let terrain = getBoardState();
             console.warn("depth max: ", depth)
@@ -124,8 +125,8 @@ function minimax2(board, depth, is_max_player) {
         let bestScore = Number.POSITIVE_INFINITY;
         let playables = getPlayableCells();
 
-        for (i = 0; i < playables.length; i++) {
-            mouvement = playables[i];
+        for (iii = 0; iii < playables.length; iii++) {
+            mouvement = playables[iii];
             play(mouvement);
             let terrain = getBoardState();
             console.warn('depth min: ', depth); 
