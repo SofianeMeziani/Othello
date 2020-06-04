@@ -5,25 +5,28 @@ function play(move) {
 
 function unplay() {
     // si elle était blanche
-    move = $last_move;
+    get_last_change = $history_moves.pop();
+
+    move = get_last_change.last_move;
     jQuery('#cell-' + move.row + '-' + move.col + ' > div').removeClass('white');
     // si elle était noir
     jQuery('#cell-' + move.row + '-' + move.col + ' > div').removeClass('black');
 
     // dé-jouer les derniers mouvements (lastmoves)
 
-    $last_moves.forEach(function(move) {
+    get_last_change.last_moves.forEach(function(move) {
         flip(move.row, move.col);
-        $last_moves.pop();
+        get_last_change.last_moves.pop();
     });
 
-    $last_moves = [];
+    get_last_change.last_moves = [];
 
-    if ($black_turn && !$white_turn) {
+    if (get_last_change.black_turn) {
         jQuery('.tiles-stock-white').html(jQuery('.tiles-stock-white').html() + '<div class="tile-stock"></div>');
     } else {
         jQuery('.tiles-stock-black').html(jQuery('.tiles-stock-black').html() + '<div class="tile-stock"></div>');
     }
+
     
     updateScore();
     update_playable_tiles();
@@ -134,7 +137,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.ctrlKey && event.key === 'z') {
             if ($unplay_possible) {
                 unplay();
-                $unplay_possible = false;
+                if ($history_moves.length == 0) {
+                    $unplay_possible = false;
+                }
             } else {
                 Swal.fire(
                     "Impossible d'annuler le coup"

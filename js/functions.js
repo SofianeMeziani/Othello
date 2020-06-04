@@ -13,6 +13,7 @@ var bot2_type = null;
 var bot1_level = null;
 var bot2_level = null;
 
+var $history_moves = [];
 var $last_moves = [];
 var $last_move = null;
 
@@ -22,6 +23,14 @@ class Move {
     constructor(row, col) {
         this.row = row;
         this.col = col;
+    }
+}
+
+class CompleteMove {
+    constructor(last_move, last_moves, black_turn) {
+        this.last_move = last_move;
+        this.last_moves = last_moves;
+        this.black_turn = black_turn;
     }
 }
 

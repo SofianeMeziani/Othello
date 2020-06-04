@@ -514,4 +514,8 @@ function flip_tiles() {
     flip_diag_top_bottom_right_left();
     flip_diag_bottom_top_left_right();
 
+    // update history moves
+    $history_moves.push(new CompleteMove($last_move, $last_moves, $white_turn));
+
+
 }
