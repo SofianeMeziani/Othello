@@ -8,10 +8,11 @@ function minimax(level) {
     // ici au lieu d'utiliser random utiliser bestMove
     minimax_timeout = setTimeout(function () {
         let p = getPlayableCells();
-        if(p.length!=0)
-        {var mo = bestMove(level);
-        //console.log("Mouvement à faire est : ", mo); 
-        play(mo);}
+        if (p.length != 0) {
+            var mo = bestMove(level);
+            //console.log("Mouvement à faire est : ", mo); 
+            play(mo);
+        }
     }, 1000);
 }
 
@@ -55,12 +56,19 @@ function getPlayableCells() {
 
 // cette fonction pour évaluer un mouvement.
 function evaluate(board) {
+    //let eval = evaluation_simple();
+    mine,opp;
+    if ($white_turn) {
+        mine = 1;
+        opp = 2;
+    } else {
+        mine = 2; 
+        opp = 1;
+    }
+    // il faut vérifier ça pour les roles (à fait dés le lancement de la partie)
+    let evaluation = dynamic_heuristic_evaluation_function(board, 2, 1);
     
-
-    let eval = evaluation_simple(1, 2);
-    //let eval = dynamic_heuristic_evaluation_function(board);
-    ////console.log('evaluation ', eval);    
-        return eval;
+    return evaluation;
 }
 
 // c'est cette fonction qui va retrouner le mouvement à faire au lieu de random 
@@ -68,32 +76,32 @@ function bestMove(depth) {
     let bestScore = Number.NEGATIVE_INFINITY;
     let move;
     let playables = getPlayableCells();
-    
+
     var i;
-    if(playables.length!=0){
+    if (playables.length != 0) {
         //console.log("playables : ", playables);
-    for (i = 0; i < playables.length; i++) {
-        //for(mouvement in playables) {
-        // pour chaque mouvement possible on joue et on appel minimax
-        mouvement=playables[i];
-        //console.log("length :",playables.length);
-        //console.log("i : ", i);
-        play(mouvement);
-        // appeler minimax recursivement : en passant les cells playables
-        let board = getBoardState();
-        //console.warn("depth bestMove: ", depth);
-        let score = minimax2(board, depth-1, true);
-        //console.log("Le score est :", score)
-        // unplay pour revenir à l'état précédent 
-        unplay();
-        //console.log("i after : ",i)
-        // bestScore = Math.max(score, bestScore); 
-        if (score > bestScore) {
-            bestScore = score;
-            move = mouvement;
-        } 
-    };
-}
+        for (i = 0; i < playables.length; i++) {
+            //for(mouvement in playables) {
+            // pour chaque mouvement possible on joue et on appel minimax
+            mouvement = playables[i];
+            //console.log("length :",playables.length);
+            //console.log("i : ", i);
+            play(mouvement);
+            // appeler minimax recursivement : en passant les cells playables
+            let board = getBoardState();
+            //console.warn("depth bestMove: ", depth);
+            let score = minimax2(board, depth - 1, true);
+            //console.log("Le score est :", score)
+            // unplay pour revenir à l'état précédent 
+            unplay();
+            //console.log("i after : ",i)
+            // bestScore = Math.max(score, bestScore); 
+            if (score > bestScore) {
+                bestScore = score;
+                move = mouvement;
+            }
+        };
+    }
     // à la fin de traitment on joue le meilleur coup possible 
     // retourner le move et on continue le traitement dans la fonction principale 
     return move;
@@ -106,14 +114,14 @@ function minimax2(board, depth, is_max_player) {
     // normalement je vérifie si il y a encore des mouvement ou pas 
     // si je suis dans une feuille (leaf) ou il y a plus de mouvement possible
     plays = getPlayableCells();
-    if (depth < 1 || plays.length === 0 ) { 
+    if (depth < 1 || plays.length === 0) {
         return evaluate(board);
         // retourner l'évaluation normalment 
     }
 
     if (is_max_player) {
         // maximizing player 
-         bestScore = Number.NEGATIVE_INFINITY;
+        bestScore = Number.NEGATIVE_INFINITY;
         var playablesMax = getPlayableCells();
         //console.log("playables max",playablesMax)
         var j;
@@ -130,7 +138,7 @@ function minimax2(board, depth, is_max_player) {
         return bestScore;
     } else {
         // minimizing player 
-         bestScore = Number.POSITIVE_INFINITY;
+        bestScore = Number.POSITIVE_INFINITY;
         var playablesMin = getPlayableCells();
         var k;
         //console.log("playables min",playablesMin);
@@ -138,7 +146,7 @@ function minimax2(board, depth, is_max_player) {
             var mouvMin = playablesMin[k];
             play(mouvMin);
             let terrain = getBoardState();
-            console.warn('depth min: ', depth); 
+            console.warn('depth min: ', depth);
             var score = minimax2(terrain, depth - 1, true);
             unplay();
             bestScore = Math.min(score, bestScore);

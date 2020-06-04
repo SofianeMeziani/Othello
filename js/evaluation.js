@@ -1,21 +1,23 @@
 /*
- * canmove(), isLegalMove() and num_valid_moves() are helper functions to 
+ *  isLegalMove() and num_valid_moves() are helper functions to 
  * count the number of valid moves for a given player in a given
  * board configuration
  */
-function isLegalMove(i, j) {
-    if (tile_type(i, j) === 3) //|| tile_type(i,j)===0)
+function isLegalMove(row, col) {
+    if (tile_type(row, col ) === 3) //|| tile_type(i,j)===0)
         return true;
     return false;
 }
 
 function num_valid_moves() {
-    var count = 0;
-    var i, j;
-    for (i = 0; i < 8; i++)
-        for (j = 0; j < 8; j++)
-            if (isLegalMove(i, j)) count++;
-    return count;
+    var count_valides = 0;
+    var i_valides, j_valides;
+    for (i_valides = 0; i_valides < 8; i_valides++) {
+        for (j_valides = 0; j_valides < 8; j_valides++) {
+            if (isLegalMove(i_valides, j_valides)) count_valides++;
+        }
+    }
+    return count_valides;
 }
 
 /*
@@ -23,14 +25,18 @@ function num_valid_moves() {
  * '-' indicates an empty square on the board
  * 'b' indicates a black tile and 'w' indicates a white tile on the board
  */
-function dynamic_heuristic_evaluation_function(grid) {
+function dynamic_heuristic_evaluation_function(grid,my_color,opp_color) {
     var my_tiles = 0;
     var opp_tiles = 0;
     var my_front_tiles = 0;
     var opp_front_tiles = 0;
     var x, y;
-    p = 0, c = 0, l = 0, m = 0, f = 0, d = 0;
-    var V=[];
+    var pieces = 0; 
+    var corners = 0;
+    var closenes = 0; 
+    var frontiers = 0;
+    var diff = 0;
+    var V = [];
 
     X1 = [-1, -1, 0, 1, 1, 1, 0, -1];
     Y1 = [0, 1, 1, 1, 0, -1, -1, -1];
@@ -48,17 +54,17 @@ function dynamic_heuristic_evaluation_function(grid) {
     for (i = 0; i < 8; i++)
         for (j = 0; j < 8; j++) {
             if (grid[i][j] == my_color) {
-                d += V[i][j];
+                diff += V[i][j];
                 my_tiles++;
             } else if (grid[i][j] == opp_color) {
-                d -= V[i][j];
+                diff -= V[i][j];
                 opp_tiles++;
             }
-            if (grid[i][j] != '-') {
+            if (grid[i][j] != 0) {
                 for (k = 0; k < 8; k++) {
                     x = i + X1[k];
                     y = j + Y1[k];
-                    if (x >= 0 && x < 8 && y >= 0 && y < 8 && grid[x][y] == '-') {
+                    if (x >= 0 && x < 8 && y >= 0 && y < 8 && grid[x][y] == 0) {
                         if (grid[i][j] == my_color) my_front_tiles++;
                         else opp_front_tiles++;
                         break;
@@ -67,18 +73,19 @@ function dynamic_heuristic_evaluation_function(grid) {
             }
         }
     if (my_tiles > opp_tiles)
-        p = (100.0 * my_tiles) / (my_tiles + opp_tiles);
+        pieces = (100.0 * my_tiles) / (my_tiles + opp_tiles);
     else if (my_tiles < opp_tiles)
-        p = -(100.0 * opp_tiles) / (my_tiles + opp_tiles);
-    else p = 0;
+        pieces = -(100.0 * opp_tiles) / (my_tiles + opp_tiles);
+    else pieces = 0;
 
     if (my_front_tiles > opp_front_tiles)
-        f = -(100.0 * my_front_tiles) / (my_front_tiles + opp_front_tiles);
+        frontiers = -(100.0 * my_front_tiles) / (my_front_tiles + opp_front_tiles);
     else if (my_front_tiles < opp_front_tiles)
-        f = (100.0 * opp_front_tiles) / (my_front_tiles + opp_front_tiles);
-    else f = 0;
+        frontiers = (100.0 * opp_front_tiles) / (my_front_tiles + opp_front_tiles);
+    else frontiers = 0;
 
     // Corner occupancy
+    // Vérifier les celluls des coins. 
     my_tiles = opp_tiles = 0;
     if (grid[0][0] == my_color) my_tiles++;
     else if (grid[0][0] == opp_color) opp_tiles++;
@@ -88,55 +95,49 @@ function dynamic_heuristic_evaluation_function(grid) {
     else if (grid[7][0] == opp_color) opp_tiles++;
     if (grid[7][7] == my_color) my_tiles++;
     else if (grid[7][7] == opp_color) opp_tiles++;
-    c = 25 * (my_tiles - opp_tiles);
+    
+    corners = 25 * (my_tiles - opp_tiles);
 
     // Corner closeness
-    my_tiles = opp_tiles = 0;
-    if (grid[0][0] == '-') {
-        if (grid[0][1] == my_color) my_tiles++;
-        else if (grid[0][1] == opp_color) opp_tiles++;
-        if (grid[1][1] == my_color) my_tiles++;
-        else if (grid[1][1] == opp_color) opp_tiles++;
-        if (grid[1][0] == my_color) my_tiles++;
-        else if (grid[1][0] == opp_color) opp_tiles++;
+    // Vérifier les 3 Cellules adjacents à la cellule de coin
+    var my_tiles_clo =0;
+    var opp_tiles_clo = 0;
+    if (grid[0][0] == 0 || grid[0][0] == 3) {
+        if (grid[0][1] == my_color) my_tiles_clo++;
+        else if (grid[0][1] == opp_color) opp_tiles_clo++;
+        if (grid[1][1] == my_color) my_tiles_clo++;
+        else if (grid[1][1] == opp_color) opp_tiles_clo++;
+        if (grid[1][0] == my_color) my_tiles_clo++;
+        else if (grid[1][0] == opp_color) opp_tiles_clo++;
     }
-    if (grid[0][7] == '-') {
-        if (grid[0][6] == my_color) my_tiles++;
-        else if (grid[0][6] == opp_color) opp_tiles++;
-        if (grid[1][6] == my_color) my_tiles++;
-        else if (grid[1][6] == opp_color) opp_tiles++;
-        if (grid[1][7] == my_color) my_tiles++;
-        else if (grid[1][7] == opp_color) opp_tiles++;
+    if (grid[0][7] == 0 || grid[0][7] == 3) {
+        if (grid[0][6] == my_color) my_tiles_clo++;
+        else if (grid[0][6] == opp_color) opp_tiles_clo++;
+        if (grid[1][6] == my_color) my_tiles_clo++;
+        else if (grid[1][6] == opp_color) opp_tiles_clo++;
+        if (grid[1][7] == my_color) my_tiles_clo++;
+        else if (grid[1][7] == opp_color) opp_tiles_clo++;
     }
-    if (grid[7][0] == '-') {
-        if (grid[7][1] == my_color) my_tiles++;
-        else if (grid[7][1] == opp_color) opp_tiles++;
-        if (grid[6][1] == my_color) my_tiles++;
-        else if (grid[6][1] == opp_color) opp_tiles++;
-        if (grid[6][0] == my_color) my_tiles++;
-        else if (grid[6][0] == opp_color) opp_tiles++;
+    if (grid[7][0] == 0 || grid[7][0] == 3) {
+        if (grid[7][1] == my_color) my_tiles_clo++;
+        else if (grid[7][1] == opp_color) opp_tiles_clo++;
+        if (grid[6][1] == my_color) my_tiles_clo++;
+        else if (grid[6][1] == opp_color) opp_tiles_clo++;
+        if (grid[6][0] == my_color) my_tiles_clo++;
+        else if (grid[6][0] == opp_color) opp_tiles_clo++;
     }
-    if (grid[7][7] == '-') {
-        if (grid[6][7] == my_color) my_tiles++;
-        else if (grid[6][7] == opp_color) opp_tiles++;
-        if (grid[6][6] == my_color) my_tiles++;
-        else if (grid[6][6] == opp_color) opp_tiles++;
-        if (grid[7][6] == my_color) my_tiles++;
-        else if (grid[7][6] == opp_color) opp_tiles++;
+    if (grid[7][7] == 0 || grid[7][7] == 3) {
+        if (grid[6][7] == my_color) my_tiles_clo++;
+        else if (grid[6][7] == opp_color) opp_tiles_clo++;
+        if (grid[6][6] == my_color) my_tiles_clo++;
+        else if (grid[6][6] == opp_color) opp_tiles_clo++;
+        if (grid[7][6] == my_color) my_tiles_clo++;
+        else if (grid[7][6] == opp_color) opp_tiles_clo++;
     }
-    l = -12.5 * (my_tiles - opp_tiles);
-
-    // Mobility
-    my_tiles = num_valid_moves(my_color, opp_color, grid);
-    opp_tiles = num_valid_moves(opp_color, my_color, grid);
-    if (my_tiles > opp_tiles)
-        m = (100.0 * my_tiles) / (my_tiles + opp_tiles);
-    else if (my_tiles < opp_tiles)
-        m = -(100.0 * opp_tiles) / (my_tiles + opp_tiles);
-    else m = 0;
+    closenes = -12.5 * (my_tiles_clo - opp_tiles_clo);
 
     // final weighted score
-    score = (10 * p) + (801.724 * c) + (382.026 * l) + (78.922 * m) + (74.396 * f) + (10 * d);
+    score = (10 * pieces) + (801.724 * corners) + (382.026 * closenes) + (74.396 * frontiers) + (10 * diff);
     return score;
 }
 
@@ -160,6 +161,6 @@ function evaluation_simple() {
     opp_tiles = count_tiles(2);
     if (my_tiles + opp_tiles != 0)
         return 100 * (my_tiles - opp_tiles) / (my_tiles + opp_tiles);
-    else 
+    else
         return 0;
 }
