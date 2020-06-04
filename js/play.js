@@ -21,7 +21,7 @@ function unplay() {
 
     get_last_change.last_moves = [];
 
-    if (get_last_change.black_turn) {
+    if (get_last_change.black_turn == 0) {
         jQuery('.tiles-stock-white').html(jQuery('.tiles-stock-white').html() + '<div class="tile-stock"></div>');
     } else {
         jQuery('.tiles-stock-black').html(jQuery('.tiles-stock-black').html() + '<div class="tile-stock"></div>');
