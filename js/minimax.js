@@ -12,7 +12,7 @@ function minimax(level) {
         {var mo = bestMove(level);
         //console.log("Mouvement à faire est : ", mo); 
         play(mo);}
-    }, 1000);
+    }, 10);
 }
 
 // Retourner l'état de terrain de jeu  :
