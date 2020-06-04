@@ -13,6 +13,7 @@ var bot2_type = null;
 var bot1_level = null;
 var bot2_level = null;
 
+var $history_moves = [];
 var $last_moves = [];
 var $last_move = null;
 
@@ -22,6 +23,14 @@ class Move {
     constructor(row, col) {
         this.row = row;
         this.col = col;
+    }
+}
+
+class CompleteMove {
+    constructor(last_move, last_moves, black_turn) {
+        this.last_move = last_move;
+        this.last_moves = last_moves;
+        this.black_turn = black_turn;
     }
 }
 
@@ -69,7 +78,11 @@ function update_playable_tiles() {
     parse_diag_bottom_top_left_right();
 
     if (jQuery('.playable').length == 0) {
-        end_game();
+        setTimeout(function () {
+            if (jQuery('.playable').length == 0) {
+                end_game();
+            }
+        }, 1000);
     }
 }
 
@@ -94,6 +107,7 @@ function end_game() {
 
     clearTimeout(timer_timeout);
     stop_chronometer();
+
     Swal.fire(
         "Partie terminée !",
         "Résultat : " + jQuery('.score .black').text() + " : " + jQuery('.tile.black').length + " - " + jQuery('.score .white').text() + ' : ' + jQuery('.tile.white').length,

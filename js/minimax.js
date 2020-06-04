@@ -10,7 +10,7 @@ function minimax(level) {
         let p = getPlayableCells();
         if(p.length!=0)
         {var mo = bestMove(level);
-        console.log("Mouvement à faire est : ", mo); 
+        //console.log("Mouvement à faire est : ", mo); 
         play(mo);}
     }, 1000);
 }
@@ -59,7 +59,7 @@ function evaluate(board) {
 
     let eval = evaluation_simple(1, 2);
     //let eval = dynamic_heuristic_evaluation_function(board);
-    //console.log('evaluation ', eval);    
+    ////console.log('evaluation ', eval);    
         return eval;
 }
 
@@ -71,13 +71,13 @@ function bestMove(depth) {
     
     var i;
     if(playables.length!=0){
-        console.log("playables : ", playables);
+        //console.log("playables : ", playables);
     for (i = 0; i < playables.length; i++) {
         //for(mouvement in playables) {
         // pour chaque mouvement possible on joue et on appel minimax
         mouvement=playables[i];
-        console.log("length :",playables.length);
-        console.log("i : ", i);
+        //console.log("length :",playables.length);
+        //console.log("i : ", i);
         play(mouvement);
         // appeler minimax recursivement : en passant les cells playables
         let board = getBoardState();
@@ -86,7 +86,7 @@ function bestMove(depth) {
         //console.log("Le score est :", score)
         // unplay pour revenir à l'état précédent 
         unplay();
-        console.log("i after : ",i)
+        //console.log("i after : ",i)
         // bestScore = Math.max(score, bestScore); 
         if (score > bestScore) {
             bestScore = score;
@@ -115,13 +115,13 @@ function minimax2(board, depth, is_max_player) {
         // maximizing player 
          bestScore = Number.NEGATIVE_INFINITY;
         var playablesMax = getPlayableCells();
-        console.log("playables max",playablesMax)
+        //console.log("playables max",playablesMax)
         var j;
         for (j = 0; j < playablesMax.length; j++) {
             var mouvMax = playablesMax[j];
             play(mouvMax);
             let terrain = getBoardState();
-            console.log("terrain :",terrain);
+            //console.log("terrain :",terrain);
             console.warn("depth max: ", depth)
             var score = minimax2(terrain, depth - 1, false);
             unplay();
@@ -133,7 +133,7 @@ function minimax2(board, depth, is_max_player) {
          bestScore = Number.POSITIVE_INFINITY;
         var playablesMin = getPlayableCells();
         var k;
-        console.log("playables min",playablesMin);
+        //console.log("playables min",playablesMin);
         for (k = 0; k < playablesMin.length; k++) {
             var mouvMin = playablesMin[k];
             play(mouvMin);
