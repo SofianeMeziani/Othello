@@ -1,5 +1,5 @@
 function play(move) {
-    console.log('I am playing : ' + move.row + ' ' + move.col);
+    //console.log('I am playing : ' + move.row + ' ' + move.col);
     jQuery('#cell-' + move.row + '-' + move.col + ' > div').click();
 }
 

@@ -69,7 +69,11 @@ function update_playable_tiles() {
     parse_diag_bottom_top_left_right();
 
     if (jQuery('.playable').length == 0) {
-        end_game();
+        setTimeout(function () {
+            if (jQuery('.playable').length == 0) {
+                end_game();
+            }
+        }, 1000);
     }
 }
 
@@ -94,6 +98,7 @@ function end_game() {
 
     clearTimeout(timer_timeout);
     stop_chronometer();
+
     Swal.fire(
         "Partie terminée !",
         "Résultat : " + jQuery('.score .black').text() + " : " + jQuery('.tile.black').length + " - " + jQuery('.score .white').text() + ' : ' + jQuery('.tile.white').length,
