@@ -7,28 +7,28 @@ function minimax(level) {
     }, 1000);*/
     // ici au lieu d'utiliser random utiliser bestMove
     minimax_timeout = setTimeout(function () {
-        let mo = bestMove(level);
-        console.error("Mouvement à faire est : ", mo); 
+        var mo = bestMove(level);
+        console.log("Mouvement à faire est : ", mo); 
         play(mo);
     }, 1000);
 }
 
 // Retourner l'état de terrain de jeu  :
 function getBoardState() {
-    let terrain = [];
-    for (i = 0; i < 8; i++) {
-        let row;
-        for (j = 0; j < 8; j++) {
+    var terrain = [];
+    for (ii = 0; ii < 8; ii++) {
+        var row;
+        for (jj = 0; jj < 8; jj++) {
             row = []; // vider la ligne 
-            switch (tile_type(i, j)) {
+            switch (tile_type(ii, jj)) {
                 case 0:
-                    row[j] = 0; // vide
+                    row[jj] = 0; // vide
                 case 1:
-                    row[j] = 1; // white 
+                    row[jj] = 1; // white 
                 case 2:
-                    row[j] = 2; // black
+                    row[jj] = 2; // black
                 case 3:
-                    row[j] = 3; // playable 
+                    row[jj] = 3; // playable 
             }
 
         }
@@ -39,12 +39,12 @@ function getBoardState() {
 
 // retourner les mouvements possibles : 
 function getPlayableCells() {
-    let playable = [];
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 8; j++) {
+    var playable = [];
+    for (i_getPlayableCells = 0; i_getPlayableCells < 8; i_getPlayableCells++) {
+        for (j_getPlayableCells = 0; j_getPlayableCells < 8; j_getPlayableCells++) {
             // si la cellule est playable alors l'ajouter à la liste de ce niveau 
-            if (tile_type(i, j) == 3) {
-                playable.push(new Move(i, j));
+            if (tile_type(i_getPlayableCells, j_getPlayableCells) == 3) {
+                playable.push(new Move(i_getPlayableCells, j_getPlayableCells));
             }
         }
     }
@@ -86,10 +86,10 @@ function bestMove(depth) {
         unplay();
         console.log("i after : ",i)
         // bestScore = Math.max(score, bestScore); 
-        if (score >= bestScore) {
+        if (score > bestScore) {
             bestScore = score;
             move = mouvement;
-        }
+        } 
     };
 }
     // à la fin de traitment on joue le meilleur coup possible 
@@ -121,7 +121,7 @@ function minimax2(board, depth, is_max_player) {
             let terrain = getBoardState();
             console.log("terrain :",terrain);
             console.warn("depth max: ", depth)
-            let score = minimax2(terrain, depth - 1, false);
+            var score = minimax2(terrain, depth - 1, false);
             unplay();
             bestScore = Math.max(score, bestScore);
         };
@@ -137,7 +137,7 @@ function minimax2(board, depth, is_max_player) {
             play(mouvMin);
             let terrain = getBoardState();
             console.warn('depth min: ', depth); 
-            let score = minimax2(terrain, depth - 1, true);
+            var score = minimax2(terrain, depth - 1, true);
             unplay();
             bestScore = Math.min(score, bestScore);
         };
