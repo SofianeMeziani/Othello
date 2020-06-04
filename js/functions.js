@@ -148,7 +148,7 @@ function start_timer() {
             //start_timer();
             // si le joueur n'a pas joué pendant 20 secondes => jouer un coup aléatoire 
             jQuery('.playable').random().click();
-        }, 2000000);
+        }, 20000);
     }
 
 }

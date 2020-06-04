@@ -10,8 +10,8 @@ function isLegalMove(i, j) {
 }
 
 function num_valid_moves() {
-    let count = 0;
-    let i, j;
+    var count = 0;
+    var i, j;
     for (i = 0; i < 8; i++)
         for (j = 0; j < 8; j++)
             if (isLegalMove(i, j)) count++;
@@ -24,13 +24,13 @@ function num_valid_moves() {
  * 'b' indicates a black tile and 'w' indicates a white tile on the board
  */
 function dynamic_heuristic_evaluation_function(grid) {
-    let my_tiles = 0;
-    let opp_tiles = 0;
-    let my_front_tiles = 0;
-    let opp_front_tiles = 0;
-    let x, y;
+    var my_tiles = 0;
+    var opp_tiles = 0;
+    var my_front_tiles = 0;
+    var opp_front_tiles = 0;
+    var x, y;
     p = 0, c = 0, l = 0, m = 0, f = 0, d = 0;
-    let V=[];
+    var V=[];
 
     X1 = [-1, -1, 0, 1, 1, 1, 0, -1];
     Y1 = [0, 1, 1, 1, 0, -1, -1, -1];
@@ -142,7 +142,7 @@ function dynamic_heuristic_evaluation_function(grid) {
 
 
 function count_tiles(player) {
-    let count = 0;
+    var count = 0;
     for (i_count_tiles = 0; i_count_tiles < 8; i_count_tiles++) {
         for (j_count_tiles = 0; j_count_tiles < 8; j_count_tiles++) {
             if (tile_type(i_count_tiles, j_count_tiles) === player) {
