@@ -57,7 +57,7 @@ function evaluate(board) {
 
     let eval = evaluation_simple(1, 2);
     //let eval = dynamic_heuristic_evaluation_function(board);
-    console.log('evaluation ', eval);    
+    //console.log('evaluation ', eval);    
         return eval;
 }
 
@@ -66,26 +66,32 @@ function bestMove(depth) {
     let bestScore = Number.NEGATIVE_INFINITY;
     let move;
     let playables = getPlayableCells();
-    console.log("playables : ", playables);
+    
+    var i;
+    if(playables.length!=0){
+        console.log("playables : ", playables);
     for (i = 0; i < playables.length; i++) {
         //for(mouvement in playables) {
         // pour chaque mouvement possible on joue et on appel minimax
         mouvement=playables[i];
-        console.log("Mouvement : ", mouvement);
+        console.log("length :",playables.length);
+        console.log("i : ", i);
         play(mouvement);
         // appeler minimax recursivement : en passant les cells playables
         let board = getBoardState();
-        console.warn("depth bestMove: ", depth);
-        let score = minimax2(board, depth - 1, $white_turn);
-        console.log("Le score est :", score)
+        //console.warn("depth bestMove: ", depth);
+        let score = minimax2(board, depth-1, $white_turn);
+        //console.log("Le score est :", score)
         // unplay pour revenir à l'état précédent 
         unplay();
+        console.log("i after : ",i)
         // bestScore = Math.max(score, bestScore); 
         if (score >= bestScore) {
             bestScore = score;
             move = mouvement;
         }
     };
+}
     // à la fin de traitment on joue le meilleur coup possible 
     // retourner le move et on continue le traitement dans la fonction principale 
     return move;
@@ -98,21 +104,22 @@ function minimax2(board, depth, is_max_player) {
     // normalement je vérifie si il y a encore des mouvement ou pas 
     // si je suis dans une feuille (leaf) ou il y a plus de mouvement possible
     plays = getPlayableCells();
-    if (depth < 1) { 
-        console.error("rje3 evaluation te3 minimax depth<1");       
+    if (depth < 1 || plays.length === 0 ) { 
         return evaluate(board);
         // retourner l'évaluation normalment 
     }
 
     if (is_max_player) {
         // maximizing player 
-        let bestScore = Number.NEGATIVE_INFINITY;
-        let playables = getPlayableCells();
-
-        for (i = 0; i < playables.length; i++) {
-            mouvement = playables[i];
-            play(mouvement);
+         bestScore = Number.NEGATIVE_INFINITY;
+        var playablesMax = getPlayableCells();
+        console.log("playables max",playablesMax)
+        var j;
+        for (j = 0; j < playablesMax.length; j++) {
+            var mouvMax = playablesMax[j];
+            play(mouvMax);
             let terrain = getBoardState();
+            console.log("terrain :",terrain);
             console.warn("depth max: ", depth)
             let score = minimax2(terrain, depth - 1, false);
             unplay();
@@ -121,12 +128,13 @@ function minimax2(board, depth, is_max_player) {
         return bestScore;
     } else {
         // minimizing player 
-        let bestScore = Number.POSITIVE_INFINITY;
-        let playables = getPlayableCells();
-
-        for (i = 0; i < playables.length; i++) {
-            mouvement = playables[i];
-            play(mouvement);
+         bestScore = Number.POSITIVE_INFINITY;
+        var playablesMin = getPlayableCells();
+        var k;
+        console.log("playables min",playablesMin);
+        for (k = 0; k < playablesMin.length; k++) {
+            var mouvMin = playablesMin[k];
+            play(mouvMin);
             let terrain = getBoardState();
             console.warn('depth min: ', depth); 
             let score = minimax2(terrain, depth - 1, true);
