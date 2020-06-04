@@ -7,9 +7,11 @@ function minimax(level) {
     }, 1000);*/
     // ici au lieu d'utiliser random utiliser bestMove
     minimax_timeout = setTimeout(function () {
-        var mo = bestMove(level);
+        let p = getPlayableCells();
+        if(p.length!=0)
+        {var mo = bestMove(level);
         console.log("Mouvement à faire est : ", mo); 
-        play(mo);
+        play(mo);}
     }, 1000);
 }
 
@@ -80,7 +82,7 @@ function bestMove(depth) {
         // appeler minimax recursivement : en passant les cells playables
         let board = getBoardState();
         //console.warn("depth bestMove: ", depth);
-        let score = minimax2(board, depth-1, $white_turn);
+        let score = minimax2(board, depth-1, true);
         //console.log("Le score est :", score)
         // unplay pour revenir à l'état précédent 
         unplay();
