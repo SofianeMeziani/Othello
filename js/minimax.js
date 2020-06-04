@@ -8,12 +8,11 @@ function minimax(level) {
     // ici au lieu d'utiliser random utiliser bestMove
     minimax_timeout = setTimeout(function () {
         let p = getPlayableCells();
-        if (p.length != 0) {
-            var mo = bestMove(level);
-            //console.log("Mouvement à faire est : ", mo); 
-            play(mo);
-        }
-    }, 1000);
+        if(p.length!=0)
+        {var mo = bestMove(level);
+        //console.log("Mouvement à faire est : ", mo); 
+        play(mo);}
+    }, 10);
 }
 
 // Retourner l'état de terrain de jeu  :
