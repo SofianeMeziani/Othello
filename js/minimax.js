@@ -1,7 +1,6 @@
 var count = 0;
 
 function minimax(level) {
-
     /*minimax_timeout = setTimeout(function () {
         jQuery('.playable').random().click();
     }, 1000);*/
@@ -12,7 +11,7 @@ function minimax(level) {
         {var mo = bestMove(level);
         //console.log("Mouvement à faire est : ", mo); 
         play(mo);}
-    }, 10);
+    }, 1000);
 }
 
 // Retourner l'état de terrain de jeu  :

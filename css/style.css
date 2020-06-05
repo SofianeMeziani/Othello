@@ -1,3 +1,7 @@
+.not-allowed {
+    cursor: not-allowed;
+}
+
 .game {
     opacity: 0;
 }
