@@ -108,12 +108,25 @@ function end_game() {
     clearTimeout(timer_timeout);
     stop_chronometer();
 
-    Swal.fire(
-        "Partie terminée !",
-        "Résultat : " + jQuery('.score .black').text() + " : " + jQuery('.tile.black').length + " - " + jQuery('.score .white').text() + ' : ' + jQuery('.tile.white').length,
-        "success"
-    );
+    $nb_white = jQuery('.tile.white').length;
+    $nb_black = jQuery('.tile.black').length;
+
+    if ($nb_black > $nb_white) {
+        jQuery('.tile').not('.white').addClass('black');
+    } else if ($nb_black < $nb_white) {
+        jQuery('.tile').not('.black').addClass('white');
+    }
+
+    setTimeout(function () {
+        Swal.fire(
+            "Partie terminée !",
+            "Résultat : " + jQuery('.score .black').text() + " : " + jQuery('.tile.black').length + " - " + jQuery('.score .white').text() + ' : ' + jQuery('.tile.white').length,
+            "success"
+        );
+    }, 100);
+
 }
+
 
 function swap_turns() {
     if ($black_turn && !$white_turn) {
@@ -127,7 +140,7 @@ function swap_turns() {
 
         if (bot2) {
             bot();
-            bot2=false;
+            bot2 = false;
         }
 
     } else {
@@ -141,7 +154,7 @@ function swap_turns() {
 
         if (bot1) {
             bot();
-            bot1=false;
+            bot1 = false;
         }
     }
     update_playable_tiles();
@@ -238,4 +251,3 @@ document.addEventListener("DOMContentLoaded", function () {
         startGame();
     }
 });
-
