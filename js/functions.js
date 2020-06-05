@@ -111,11 +111,12 @@ function end_game() {
     $nb_white = jQuery('.tile.white').length;
     $nb_black = jQuery('.tile.black').length;
 
-    if ($nb_black > $nb_white) {
+    if ($white_turn) {
         jQuery('.tile').not('.white').addClass('black');
-    } else if ($nb_black < $nb_white) {
+    } else {
         jQuery('.tile').not('.black').addClass('white');
     }
+    
 
     setTimeout(function () {
         Swal.fire(
