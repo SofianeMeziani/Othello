@@ -62,7 +62,7 @@ function alphaBeta(level) {
 // ça dépende de la fonction d'évaluation. 
 
 
-function alphaBeta2(board, depth, is_max_player) {
+function alphaBeta2(board, depth, is_max_player, alpha, beta) {
     // normalement je vérifie si il y a encore des mouvement ou pas 
     // si je suis dans une feuille (leaf) ou il y a plus de mouvement possible
     plays = getPlayableCells();
@@ -83,9 +83,9 @@ function alphaBeta2(board, depth, is_max_player) {
             let terrain = getBoardState();
             //console.log("terrain :",terrain);
             console.warn("depth max: ", depth)
-            var score = alphaBeta2(terrain, depth - 1, false);
+            var score = alphaBeta2(terrain, depth - 1, false, alpha, beta);
             unplay();
-            bestScore = Math.max(score, bestScore);
+            bestScore = Math.max(score, bestScore, alpha, beta);
         };
         return bestScore;
     } else {
@@ -101,7 +101,7 @@ function alphaBeta2(board, depth, is_max_player) {
             console.warn('depth min: ', depth);
             var score = alphaBeta2(terrain, depth - 1, true);
             unplay();
-            bestScore = Math.min(score, bestScore);
+            bestScore = Math.min(score, bestScore, alpha, beta);
         };
         return bestScore;
     }

@@ -141,7 +141,7 @@ function swap_turns() {
 
         if (bot2) {
             bot();
-            bot2 = false;
+            //bot2 = false;
         }
 
     } else {
@@ -155,7 +155,7 @@ function swap_turns() {
 
         if (bot1) {
             bot();
-            bot1 = false;
+            //bot1 = false;
         }
     }
     update_playable_tiles();
