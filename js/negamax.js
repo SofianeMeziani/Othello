@@ -32,15 +32,15 @@ function bestMove1(depth) {
         //console.log("playables : ", playables);
         for (i = 0; i < playables.length; i++) {
             //for(mouvement in playables) {
-            // pour chaque mouvement possible on joue et on appel minimax
+            // pour chaque mouvement possible on joue et on appel  negamax
             mouvement = playables[i];
             //console.log("length :",playables.length);
             //console.log("i : ", i);
             play(mouvement);
-            // appeler minimax recursivement : en passant les cells playables
+            // appeler  negamax recursivement : en passant les cells playables
             let board = getBoardState();
             //console.warn("depth bestMove: ", depth);
-            let score = minimax2(board, depth - 1, true);
+            let score =  negamax2(board, depth - 1, true);
             //console.log("Le score est :", score)
             // unplay pour revenir à l'état précédent 
             unplay();
@@ -81,7 +81,7 @@ function negamax2(board, depth, is_max_player) {
             let terrain = getBoardState();
             //console.log("terrain :",terrain);
             console.warn("depth max: ", depth)
-            var score = minimax2(terrain, depth - 1, false);
+            var score =  negamax2(terrain, depth - 1, false);
             unplay();
             bestScore = Math.max(score, bestScore);
         };
@@ -97,7 +97,7 @@ function negamax2(board, depth, is_max_player) {
             play(mouvMin);
             let terrain = getBoardState();
             console.warn('depth min: ', depth);
-            var score = minimax2(terrain, depth - 1, true);
+            var score =  negamax2(terrain, depth - 1, true);
             unplay();
             bestScore = Math.min(score, bestScore);
         };
