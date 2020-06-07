@@ -1,9 +1,3 @@
-function negamax(level) {
-    negamax_timeout = setTimeout(function () {
-        jQuery('.playable').random().click();
-    }, 1000);
-}
-
 // cette fonction pour évaluer un mouvement.
 function evaluate1(board) {
     //let eval = evaluation_simple();
@@ -56,7 +50,11 @@ function bestMove1(depth) {
     // retourner le move et on continue le traitement dans la fonction principale 
     return move;
 }
-
+function negamax(level) {
+    negamax_timeout = setTimeout(function () {
+        jQuery('.playable').random().click();
+    }, 1000);
+}
 // est ce que je passe la liste des playables ou toutes le terrain 
 // ça dépende de la fonction d'évaluation. 
 
