@@ -52,12 +52,6 @@ function bestMove3(depth) {
     return move;
 }
 
-function alphaBeta(level) {
-    alphabeta_timeout = setTimeout(function () {
-        jQuery('.playable').random().click();
-    }, level * 1200);
-}
-
 // est ce que je passe la liste des playables ou toutes le terrain 
 // ça dépende de la fonction d'évaluation. 
 

@@ -50,11 +50,7 @@ function bestMove1(depth) {
     // retourner le move et on continue le traitement dans la fonction principale 
     return move;
 }
-function negamax(level) {
-    negamax_timeout = setTimeout(function () {
-        jQuery('.playable').random().click();
-    }, level * 1200);
-}
+
 // est ce que je passe la liste des playables ou toutes le terrain 
 // ça dépende de la fonction d'évaluation. 
 

@@ -207,7 +207,6 @@ function startGame() {
     update_playable_tiles();
     //swal("Nouvelle partie")
 
-    // CECI EST UN TEST
     if (bot1) {
         bot();
     }

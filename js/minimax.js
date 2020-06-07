@@ -1,17 +1,22 @@
 var count = 0;
 
 function minimax(level) {
-    /*minimax_timeout = setTimeout(function () {
-        jQuery('.playable').random().click();
-    }, 1000);*/
-    // ici au lieu d'utiliser random utiliser bestMove
-    minimax_timeout = setTimeout(function () {
-        let p = getPlayableCells();
-        if(p.length!=0)
-        {var mo = bestMove(level);
-        //console.log("Mouvement à faire est : ", mo); 
-        play(mo);}
-    }, 1000);
+
+    if (level == 3) {
+        minimax_timeout = setTimeout(function () {
+            let p = getPlayableCells();
+            if(p.length!=0)
+            {var mo = bestMove(1);
+            play(mo);}
+        }, level * 1200);
+    } else {
+        minimax_timeout = setTimeout(function () {
+            let p = getPlayableCells();
+            if(p.length!=0)
+            {var mo = bestMove(level);
+            play(mo);}
+        }, 1000);
+    }
 }
 
 // Retourner l'état de terrain de jeu  :
