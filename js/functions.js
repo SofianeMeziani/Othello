@@ -215,7 +215,7 @@ function startGame() {
 
 function bot() {
 
-    if (bot1) {
+    if (bot1 && $black_turn) {
         switch (bot1_type) {
             case 'Minimax':
                 minimax(bot1_level)
