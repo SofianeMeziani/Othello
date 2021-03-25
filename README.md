@@ -9,7 +9,7 @@
     Implantation du jeu Othello dont les règles et les heuristiques utilisées sont données dans les articles contenus dans la <a href="https://www.ffothello.org/informatique/algorithmes/">Webgraphie</a>.
     <br />
   <br />
-  <img src="https://github.com/SofianeMeziani/Othello/blob/main/screenshots/2.png" alt="Image" width="70%" height="auto">
+  <img src="https://github.com/SofianeMeziani/Othello/blob/master/screenshots/2.png" alt="Image" width="70%" height="auto">
   </p>
 
 
@@ -28,8 +28,8 @@ Demo consultable <a href="https://sofianemeziani.github.io/othello/">ici</a>
   ## Screenshots
   
   <div align="center">
-    <img src="https://github.com/SofianeMeziani/Othello/blob/main/screenshots/1.png" alt="Image" width="47%" height="auto" style="border-radius: 5px" class="rounded-1">
-    <img src="https://github.com/SofianeMeziani/Othello/blob/main/screenshots/2.png" alt="Image" width="47%" height="auto" style="border-radius: 5px" class="rounded-1">
-    <img src="https://github.com/SofianeMeziani/Othello/blob/main/screenshots/3.png" alt="Image" width="47%" height="auto" style="border-radius: 5px" class="rounded-1">
+    <img src="https://github.com/SofianeMeziani/Othello/blob/master/screenshots/1.png" alt="Image" width="47%" height="auto" style="border-radius: 5px" class="rounded-1">
+    <img src="https://github.com/SofianeMeziani/Othello/blob/master/screenshots/2.png" alt="Image" width="47%" height="auto" style="border-radius: 5px" class="rounded-1">
+    <img src="https://github.com/SofianeMeziani/Othello/blob/master/screenshots/3.png" alt="Image" width="47%" height="auto" style="border-radius: 5px" class="rounded-1">
  
   </div>
