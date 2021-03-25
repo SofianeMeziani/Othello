@@ -28,8 +28,8 @@ Demo consultable <a href="https://sofianemeziani.github.io/othello/">ici</a>
   ## Screenshots
   
   <div align="center">
-    <img src="https://github.com/SofianeMeziani/Othello/blob/master/screenshots/1.png" alt="Image" width="47%" height="auto" style="border-radius: 5px" class="rounded-1">
-    <img src="https://github.com/SofianeMeziani/Othello/blob/master/screenshots/2.png" alt="Image" width="47%" height="auto" style="border-radius: 5px" class="rounded-1">
-    <img src="https://github.com/SofianeMeziani/Othello/blob/master/screenshots/3.png" alt="Image" width="47%" height="auto" style="border-radius: 5px" class="rounded-1">
+    <img src="https://github.com/SofianeMeziani/Othello/blob/master/screenshots/1.png" alt="Image" width="32%" height="auto" style="border-radius: 5px" class="rounded-1">
+    <img src="https://github.com/SofianeMeziani/Othello/blob/master/screenshots/2.png" alt="Image" width="32%" height="auto" style="border-radius: 5px" class="rounded-1">
+    <img src="https://github.com/SofianeMeziani/Othello/blob/master/screenshots/3.png" alt="Image" width="32%" height="auto" style="border-radius: 5px" class="rounded-1">
  
   </div>
